@@ -33,35 +33,21 @@ form h2{
 
 form label{
     color:white;
-}
-
-form label:first-of-type{
-    font-weight: bold;
     display:inline-block;
     padding-bottom:1.5em;
+    padding-top:0em;
+    font-weight: bold;
+    width:100%;
 }
+
 
 
 form label input{
     border:0;
-}
-
-form label:last-of-type{
-    font-weight: bold;
-    display:inline-block;
-    padding-bottom:1.5em;
-}
-form footer {
-    display: flex;
-    font-size: small;
-    padding-top:1.5em;
-    color: white;
-    justify-content: center;
-}
-form footer p a{
-    text-decoration: none;
-    font-weight:bold;
-    color: white;
+    display:float;
+    float:right;
+    margin-left:0.5em;
+    margin-top: 0.3em;
 }
 
 form button{
@@ -83,6 +69,3 @@ form button:hover{
     cursor:pointer;
 }
 
-form footer p a:hover{
-    text-decoration: underline;
-}

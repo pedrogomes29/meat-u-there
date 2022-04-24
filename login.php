@@ -9,15 +9,20 @@
     </head>
     <body>
         <form action="action_login.php" method="post">
-            <label class="field">Username:
+            <h2>Login</h2>
+            <label >Username:
                 <input type="text" name="username">
             </label>
             <br>
-            <label class="field">Password:
+            <label>Password:
                 <input type="password" name="password">
-            </label class="field">
+            </label>
             <br>
-            <button name="button" type="submit">Submit</button>
+            <button name="button" type="submit">Login</button>
+            <footer>
+                <p>Don't have an account? <a href="register.php">Register!</a></p>
+            </footer>
         </form>
+        <br>
     </body>
 </html>

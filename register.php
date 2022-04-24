@@ -4,8 +4,12 @@
 ?>
 
 <html>
+    <head>
+        <link rel="stylesheet" href="styles/register.css">
+    </head> 
     <body>
         <form action="action_register.php" method="post">
+            <h2>Register</h2>
             <label class="field">Username:
                 <input type="text" name="username">
             </label>
@@ -19,10 +23,10 @@
             </label>
             <br>
             <label class="field">Phone number:
-                <input type="number" name="phoneNumber">
+                <input type="tel" name="phoneNumber">
             </label>
             <br>
-            <button type="submit">Submit</button>
+            <button type="submit">Register</button>
         </form>
     </body>
 </html>
