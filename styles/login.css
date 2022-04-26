@@ -7,19 +7,74 @@
 }
 
 body{
+    font-family: "IBM Plex Mono", 'Courier New', monospace;
+    background-color: #F5EBDC;
+    background-image:url("../imgs/hamburger_background");
+    background-size:cover;
     align-items: center;
     display: flex;
     justify-content: center;
-    background-color: black;
-    font-family: "IBM Plex Mono", 'Courier New', monospace;
-    background-color: #F5EBDC;
 }
 
+body img{
+    width:100%;
+    height:auto;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-bottom: 0.2em solid #77DD77;
+    background-color: #1D1C1A;
+}
+
+a{
+    text-decoration: none;
+}
+
+body nav ul{
+    list-style:none;
+    display:flex;
+    flex-direction: row; 
+}
+body nav ul li{
+    padding:0.3em;
+    text-align: center;
+    flex-grow: 1;
+    background-color:#F5EBDC;
+    border-right:0.3em solid #77DD77;
+}
+body nav ul li:last-child{
+    border-right:0em;
+}
+
+body nav ul li:hover {
+    cursor:pointer;
+    background-color:#DCDCDC
+}
+body nav ul li a{
+    display:block;
+    width:100%;
+    color:#1D1C1A;
+}
+
+header h1{
+    text-align:center;
+    margin-left: 1.0em;
+    margin-top: 0.5em;
+    margin-bottom:0.5em;
+}
+
+header h1 a{
+    color:#77DD77;
+}
 
 form {
     padding: 1em;
-    border:0.4em solid #D62300;
-    background-color: #FF8732;
+    border:0.4em solid #77DD77;
+    background-color: #1D1C1A;
     border-radius:1em;
 }
 
@@ -73,7 +128,7 @@ form button{
     width: 6em;
     background-color: white;
     font-weight: bold;
-    color: #D62300;
+    color: #77DD77;
     border: 0;
     border-radius:1em;
 }

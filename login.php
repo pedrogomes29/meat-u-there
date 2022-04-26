@@ -8,6 +8,16 @@
         <link rel="stylesheet" href="styles/login.css">
     </head>
     <body>
+        <header>
+            <h1><a href="index.php">Meat U There</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="Restaurants">Restaurants</a></li>
+                    <li><a href="Profile">Profile</a></li>
+                </ul>
+            </nav>
+        </header>
         <form action="action_login.php" method="post">
             <h2>Login</h2>
             <label >Username:
