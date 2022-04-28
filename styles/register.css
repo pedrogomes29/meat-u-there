@@ -125,3 +125,7 @@ form button:hover{
     cursor:pointer;
 }
 
+
+footer{
+    display:block;
+}

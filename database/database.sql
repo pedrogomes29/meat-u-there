@@ -47,7 +47,8 @@ CREATE TABLE Dish(
 
 DROP TABLE IF EXISTS Menu;
 CREATE TABLE Menu(
-    idMenu INTEGER PRIMARY KEY
+    idMenu INTEGER PRIMARY KEY,
+    idRestaurant INTEGER REFERENCES Restaurant
 );
 
 DROP TABLE IF EXISTS Category;
@@ -79,3 +80,9 @@ CREATE TABLE RequestDishes(
 );
 
 INSERT INTO User values(0,'rui-exe','28a248aa64140479850878d8181bd7941a9357b6','Rua de Lousada',937721321);
+INSERT INTO Category values(0,'flango flito');
+INSERT INTO Restaurant values(0,'mac','dragoum',0,0);
+INSERT INTO Menu values(0,0);
+INSERT INTO Dish values(0,'BigMac',5,NULL,0);
+INSERT INTO Dish values(1,'McBacon',6,NULL,0);
+INSERT INTO Dish values(2,'CBO',9,NULL,0);

@@ -11,14 +11,16 @@ body{
     background-color: #F5EBDC;
     background-image:url("../imgs/hamburger_background");
     background-size:cover;
+    width:100%;
     align-items: center;
     display: flex;
     justify-content: center;
+    min-height:100%;
 }
 
-body img{
-    width:100%;
-    height:auto;
+body form > p{
+    color:white;
+    padding-bottom: 2em;
 }
 
 header {

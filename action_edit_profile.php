@@ -3,12 +3,8 @@
     require_once('database/connection.php');                 // database connection
     require_once('database/users.php');                      // user table queries
 
-
-    $db = getDatabaseConnection();
-
-    if (!findUser($db,$_POST['username'])){
-        registerUser($db,$_POST['username'],$_POST['password'],$_POST['address'],$_POST['phoneNumber']);
-    }
+    $db = getDatabaseConnection();// user table queries
+    editUser($db,$_POST['userId'],$_POST['username'],$_POST['address'],$_POST['phoneNumber']);
 
     header('Location: login.php');
 ?>
