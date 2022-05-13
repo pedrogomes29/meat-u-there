@@ -36,7 +36,6 @@ body nav ul{
     display:flex;
     flex-direction: row; 
 }
-
 body nav ul li{
     padding:0.3em;
     text-align: center;
@@ -44,7 +43,6 @@ body nav ul li{
     background-color:#F5EBDC;
     border-right:0.3em solid #77DD77;
 }
-
 body nav ul li:last-child{
     border-right:0em;
 }
@@ -53,7 +51,6 @@ body nav ul li:hover {
     cursor:pointer;
     background-color:#DCDCDC
 }
-
 body nav ul li a{
     display:block;
     width:100%;
@@ -69,60 +66,4 @@ header h1{
 
 header h1 a{
     color:#77DD77;
-}
-
-form{
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-    border:0.4em solid #77DD77;
-    background-color: #1D1C1A;
-    border-radius:1em;
-}
-
-form h2{
-    color: white;
-    padding-bottom: 1em;
-    justify-content: center;
-    display: flex;
-    font-weight: bold;
-}
-
-form label{
-    color:white;
-    display:inline-block;
-    padding-bottom:1.5em;
-    padding-top:0em;
-    font-weight: bold;
-    width:100%;
-}
-
-
-
-form label input{
-    border:0;
-    display:float;
-    float:right;
-    margin-left:0.5em;
-    margin-top: 0.3em;
-}
-
-
-form button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin:auto;
-    height: 2em;
-    width: 6em;
-    background-color: white;
-    font-weight: bold;
-    color: #77DD77;
-    border: 0;
-    border-radius:1em;
-}
-
-form button:hover{
-    background-color:#DCDCDC;
-    cursor:pointer;
 }

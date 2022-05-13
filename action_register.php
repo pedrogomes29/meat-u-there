@@ -8,7 +8,10 @@
 
     if (!findUser($db,$_POST['username'])){
         registerUser($db,$_POST['username'],$_POST['password'],$_POST['address'],$_POST['phoneNumber']);
+        header('Location: login.php');
+    }
+    else{
+        header('Location: register.php?register_failed=true');
     }
 
-    header('Location: login.php');
 ?>

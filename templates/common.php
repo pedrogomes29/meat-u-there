@@ -16,7 +16,7 @@
                         <li><a href="profile.php">Profile</a></li>
                         <?php }
                                 else {?>
-                        <li><a href="login.php">Profile</a></li>
+                        <li><a href="login.php">Login/Register</a></li>
                         <?php } ?>
                     </ul>
                 </nav>

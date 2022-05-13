@@ -5,7 +5,7 @@
 ?>      
     <form action="action_login.php" method="post">
         <h2>Login</h2>
-        <?php if(isset($_SESSION["login_failed"]) && $_SESSION["login_failed"]){?>
+        <?php if(isset($_GET['login_failed'])&& $_GET['login_failed']){?>
             <p>Login failed, please try again</p>
         <?php } ?>
         <label >Username:
