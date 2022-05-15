@@ -9,8 +9,6 @@
 body{
     font-family: "IBM Plex Mono", 'Courier New', monospace;
     background-color: #F5EBDC;
-    background-image:url("../imgs/hamburger_background");
-    background-size:cover;
     width:100%;
     align-items: center;
     display: flex;
@@ -29,33 +27,54 @@ header {
 
 a{
     text-decoration: none;
+    
+}
+
+
+body header nav ul li button#cart{
+    width:5em;
+    background-image: url("imgs/login_register.png");
+    background-repeat: no-repeat;
+}
+
+
+
+body header nav ul li a#button{
+    border-radius:1em;
+    color: #77DD77;
+    border:0.3em solid #77DD77;
+    padding: 0.3em;
+}
+
+body header nav ul :last-child{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 body nav ul{
     list-style:none;
     display:flex;
+    justify-content:space-between;
     flex-direction: row; 
-}
-body nav ul li{
-    padding:0.3em;
-    text-align: center;
-    flex-grow: 1;
-    background-color:#F5EBDC;
-    border-right:0.3em solid #77DD77;
-}
-body nav ul li:last-child{
-    border-right:0em;
+    padding: 0.4em;
 }
 
-body nav ul li:hover {
-    cursor:pointer;
-    background-color:#DCDCDC
+body nav ul li#search_bar{
+    flex-grow: 2;
+    margin-top: 0.5em;
+    margin-bottom:0.5em;
+    margin-left: 5em;
+    margin-right: 5em;
 }
-body nav ul li a{
-    display:block;
-    width:100%;
-    color:#1D1C1A;
+
+body nav ul li#search_bar input{
+    color: #77DD77;
+    border-radius: 1em;
+    padding:0.3em;
+    background-color:#D3D3D3;
+    width:100%; 
 }
+
 
 header h1{
     text-align:center;

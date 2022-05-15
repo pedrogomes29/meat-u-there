@@ -7,16 +7,29 @@
         </head>
         <body>
             <header>
-                <h1><a href="index.php">Meat U There</a></h1>
                 <nav>
                     <ul>
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="Restaurants">Restaurants</a></li>
-                        <?php   if(isset($_SESSION['username'])) {?>
-                        <li><a href="profile.php">Profile</a></li>
+                        <li><h1><a href="restaurants.php">Meat U There</a></h1></li>
+                        <li id="search_bar">
+                            <input type="text" placeholder="Search for Restaurants">
+                        </li>
+                        <li>
+                            <button id="cart">
+                                Cart
+                            </button>
+                        <li>
+                        <?php if(isset($_SESSION['username'])) {?>
+                        <li>
+                            <a id="button" href="profile.php">
+                                Profile
+                            </a>
+                        </li>
                         <?php }
                                 else {?>
-                        <li><a href="login.php">Login/Register</a></li>
+                            <a id="button" href="login.php">
+                                Login/Register
+                            </a>
+                        </li>  
                         <?php } ?>
                     </ul>
                 </nav>

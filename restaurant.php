@@ -10,12 +10,15 @@
 ?>
 <h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
 <img src="imgs/hamburger_background" alt="restaurant_image">
-<p><?=$restaurant_info["address"]?></p>
+<p>Location: <?=$restaurant_info["address"]?></p>
 <menu>
 <h2>Menu</h2>
     <ul>
     <?php foreach($restaurant_menu as $item){ ?>
-            <li><?php echo $item['name']."--".$item['price']; ?></li>
+            <li>
+                <img src="imgs/restaurants/<?=getId($item['photo'])?>" alt="<?=$item['photo']?>">
+                <?php echo $item['name']."--".$item['price']; ?>
+            </li>
         <?php } ?>
     </ul>
 </menu>

@@ -33,7 +33,8 @@ CREATE TABLE User(
     username VARCHAR,
     password VARCHAR,
     address VARCHAR,
-    phoneNumber NUMBER
+    phoneNumber NUMBER,
+    isOwner NUMBER(1) DEFAULT 0
 );
 
 DROP TABLE IF EXISTS Dish;
@@ -41,7 +42,6 @@ CREATE TABLE Dish(
     idDish INTEGER PRIMARY KEY,
     name VARCHAR,
     price INTEGER,
-    photos BLOB,
     menu_id INTEGER REFERENCES Menu
 );
 
@@ -79,10 +79,16 @@ CREATE TABLE RequestDishes(
     PRIMARY KEY(idRequest,idDish)
 );
 
-INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321);
+
+DROP TABLE IF EXISTS Image;
+CREATE TABLE Image(
+    idImage INTEGER PRIMARY KEY,
+    title VARCHAR NOT NULL REFERENCES Dish(photo)
+);
+INSERT INTO User values(0,'rui-exe','28a248aa64140479850878d8181bd7941a9357b6','Rua de Lousada',937721321,0);
 INSERT INTO Category values(0,'flango flito');
-INSERT INTO Restaurant values(0,'mac','dragoum',0,0);
+INSERT INTO Restaurant values(0,'McDonald','Dragoum',0,0);
 INSERT INTO Menu values(0,0);
-INSERT INTO Dish values(0,'BigMac',5,NULL,0);
-INSERT INTO Dish values(1,'McBacon',6,NULL,0);
-INSERT INTO Dish values(2,'CBO',9,NULL,0);
+INSERT INTO Dish values(0,'BigMac',5,0);
+INSERT INTO Dish values(1,'McBacon',6,0);
+INSERT INTO Dish values(2,'CBO',9,0);
