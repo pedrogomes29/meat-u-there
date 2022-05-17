@@ -8,8 +8,7 @@
 
     if (userExists($db,$_POST['username'], $_POST['password'])){  // test if user exists
         $_SESSION['username'] = $_POST['username'];
-        $_SESSION["login_failed"]=false;            // store the username
-        header('Location: index.php');
+        header('Location: restaurants.php');
     }
     else{
         header('Location: login.php?login_failed=true');

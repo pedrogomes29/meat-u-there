@@ -2,6 +2,7 @@
     session_start();
     require_once("templates/common.php");
     require_once("database/connection.php");
+    require_once("database/users.php");
     require_once("database/restaurants.php");
     output_header("restaurant");
     $db=getDatabaseConnection();
@@ -13,11 +14,15 @@
 <p>Location: <?=$restaurant_info["address"]?></p>
 <menu>
 <h2>Menu</h2>
+    <?php if (getUserInfo($db)['idUser'] == $restaurant_info['owner']){?>
+        <a href="add_dish.php?restaurant_id=<?=$_GET['id']?>&menu_id=<?=getMenuId($db,$_GET['id'])['idMenu']?>">
+        Add dish to your restaurant.</a>
+    <?php } ?>
     <ul>
     <?php foreach($restaurant_menu as $item){ ?>
             <li>
-                <img src="imgs/restaurants/<?=getId($item['photo'])?>" alt="<?=$item['photo']?>">
-                <?php echo $item['name']."--".$item['price']; ?>
+                <img src="imgs/restaurants/<?=$_GET['id']?>/original/<?=getImageId($db,$item['name'],getMenuId($db,$_GET['id'])['idMenu'])?>.jpg" alt="<?=$item['name']?>">
+                <?php echo $item['name']."--".$item['price']."€"; ?>
             </li>
         <?php } ?>
     </ul>

@@ -135,6 +135,11 @@ form footer p a{
     color: white;
 }
 
+p{
+    color: white;
+    padding-bottom: 1em;
+}
+
 form button{
     display: flex;
     justify-content: center;

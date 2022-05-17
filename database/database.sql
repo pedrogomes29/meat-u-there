@@ -42,7 +42,7 @@ CREATE TABLE Dish(
     idDish INTEGER PRIMARY KEY,
     name VARCHAR,
     price INTEGER,
-    menu_id INTEGER REFERENCES Menu
+    idMenu INTEGER REFERENCES Menu
 );
 
 DROP TABLE IF EXISTS Menu;
@@ -83,9 +83,12 @@ CREATE TABLE RequestDishes(
 DROP TABLE IF EXISTS Image;
 CREATE TABLE Image(
     idImage INTEGER PRIMARY KEY,
-    title VARCHAR NOT NULL REFERENCES Dish(photo)
+    idMenu,
+    title VARCHAR NOT NULL,
+    FOREIGN KEY (idMenu,title) REFERENCES Dish(idMenu,name)
 );
-INSERT INTO User values(0,'rui-exe','28a248aa64140479850878d8181bd7941a9357b6','Rua de Lousada',937721321,0);
+
+INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
 INSERT INTO Category values(0,'flango flito');
 INSERT INTO Restaurant values(0,'McDonald','Dragoum',0,0);
 INSERT INTO Menu values(0,0);

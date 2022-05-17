@@ -11,10 +11,21 @@
         return $stmt;
     }
 
+
+    function getMenuId($db,$restaurant_id){
+        $stmt = $db->prepare('SELECT idMenu
+        FROM Menu JOIN Restaurant USING(idRestaurant)
+        WHERE idRestaurant=:restaurant_id');
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        return $stmt;
+    }
+
     function getRestaurantMenu($db,$restaurant_id){
         $stmt = $db->prepare('SELECT Dish.name, Dish.price
         FROM Restaurant,Menu,Dish
-        WHERE Menu.idRestaurant=Restaurant.idRestaurant AND Menu.idMenu = Dish.menu_id AND Restaurant.idRestaurant=:restaurant_id');
+        WHERE Menu.idRestaurant=Restaurant.idRestaurant AND Menu.idMenu = Dish.idMenu AND Restaurant.idRestaurant=:restaurant_id');
         $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
         $stmt = $stmt->fetchAll();
@@ -23,33 +34,34 @@
 
     function add_dish($db,$name,$price,$menu_id){
         $stmt = $db->prepare('INSERT INTO Dish values(NULL,:name,:price,:menu_id)');
-        $stmt->bindParam(':name',$restaurant_id);
+        $stmt->bindParam(':name',$name);
         $stmt->bindParam(':price',$price);
         $stmt->bindParam(':menu_id',$menu_id);
         $stmt->execute();
     }
 
 
-    function getImageId($db,$image_name){
+    function getImageId($db,$image_name,$idMenu){
         $stmt = $db->prepare('SELECT idImage
                               FROM Image 
-                              WHERE title=:image_name');
+                              WHERE title=:image_name AND idMenu=:idMenu');
 
         $stmt->bindParam(':image_name',$image_name);
+        $stmt->bindParam(':idMenu',$idMenu);
         $stmt->execute();
         $stmt = $stmt->fetch();
         return $stmt["idImage"];
     }
 
-    function add_image($db,$restaurant_id,$image_name){
+    function add_image($db,$restaurant_id,$image_name,$menu_id){
         // Insert image data into database
-        $stmt = $db->prepare("INSERT INTO Image VALUES(NULL, :name)");
+        $stmt = $db->prepare("INSERT INTO Image VALUES(NULL, :name, :menu_id)");
         $stmt->bindParam(':name',$image_name);
+        $stmt->bindParam(':menu_id',$menu_id);
         $stmt->execute();
 
         // Get image ID
-        $image_id = getImageId($db,$image_name);
-        echo(getcwd()."imgs/restaurants/$restaurant_id/original/$image_id.jpg");
+        $image_id = getImageId($db,$image_name,$menu_id);
         if (!is_dir("imgs"))
             mkdir("imgs");
         if (!is_dir("imgs/restaurants")){
@@ -60,7 +72,6 @@
         }
         if (!is_dir("imgs/restaurants/$restaurant_id/original")){
             mkdir("imgs/restaurants/$restaurant_id/original");
-            echo("<br>/imgs/restaurants/$restaurant_id/original");
         }
         if (!is_dir("imgs/restaurants/$restaurant_id/thumbs_small")){
             mkdir("imgs/restaurants/$restaurant_id/thumbs_small");
