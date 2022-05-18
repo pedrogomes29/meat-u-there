@@ -4,9 +4,12 @@
     require_once("templates/common.php");
     require_once("database/connection.php");
     require_once("database/users.php");
+    if(!isset($_SESSION["username"]))
+        header("Location: restaurants.php");
     $db=getDatabaseConnection();
     $user_info = getUserInfo($db);
     output_header("profile");?>
+    <a href="logout.php">Log out</a>
     <form action="action_edit_profile.php" method="post">
         <h2>Edit profile</h2>
         <?php if(isset($_GET['edit_user_failed'])&& $_GET['edit_user_failed']){?>

@@ -4,6 +4,7 @@
     <html>
         <head>
             <link rel="stylesheet" href="styles/<?=$style_file?>.css">
+            <script type="text/javascript" src="templates/common.js"></script>
         </head>
         <body>
             <header>
@@ -15,14 +16,20 @@
                         </li>
                         <li>
                             <button id="cart">
-                                Cart
+                                <img src="imgs/shopping-cart.png" alt="shopping car">
                             </button>
-                        <li>
+                        </li>
                         <?php if(isset($_SESSION['username'])) {?>
                         <li>
-                            <a id="button" href="profile.php">
-                                Profile
-                            </a>
+                            <div id="button" class="dropdown">
+                                <button onclick="dropDownProfile()" href="profile.php" class="dropdown_button">
+                                    Profile
+                                </button>
+                                <div id="hidden_dropdown" class="dropdown_content">
+                                    <a href="profile.php">Profile</a>
+                                    <a href="logout.php">Logout</a>
+                                </div>
+                            </div>
                         </li>
                         <?php }
                                 else {?>

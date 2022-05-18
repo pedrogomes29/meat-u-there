@@ -10,8 +10,7 @@ body{
     font-family: "IBM Plex Mono", 'Courier New', monospace;
     background-color: #F5EBDC;
     width:100%;
-    align-items: center;
-    display: flex;
+    align-items: center;    
     justify-content: center;
     min-height:100%;
 }
@@ -88,7 +87,6 @@ header h1 a{
 }
 
 
-
 img{
     display: inline-block;
     height: 150px;
@@ -97,12 +95,53 @@ img{
 }
 
 menu{
-    border: 0.2em solid #77DD77;
     align-items: center;
     display: flex;
-    justify-content: center;
+    width:100%;
+    flex-direction:column;
 }
 
 ul{
     list-style: none;
+    width:100%
+}
+
+
+menu ul{
+    padding-bottom:3em;
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-around;
+}
+
+menu ul li p{
+    display:block;
+}
+
+menu ul li{
+    vertical-align:top;
+    display:inline-block;
+    text-align:center;
+}
+
+
+.restaurant_info{
+    padding-top: 8em;
+    padding-left: 1em;
+}
+
+.restaurant_info p{
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.add_dish{
+    float: left;
+    color: white;
+    background-color: #1D1C1A;
+    border: 0.4em solid #77DD77;
+    padding: 0.5em;
+}
+menu h2{
+    padding-bottom: 1em
 }

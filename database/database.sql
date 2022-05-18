@@ -92,6 +92,3 @@ INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','
 INSERT INTO Category values(0,'flango flito');
 INSERT INTO Restaurant values(0,'McDonald','Dragoum',0,0);
 INSERT INTO Menu values(0,0);
-INSERT INTO Dish values(0,'BigMac',5,0);
-INSERT INTO Dish values(1,'McBacon',6,0);
-INSERT INTO Dish values(2,'CBO',9,0);

@@ -35,20 +35,51 @@ body header nav ul li button#cart{
     width:5em;
     background-image: url("imgs/login_register.png");
     background-repeat: no-repeat;
+    margin-top: 8;
+    margin-bottom: 8;
 }
 
+.dropdown_button{
+    width: 5em;
+    color:#77DD77;
+    background-color: #1D1C1A;
+    border: 0.2em solid #77DD77;
+    border-radius: 1em;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0.2em;
+}
+.dropdown_content {
+    display: none;
+}
 
+.dropdown_content a{
+    text-decoration: none;
+    display: block;
+}
 
-body header nav ul li a#button{
-    border-radius:1em;
-    color: #77DD77;
-    border:0.3em solid #77DD77;
-    padding: 0.3em;
+.show{
+    display: block;
+    position: fixed;
+    padding-right: 2em;
+}
+
+body header nav ul :nth-child(3){
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+    margin-right: 5em;
+}
+
+#cart{
+    background-color:#1D1C1A;
+    border: none;
 }
 
 body header nav ul :last-child{
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    margin-right: 2em;
+    
 }
 
 body nav ul{
