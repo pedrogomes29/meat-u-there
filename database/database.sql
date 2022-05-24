@@ -89,6 +89,6 @@ CREATE TABLE Image(
 );
 
 INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
-INSERT INTO Category values(0,'flango flito');
-INSERT INTO Restaurant values(0,'McDonald','Dragoum',0,0);
+INSERT INTO Category values(0,'fast-food');
+INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0,0);
 INSERT INTO Menu values(0,0);

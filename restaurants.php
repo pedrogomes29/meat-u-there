@@ -13,7 +13,7 @@
     <?php foreach($restaurants as $item){ ?>
             <li>
             <a href="restaurant.php?id=<?=$item['idRestaurant']?>">
-            <p><?=$item['name']." Category: ".$item['category']?></p>
+            <p><?=$item['name']." Adress: ".$item['category']?></p>
             </a>
             </li>
         <?php } ?>

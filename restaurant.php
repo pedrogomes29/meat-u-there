@@ -11,8 +11,8 @@
 ?>
 <div class="restaurant_info">
 <h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
-<img src="imgs/hamburger_background" alt="restaurant_image">
-<p>📍Location: <?=$restaurant_info["address"]?></p>
+<p>📍Location: <?=$restaurant_info["address"]?></p> 
+<img id="header_image" src="imgs/hamburger_background" alt="restaurant_image">
 </div>
 <menu>
 <h2>Menu</h2>

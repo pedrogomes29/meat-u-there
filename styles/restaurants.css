@@ -49,19 +49,20 @@ body header nav ul li button#cart{
     font-size: 1em;
     padding: 0.2em;
 }
-.dropdown_content {
+.dropdown_content{
     display: none;
+    background-color: #1D1C1A;
 }
 
 .dropdown_content a{
     text-decoration: none;
     display: block;
+    color:#77DD77;
 }
 
 .show{
     display: block;
     position: fixed;
-    padding-right: 2em;
 }
 
 body header nav ul :nth-child(3){
@@ -79,7 +80,6 @@ body header nav ul :last-child{
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     margin-right: 2em;
-    
 }
 
 body nav ul{

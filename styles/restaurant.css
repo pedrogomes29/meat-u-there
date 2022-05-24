@@ -10,7 +10,8 @@ body{
     font-family: "IBM Plex Mono", 'Courier New', monospace;
     background-color: #F5EBDC;
     width:100%;
-    align-items: center;    
+    align-items: center;
+    display: flex;
     justify-content: center;
     min-height:100%;
 }
@@ -26,7 +27,6 @@ header {
 
 a{
     text-decoration: none;
-    
 }
 
 
@@ -34,20 +34,51 @@ body header nav ul li button#cart{
     width:5em;
     background-image: url("imgs/login_register.png");
     background-repeat: no-repeat;
+    margin-top: 8;
+    margin-bottom: 8;
 }
 
+.dropdown_button{
+    width: 5em;
+    color:#77DD77;
+    background-color: #1D1C1A;
+    border: 0.2em solid #77DD77;
+    border-radius: 1em;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0.2em;
+}
+.dropdown_content{
+    display: none;
+    background-color: #1D1C1A;
+}
 
+.dropdown_content a{
+    text-decoration: none;
+    display: block;
+    color:#77DD77;
+}
 
-body header nav ul li a#button{
-    border-radius:1em;
-    color: #77DD77;
-    border:0.3em solid #77DD77;
-    padding: 0.3em;
+.show{
+    display: block;
+    position: fixed;
+}
+
+body header nav ul :nth-child(3){
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+    margin-right: 5em;
+}
+
+#cart{
+    background-color:#1D1C1A;
+    border: none;
 }
 
 body header nav ul :last-child{
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    margin-right: 2em;
 }
 
 body nav ul{
@@ -86,8 +117,12 @@ header h1 a{
     color:#77DD77;
 }
 
+#header_image{
+    width:100%;
+    height:150px;
+}
 
-img{
+ul li a img{
     display: inline-block;
     height: 150px;
     width: 150px;
