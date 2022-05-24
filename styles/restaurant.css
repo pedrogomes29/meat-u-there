@@ -11,13 +11,11 @@ body{
     background-color: #F5EBDC;
     width:100%;
     align-items: center;
-    display: flex;
     justify-content: center;
     min-height:100%;
 }
 
 header {
-    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
@@ -115,6 +113,15 @@ header h1{
 
 header h1 a{
     color:#77DD77;
+}
+
+#restaurant_header p{
+    font-size:small;
+    padding-left:1em;
+}
+
+#restaurant_header h1{
+    padding-left:1em;
 }
 
 #header_image{

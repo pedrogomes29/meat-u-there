@@ -9,10 +9,10 @@
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $restaurant_menu = getRestaurantMenu($db,$_GET['id']);
 ?>
-<div class="restaurant_info">
-<h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
-<p>📍Location: <?=$restaurant_info["address"]?></p> 
-<img id="header_image" src="imgs/hamburger_background" alt="restaurant_image">
+<div id="restaurant_header">
+    <img id="header_image" src="imgs/hamburger_background" alt="restaurant_image">
+    <h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
+    <p>📍Location: <?=$restaurant_info["address"]?></p> 
 </div>
 <menu>
 <h2>Menu</h2>
@@ -20,7 +20,7 @@
     <?php foreach($restaurant_menu as $item){ ?>
             <li>
                 <a href="edit_dish.php?dish_id=<?=$item['idDish']?>">
-                    <img src="imgs/restaurants/<?=$_GET['id']?>/original/<?=getImageId($db,$item['name'],getMenuId($db,$_GET['id'])['idMenu'])?>.jpg" alt="<?=$item['name']?>">
+                    <img src="imgs/restaurants/<?=$_GET['id']?>/original/<?=getImageId($db,$item['name'],$_GET['id'])?>.jpg" alt="<?=$item['name']?>">
                 </a>
                 <br>
                 <p><?=$item['name']."--".$item['price']."€"?></p>

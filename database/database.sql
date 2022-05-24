@@ -71,21 +71,19 @@ CREATE TABLE RequestState(
     idRestaurant REFERENCES Restaurant
 );
 
+DROP TABLE IF EXISTS Image;
+CREATE TABLE Image(
+    idImage INTEGER PRIMARY KEY,
+    idRestaurant REFERENCES Restaurant,
+    title VARCHAR NOT NULL REFERENCES Dish(Name) ON UPDATE CASCADE
+);
+
 
 DROP TABLE IF EXISTS RequestDishes;
 CREATE TABLE RequestDishes(
     idRequest REFERENCES Request,
     idDish REFERENCES Dish,
     PRIMARY KEY(idRequest,idDish)
-);
-
-
-DROP TABLE IF EXISTS Image;
-CREATE TABLE Image(
-    idImage INTEGER PRIMARY KEY,
-    idMenu,
-    title VARCHAR NOT NULL,
-    FOREIGN KEY (idMenu,title) REFERENCES Dish(idMenu,name)
 );
 
 INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);

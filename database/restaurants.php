@@ -48,6 +48,18 @@
         $stmt->execute();
     }
 
+
+    function edit_dish($db,$name,$price,$idDish){
+        $stmt = $db->prepare('UPDATE Dish
+                              SET name=:name,price=:price
+                              WHERE idDish=:idDish');
+        $stmt->bindParam(':name',$name);
+        $stmt->bindParam(':price',$price);
+        $stmt->bindParam(':idDish',$idDish);
+        $stmt->execute();
+    }
+
+
     function getDishInfo($db,$dish_id){
         $stmt = $db->prepare('  SELECT *
                                 FROM Dish
@@ -58,27 +70,72 @@
         return $stmt;
     }
 
-    function getImageId($db,$image_name,$idMenu){
+    function getImageId($db,$image_name,$idRestaurant){
         $stmt = $db->prepare('SELECT idImage
                               FROM Image 
-                              WHERE title=:image_name AND idMenu=:idMenu');
+                              WHERE title=:image_name AND idRestaurant=:idRestaurant');
 
         $stmt->bindParam(':image_name',$image_name);
-        $stmt->bindParam(':idMenu',$idMenu);
+        $stmt->bindParam(':idRestaurant',$idRestaurant);
         $stmt->execute();
         $stmt = $stmt->fetch();
         return $stmt["idImage"];
     }
 
-    function add_image($db,$restaurant_id,$image_name,$menu_id){
+
+    function update_image($db,$restaurant_id,$image_name){
+        if(isset($_FILES["image"]))
+            add_image($db,$restaurant_id,$image_name);
+
+            $image_id = getImageId($db,$image_name,$restaurant_id);
+
+            $originalFileName = "imgs/restaurants/$restaurant_id/original/$image_id.jpg";
+            $smallFileName = "imgs/restaurants/$restaurant_id/thumbs_small/$image_id.jpg";
+            $mediumFileName = "imgs/restaurants/$restaurant_id/thumbs_medium/$image_id.jpg";
+            
+            // Move the uploaded file to its final destination
+            move_uploaded_file($_FILES["image"]['tmp_name'], $originalFileName);
+
+
+            // Crete an image representation of the original image
+            $original = imagecreatefromjpeg($originalFileName);
+            if (!$original) $original = imagecreatefrompng($originalFileName);
+            if (!$original) $original = imagecreatefromgif($originalFileName);
+        
+            if (!$original) die();
+        
+            $width = imagesx($original);     // width of the original image
+            $height = imagesy($original);    // height of the original image
+            $square = min($width, $height);  // size length of the maximum square
+        
+            // Create and save a small square thumbnail
+            $small = imagecreatetruecolor(200, 200);
+            imagecopyresized($small, $original, 0, 0, ($width>$square)?($width-$square)/2:0, ($height>$square)?($height-$square)/2:0, 200, 200, $square, $square);
+            imagejpeg($small, $smallFileName);
+        
+            // Calculate width and height of medium sized image (max width: 400)
+            $mediumwidth = $width;
+            $mediumheight = $height;
+            if ($mediumwidth > 400) {
+            $mediumwidth = 400;
+            $mediumheight = $mediumheight * ( $mediumwidth / $width );
+            }
+        
+            // Create and save a medium image
+            $medium = imagecreatetruecolor($mediumwidth, $mediumheight);
+            imagecopyresized($medium, $original, 0, 0, 0, 0, $mediumwidth, $mediumheight, $width, $height);
+            imagejpeg($medium, $mediumFileName);
+    }
+
+    function add_image($db,$restaurant_id,$image_name){
         // Insert image data into database
-        $stmt = $db->prepare("INSERT INTO Image VALUES(NULL, :menu_id, :name)");
+        $stmt = $db->prepare("INSERT INTO Image VALUES(NULL, :restaurant_id, :name)");
         $stmt->bindParam(':name',$image_name);
-        $stmt->bindParam(':menu_id',$menu_id);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
 
         // Get image ID
-        $image_id = getImageId($db,$image_name,$menu_id);
+        $image_id = getImageId($db,$image_name,$restaurant_id);
         if (!is_dir("imgs"))
             mkdir("imgs");
         if (!is_dir("imgs/restaurants")){
