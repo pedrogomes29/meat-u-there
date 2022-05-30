@@ -12,39 +12,28 @@
     }
 
     function getRestaurants($db){
-        $stmt = $db->prepare('SELECT  Distinct idRestaurant, Restaurant.name as name, Category.name as category FROM Restaurant, Category 
-        Where category==idCategory');
+        $stmt = $db->prepare('SELECT Restaurant.name
+                              FROM Restaurant');
         $stmt->execute();
         $stmt = $stmt->fetchAll();
-        return $stmt;
-    }
-
-
-    function getMenuId($db,$restaurant_id){
-        $stmt = $db->prepare('SELECT idMenu
-        FROM Menu JOIN Restaurant USING(idRestaurant)
-        WHERE idRestaurant=:restaurant_id');
-        $stmt->bindParam(':restaurant_id',$restaurant_id);
-        $stmt->execute();
-        $stmt = $stmt->fetch();
         return $stmt;
     }
 
     function getRestaurantMenu($db,$restaurant_id){
         $stmt = $db->prepare('SELECT Dish.name, Dish.price, Dish.idDish
-        FROM Restaurant,Menu,Dish
-        WHERE Menu.idRestaurant=Restaurant.idRestaurant AND Menu.idMenu = Dish.idMenu AND Restaurant.idRestaurant=:restaurant_id');
+        FROM Restaurant,Dish
+        WHERE Dish.idRestaurant=Restaurant.idRestaurant AND Restaurant.idRestaurant=:restaurant_id');
         $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
         $stmt = $stmt->fetchAll();
         return $stmt;
     }
 
-    function add_dish($db,$name,$price,$menu_id){
-        $stmt = $db->prepare('INSERT INTO Dish values(NULL,:name,:price,:menu_id)');
+    function add_dish($db,$name,$price,$restaurant_id){
+        $stmt = $db->prepare('INSERT INTO Dish values(NULL,:name,:price,:restaurant_id)');
         $stmt->bindParam(':name',$name);
         $stmt->bindParam(':price',$price);
-        $stmt->bindParam(':menu_id',$menu_id);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
     }
 

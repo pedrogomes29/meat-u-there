@@ -16,7 +16,6 @@
             <input type="number" name="price">
         </label>
         <input type="hidden" value=<?=$_GET["restaurant_id"]?> name="restaurant_id">
-        <input type="hidden" value=<?=$_GET["menu_id"]?> name="menu_id">
         <label> Dish image:
             <input type="file" name="image">
         </label>

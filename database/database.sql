@@ -1,11 +1,10 @@
-PRAGMA foreign_keys = ON;
+    PRAGMA foreign_keys = ON;
 
 DROP TABLE IF EXISTS Restaurant;
 CREATE TABLE Restaurant(
     idRestaurant INTEGER PRIMARY KEY,
     name VARCHAR,
     address VARCHAR,
-    category INTEGER REFERENCES Category,
     owner INTEGER REFERENCES User
 );  
 
@@ -42,14 +41,10 @@ CREATE TABLE Dish(
     idDish INTEGER PRIMARY KEY,
     name VARCHAR,
     price INTEGER,
-    idMenu INTEGER REFERENCES Menu
-);
-
-DROP TABLE IF EXISTS Menu;
-CREATE TABLE Menu(
-    idMenu INTEGER PRIMARY KEY,
+    category INTEGER REFERENCES Category,
     idRestaurant INTEGER REFERENCES Restaurant
 );
+
 
 DROP TABLE IF EXISTS Category;
 CREATE TABLE Category(
@@ -88,5 +83,4 @@ CREATE TABLE RequestDishes(
 
 INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
 INSERT INTO Category values(0,'fast-food');
-INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0,0);
-INSERT INTO Menu values(0,0);
+INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0);

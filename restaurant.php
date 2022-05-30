@@ -28,7 +28,7 @@
         <?php } ?>
     </ul>
     <?php if (getUserInfo($db)['idUser'] == $restaurant_info['owner']){?>
-        <a class="add_dish" href="add_dish.php?restaurant_id=<?=$_GET['id']?>&menu_id=<?=getMenuId($db,$_GET['id'])['idMenu']?>">
+        <a class="add_dish" href="add_dish.php?restaurant_id=<?=$_GET['id']?>">
         Add dish to <br> your restaurant.</a>
     <?php } ?>
 </menu>
