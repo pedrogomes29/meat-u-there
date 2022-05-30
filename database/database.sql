@@ -41,7 +41,7 @@ CREATE TABLE Dish(
     idDish INTEGER PRIMARY KEY,
     name VARCHAR,
     price INTEGER,
-    category INTEGER REFERENCES Category,
+    idCategory INTEGER REFERENCES Category,
     idRestaurant INTEGER REFERENCES Restaurant
 );
 
@@ -83,4 +83,10 @@ CREATE TABLE RequestDishes(
 
 INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
 INSERT INTO Category values(0,'fast-food');
+INSERT INTO Category values(1,'italian');
+INSERT INTO Category values(2,'vegan');
+INSERT INTO Category values(3,'indian');
+INSERT INTO Category values(4,'chinese');
+INSERT INTO Category values(5,'mediterranean');
 INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0);
+INSERT INTO Restaurant values(1,'BK','H.S.J',0);

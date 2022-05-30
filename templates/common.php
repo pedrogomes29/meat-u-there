@@ -3,8 +3,9 @@
     ?>
     <html>
         <head>
+            <link rel="stylesheet" href="styles/common.css">
             <link rel="stylesheet" href="styles/<?=$style_file?>.css">
-            <script type="text/javascript" src="templates/common.js"></script>
+            <script type="text/javascript" src="templates/common.js" defer></script>
         </head>
         <body>
             <header>
@@ -12,12 +13,14 @@
                     <ul>
                         <li><h1><a href="restaurants.php">Meat U There</a></h1></li>
                         <li id="search_bar">
-                            <input type="text" placeholder="Search for Restaurants">
+                            <input id="searchbar" name="searchbar" type="search" placeholder="Search for Restaurants" data-search>
                         </li>
                         <li>
-                            <button id="cart">
-                                <img src="imgs/shopping-cart.png" alt="shopping car">
-                            </button>
+                            <a href="cart.php">
+                                <button id="cart">
+                                    <img src="imgs/shopping-cart.png" alt="shopping car">
+                                </button>
+                            </a>
                         </li>
                         <?php if(isset($_SESSION['username'])) {?>
                         <li>
@@ -34,7 +37,9 @@
                         <?php }
                                 else {?>
                             <a id="button" href="login.php">
-                                Login/Register
+                                <button class="login_register">
+                                    Login/Register
+                                </button>
                             </a>
                         </li>  
                         <?php } ?>
