@@ -36,6 +36,13 @@
         </label>
         <button name="button" type="submit">Edit dish</button>
     </form>
+                    
+    <form action="action_remove_dish.php" method="post">
+        <input type="text" name="name" value="<?=$dish_info["name"]?>">
+        <input type="hidden" value=<?=$_GET['dish_id']?> name="dish_id">
+        <input type="hidden" value=<?=$_GET['dish_id']?> name="dish_id">
+        <button name="button" type="submit">Remove dish</button>
+    </form>
 <?php
     output_footer();
 ?>  

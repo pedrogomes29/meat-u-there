@@ -10,7 +10,15 @@
     $restaurant_categories = getRestaurantMenu($db,$_GET['id']);
 ?>
 <div id="restaurant_header">
-    <img id="header_image" src="imgs/restaurant_<?=$restaurant_info["idRestaurant"]?>.jpg" alt="restaurant_image">
+    <a href="edit_header.php?restaurant_id=<?=$_GET['id']?>">
+        <?php
+        if(file_exists("imgs/restaurants/".$_GET['id']."/header.jpg")){?>
+                <img id="header_image" src="imgs/restaurants/<?=$_GET['id']?>/header.jpg"
+                 alt="restaurant_image">
+        <?php } else{?>
+                <img id="header_image" src="imgs/default_header.jpg" alt="<?=$item['name']?>">
+        <?php } ?>
+    </a>
     <h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
     <p>📍Location: <?=$restaurant_info["address"]?></p> 
 </div>
@@ -18,11 +26,16 @@
 <h2>Menu</h2>
     <ul>
     <?php foreach(array_keys($restaurant_categories) as $restaurant_category){ ?>
-            <ul><h1><?=$restaurant_category?></h1>
+            <ul id="Category"><h1><?=$restaurant_category?></h1>
                 <?php foreach($restaurant_categories[$restaurant_category] as $item){?>
                 <li>
                     <a href="edit_dish.php?dish_id=<?=$item['idDish']?>&restaurant_id=<?=$_GET['id']?>">
-                        <img src="imgs/restaurants/<?=$_GET['id']?>/thumbs_medium/<?=getImageId($db,$item['name'],$_GET['id'])?>.jpg" alt="<?=$item['name']?>">
+                    <?php $imageId = getImageId($db,$item['name'],$_GET['id']);
+                        if(file_exists("imgs/restaurants/".$_GET['id']."/thumbs_medium/".$imageId.".jpg")){?>
+                            <img src="imgs/restaurants/<?=$_GET['id']?>/thumbs_medium/<?=getImageId($db,$item['name'],$_GET['id'])?>.jpg" alt="<?=$item['name']?>">
+                    <?php } else{?>
+                            <img src="imgs/default_image.jpg" alt="<?=$item['name']?>">
+                    <?php } ?>  
                     </a>
                     <p><?=$item['name']."--".$item['price']."€"?></p>
                     <form action="action_add_to_cart.php" method="post">
@@ -45,4 +58,4 @@
 
 <?php
     output_footer();
-?>  
+?>

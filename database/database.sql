@@ -55,15 +55,8 @@ CREATE TABLE Category(
 DROP TABLE IF EXISTS Request;
 CREATE TABLE Request(
     idRequest INTEGER PRIMARY KEY,
-    idRequestState INTEGER REFERENCES RequestState
-);
-
-DROP TABLE IF EXISTS RequestState;
-CREATE TABLE RequestState(
-    idRequestState INTEGER PRIMARY KEY,
-    state VARCHAR,
-    idUser REFERENCES User,
-    idRestaurant REFERENCES Restaurant
+    orderState VARCHAR,
+    idUser REFERENCES User
 );
 
 DROP TABLE IF EXISTS Image;
@@ -76,8 +69,8 @@ CREATE TABLE Image(
 
 DROP TABLE IF EXISTS RequestDishes;
 CREATE TABLE RequestDishes(
-    idRequest REFERENCES Request,
-    idDish REFERENCES Dish,
+    idRequest INTEGER REFERENCES Request,
+    idDish INTEGER REFERENCES Dish ON DELET,
     PRIMARY KEY(idRequest,idDish)
 );
 

@@ -3,7 +3,7 @@
   require_once('database/restaurants.php');
   session_start();
   $db = getDatabaseConnection();
-  if(!dishExists($db,$_POST["name"],$_POST["restaurant_id"])){
+  if(getDishId($db,$_POST["name"],$_POST["restaurant_id"])==$_POST["dish_id"] || !dishExists($db,$_POST["name"],$_POST["restaurant_id"])){
     edit_dish($db,$_POST["name"],$_POST["price"],$_POST["dish_id"],$_POST["category"],$_POST["restaurant_id"]);
     update_image($db,$_POST["restaurant_id"],$_POST["name"]);
     header("Location: restaurant.php?id=".$_POST["restaurant_id"]);

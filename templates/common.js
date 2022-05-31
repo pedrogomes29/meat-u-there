@@ -40,11 +40,3 @@ searchInput.addEventListener("input", e => {
 })
 
 
-document.querySelector("#add_cart").onclick = function(){
-    this.firstChild.classList.toggle('hiden')
-    this.lastChild.classList.toggle('hiden')
-    setTimeout(function () {
-        this.firstChild.toggle('hiden')
-        this.lastChild.toggle('hiden')
-    }, 2000);
-}

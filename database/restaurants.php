@@ -50,6 +50,22 @@
         return $category_dishes;
     }
 
+    function add_restaurant_header($restaurant_id){
+        if(isset($_FILES["header"])){
+            if (!is_dir("imgs"))
+                mkdir("imgs");
+            if (!is_dir("imgs/restaurants")){
+                mkdir("imgs/restaurants");
+            }
+            if (!is_dir("imgs/restaurants/$restaurant_id")){
+                mkdir("imgs/restaurants/$restaurant_id");
+            }
+            move_uploaded_file($_FILES["header"]['tmp_name'], 
+            "imgs/restaurants/$restaurant_id/header.jpg");
+            unset($_FILES["header"]);
+        }
+    }
+
 
     function getCategoryId($db,$category){
         $stmt = $db->prepare('SELECT idCategory
@@ -60,6 +76,7 @@
         $stmt = $stmt->fetch();
         return $stmt["idCategory"];
     }
+
     function add_dish($db,$name,$price,$restaurant_id,$category){
         $stmt = $db->prepare('INSERT INTO Dish values(NULL,:name,:price,:category_id,:restaurant_id)');
         $stmt->bindParam(':name',$name);
@@ -124,6 +141,26 @@
         $stmt = $stmt->fetch();
         $count = $stmt['nrDishes'];
         return $count==1;
+    }
+
+    function getDishId($db,$dish_name,$restaurant_id){
+        $stmt = $db->prepare('SELECT idDish
+                            FROM Dish
+                            WHERE name=:dish_name AND idRestaurant=:restaurant_id');
+        $stmt->bindParam(':dish_name',$dish_name);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        return $stmt['idDish'];
+    }
+    function getDishName($db,$dish_id){
+        $stmt = $db->prepare('SELECT name, price
+                            FROM Dish
+                            WHERE idDish=:dish_id');
+        $stmt->bindParam(':dish_id',$dish_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        return $stmt;
     }
 
     function update_image($db,$restaurant_id,$image_name){
@@ -247,19 +284,19 @@
         $stmt = $stmt->fetchAll();
         return $stmt;
     }
-    function createRequestState($db,$idUser,$idRestaurant,$state){
-        $stmt = $db->prepare('INSERT INTO RequestState(state,idUser,idRestaurant)
-                            values(:state,:idUser,:idRestaurant)'); // store the username
-        $stmt->bindParam(':idUser',$idUser);
-        $stmt->bindParam(':state',$state);
-        $stmt->bindParam(':idRestaurant', $idRestaurant);
+    function createRequestDish($db,$idRequest,$idDish){
+        $stmt = $db->prepare('INSERT INTO RequestDishes(idRequest, idDish)
+                            values(idRequest=:idRequest, iDish=:idDish)'); // store the username
+        $stmt->bindParam(':idRequest',$idRequest);
+        $stmt->bindParam(':staidDish',$idDish);
         $stmt->execute();
         $db->commit();
     }
-    function createRequest($db,$idRequestState){
-        $stmt = $db->prepare('INSERT INTO Request(idRequestState)
-                            values(:idRequestState)'); // store the username
-        $stmt->bindParam(':idRequestState',$idRequestState);
+    function createRequest($db, $orderState,  $idUser){
+        $stmt = $db->prepare('INSERT INTO Request(idRequest,orderState,idUser)
+                            values(orderState=:orderState, idUser=:idUser)'); // store the username
+        $stmt->bindParam(':orderState',$orderState);
+        $stmt->bindParam(':idUser',$idUser);
         $stmt->execute();
         $db->commit();
     }

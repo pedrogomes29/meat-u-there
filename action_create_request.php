@@ -8,9 +8,7 @@
     else{
         $db = getDatabaseConnection();
         $user_info = getUserInfo($db);
-        if(!isset($_SESSION["dishes"]))
-            $_SESSION["dishes"] = array();
-        array_push($_SESSION["dishes"], $_POST["dish_id"]);
-        header("Location: $_SERVER[HTTP_REFERER]");
+        createRequest($db,$user_info["idUser"],"received");
+        header("Location: restaurants.php");
     }
 ?> 
