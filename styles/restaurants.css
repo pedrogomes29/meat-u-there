@@ -8,3 +8,45 @@ menu ul li a p{
 .hide {
     display: none;
 }
+
+menu {
+  width: 200px;
+}
+ 
+menu h2 {
+  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+ 
+menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ 
+menu ul li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 2px solid #ccc;
+}
+ 
+menu ul li:last-child {
+  border: none;
+}
+ 
+menu ul li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  width: 200px;
+ 
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+ 
+menu ul li a:hover {
+  font-size: 30px;
+}

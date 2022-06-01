@@ -11,9 +11,9 @@
     <h2>Restaurants</h2>
     <ul>
     <?php foreach($restaurants as $item){ ?>
-            <li class="restaurants <?=$item['name']." Address: ".$item['address']?>">
+        <li class="restaurants <?=$item['name']." Address: ".$item['address']?>">
             <a href="restaurant.php?id=<?=$item['idRestaurant']?>">
-            <p><?=$item['name']." Address: ".$item['address']?></p>
+            <p><?=$item['name']?> <br>Address: <?=$item['address']?></p>
             </a>
             </li>
         <?php } ?>

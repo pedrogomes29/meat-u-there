@@ -13,15 +13,20 @@
     <h2>Products Bought</h2>
     <?php $total = 0; ?>
     <ul>
-    <?php foreach($_SESSION["dishes"] as $dish){ ?>
-        <?php $dish_price = getDishName($db,$dish)["price"] ?>
+    <?php foreach($_SESSION["dishes"] as $key => $dish){
+        if(!dish_exists($db,$dish)){
+            unset($_SESSION["dishes"][$key]);
+            continue;
+        }
+    ?>
+        <?php $dish_price = getDishName($db,$dish)["price"]."€"?>
         <?php $total += $dish_price ?>
             <li class="dish <?=$dish?>">
                 <p><?=getDishName($db,$dish)["name"]?>--<?=$dish_price?></p>
             </li>
         <?php } ?>
     </ul>
-    <p>Total: <?=$total?></p>
+    <p>Total: <?=$total?> €</p>
     <form action="action_create_request.php" method="post">
         <button  id="Checkout" type="submit"> 
             Checkout

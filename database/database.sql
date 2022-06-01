@@ -13,6 +13,7 @@ CREATE TABLE Review (
     idReview INTEGER PRIMARY KEY,
     score INTEGER, 
     description VARCHAR,
+    published INTEGER,
     restaurant_id INTEGER REFERENCES Restaurant,
     user_id INTEGER REFERENCES User
 );
@@ -23,6 +24,7 @@ CREATE TABLE ReviewReplies (
     idReviewReply INTEGER PRIMARY KEY,
     idReview INTEGER REFERENCES Review,
     replyText VARCHAR,
+    published INTEGER,
     owner_id INTEGER REFERENCES User --check if owner_id corresponds to the owner of the restaurant of the review
 );
     
@@ -38,7 +40,7 @@ CREATE TABLE User(
 
 DROP TABLE IF EXISTS Dish;
 CREATE TABLE Dish(
-    idDish INTEGER PRIMARY KEY,
+    idDish INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR,
     price INTEGER,
     idCategory INTEGER REFERENCES Category,
@@ -52,6 +54,12 @@ CREATE TABLE Category(
     name VARCHAR
 );
 
+DROP TABLE IF EXISTS OrderState;
+CREATE TABLE OrderState(
+    id OrderState INTEGER PRIMARY KEY,
+    name VARCHAR
+);
+
 DROP TABLE IF EXISTS Request;
 CREATE TABLE Request(
     idRequest INTEGER PRIMARY KEY,
@@ -62,16 +70,16 @@ CREATE TABLE Request(
 DROP TABLE IF EXISTS Image;
 CREATE TABLE Image(
     idImage INTEGER PRIMARY KEY,
-    idRestaurant REFERENCES Restaurant,
-    title VARCHAR NOT NULL REFERENCES Dish(Name) ON UPDATE CASCADE
+    idDish INTEGER REFERENCES Dish ON DELETE CASCADE
 );
 
 
 DROP TABLE IF EXISTS RequestDishes;
 CREATE TABLE RequestDishes(
-    idRequest INTEGER REFERENCES Request,
-    idDish INTEGER REFERENCES Dish ON DELET,
-    PRIMARY KEY(idRequest,idDish)
+    idRequestDish INTEGER,
+    idRequest INTEGER REFERENCES Request ON DELETE CASCADE,
+    idDish INTEGER REFERENCES Dish ON DELETE CASCADE,
+    PRIMARY KEY(idRequestDish)
 );
 
 INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
@@ -81,5 +89,9 @@ INSERT INTO Category values(2,'vegan');
 INSERT INTO Category values(3,'indian');
 INSERT INTO Category values(4,'chinese');
 INSERT INTO Category values(5,'mediterranean');
+INSERT INTO OrderState values(0, 'received');
+INSERT INTO OrderState values(0, 'preparing');
+INSERT INTO OrderState values(0, 'ready');
+INSERT INTO OrderState values(0, 'delivered');
 INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0);
 INSERT INTO Restaurant values(1,'BK','H.S.J',0);

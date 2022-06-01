@@ -30,6 +30,7 @@
                                 </button>
                                 <div id="hidden_dropdown" class="dropdown_content">
                                     <a href="profile.php">Profile</a>
+                                    <a href="orders.php">Orders</a>
                                     <a href="logout.php">Logout</a>
                                 </div>
                             </div>

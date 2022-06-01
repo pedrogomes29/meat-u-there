@@ -36,8 +36,17 @@
         $db->commit();
     }
 
+    function getUsername($db,$idUser){
+        $stmt = $db->prepare('SELECT username
+                              FROM User
+                              WHERE idUser=:idUser');
+        $stmt->bindParam(':idUser',$idUser);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        return $stmt["username"];
+    }
+
     function getUserInfo($db){
-        $db->beginTransaction();
         $stmt = $db->prepare('SELECT *
                               FROM User
                               WHERE username=:username');

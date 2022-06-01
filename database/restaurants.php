@@ -84,6 +84,16 @@
         $stmt->bindParam(':category_id',getCategoryId($db,$category));
         $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
+
+        $stmt = $db->prepare('SELECT idDish
+                             FROM Dish
+                             WHERE name=:name AND idRestaurant=:restaurant_id');
+
+        $stmt->bindParam(':name',$name);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        return $stmt["idDish"];
     }
 
 
@@ -98,14 +108,6 @@
         $stmt->bindParam(':idDish',$idDish);
         $stmt->bindParam(':idCategory',$idCategory);
         $stmt->execute();
-
-        $stmt = $db->prepare('UPDATE Image
-                              SET title=:name
-                              WHERE title=:old_dish_name AND idRestaurant=:idRestaurant');
-        $stmt->bindParam(':name',$name);
-        $stmt->bindParam(':old_dish_name',$old_dish_name);
-        $stmt->bindParam(':idRestaurant',$restaurant_id);
-        $stmt->execute();
     }
 
 
@@ -119,13 +121,12 @@
         return $stmt;
     }
 
-    function getImageId($db,$image_name,$idRestaurant){
+    function getImageId($db,$idDish){
         $stmt = $db->prepare('SELECT idImage
                               FROM Image 
-                              WHERE title=:image_name AND idRestaurant=:idRestaurant');
+                              WHERE idDish=:idDish');
 
-        $stmt->bindParam(':image_name',$image_name);
-        $stmt->bindParam(':idRestaurant',$idRestaurant);
+        $stmt->bindParam(':idDish',$idDish);
         $stmt->execute();
         $stmt = $stmt->fetch();
         return $stmt["idImage"];
@@ -142,6 +143,19 @@
         $count = $stmt['nrDishes'];
         return $count==1;
     }
+
+    
+    function dish_exists($db,$dish_id){
+        $stmt = $db->prepare('SELECT count(*) as nrDishes
+                              FROM DISH
+                              WHERE idDish=:dish_id');
+
+        $stmt->bindParam(':dish_id',$dish_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        $count = $stmt['nrDishes'];
+        return $count==1;   
+    } 
 
     function getDishId($db,$dish_name,$restaurant_id){
         $stmt = $db->prepare('SELECT idDish
@@ -163,59 +177,95 @@
         return $stmt;
     }
 
-    function update_image($db,$restaurant_id,$image_name){
+    function userHasMadeOrders($db,$restaurant_id,$user_id){
+        $stmt = $db->prepare('SELECT count(*) as activeRequests
+                            FROM (Request JOIN RequestDishes using(idRequest))JOIN Dish using(idDish)
+                            WHERE idUser=:idUser AND idRestaurant=:restaurant_id');
+
+        $stmt->bindParam(':idUser',$user_id);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        $count = $stmt['activeRequests'];
+        return $count>=1;  
+
+    }
+    function getReviews($db,$restaurant_id){
+        $stmt = $db->prepare('SELECT *
+                              FROM Review
+                              WHERE restaurant_id=:restaurant_id');
+
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
+    function update_image($db,$restaurant_id,$dish_id){
         if(isset($_FILES["new_image"])){
-            $image_id = getImageId($db,$image_name,$restaurant_id);
+            $image_id = getImageId($db,$dish_id);
 
-            $originalFileName = "imgs/restaurants/$restaurant_id/original/$image_id.jpg";
-            $smallFileName = "imgs/restaurants/$restaurant_id/thumbs_small/$image_id.jpg";
-            $mediumFileName = "imgs/restaurants/$restaurant_id/thumbs_medium/$image_id.jpg";
-            
-            // Move the uploaded file to its final destination
-            move_uploaded_file($_FILES["new_image"]['tmp_name'], $originalFileName);
-
-
+            $fileName = "imgs/restaurants/$restaurant_id/$image_id.jpg";
+            $tempFileName = $_FILES["new_image"]['tmp_name'];
+    
+    
             // Crete an image representation of the original image
-            $original = imagecreatefromjpeg($originalFileName);
-            if (!$original) $original = imagecreatefrompng($originalFileName);
-            if (!$original) $original = imagecreatefromgif($originalFileName);
-        
+            $original = imagecreatefromjpeg($tempFileName);
+            if (!$original) $original = imagecreatefrompng($tempFileName);
+            if (!$original) $original = imagecreatefromgif($tempFileName);
+          
             if (!$original) die();
-        
+          
             $width = imagesx($original);     // width of the original image
             $height = imagesy($original);    // height of the original image
             $square = min($width, $height);  // size length of the maximum square
-        
-            // Create and save a small square thumbnail
-            $small = imagecreatetruecolor(200, 200);
-            imagecopyresized($small, $original, 0, 0, ($width>$square)?($width-$square)/2:0, ($height>$square)?($height-$square)/2:0, 200, 200, $square, $square);
-            imagejpeg($small, $smallFileName);
-        
+          
+          
             // Calculate width and height of medium sized image (max width: 400)
             $mediumwidth = $width;
             $mediumheight = $height;
             if ($mediumwidth > 400) {
-            $mediumwidth = 400;
-            $mediumheight = $mediumheight * ( $mediumwidth / $width );
+              $mediumwidth = 400;
+              $mediumheight = $mediumheight * ( $mediumwidth / $width );
             }
-        
+          
             // Create and save a medium image
             $medium = imagecreatetruecolor($mediumwidth, $mediumheight);
+
             imagecopyresized($medium, $original, 0, 0, 0, 0, $mediumwidth, $mediumheight, $width, $height);
-            imagejpeg($medium, $mediumFileName);
+            imagejpeg($medium, $fileName);
+
             unset($_FILES["new_image"]);
         }
     }
+  
+    function dishHasOrders($db,$dish_id){
+        $stmt = $db->prepare("SELECT count(*) as activeRequests
+                            FROM RequestDishes JOIN Request using(idRequest)
+                            WHERE idDish=:dish_id AND orderState<>'delivered'");
 
-    function add_image($db,$restaurant_id,$image_name){
+        $stmt->bindParam(':dish_id',$dish_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        $count = $stmt['activeRequests'];
+        return $count>=1;   
+    }
+
+    function removeDish($db,$dish_id){
+        $stmt = $db->prepare('DELETE FROM Dish
+                            WHERE idDish=:dish_id');
+        $stmt->bindParam(':dish_id',$dish_id);
+        $stmt->execute();
+    }
+
+    function add_image($db,$restaurant_id,$dish_id){
         // Insert image data into database
-        $stmt = $db->prepare("INSERT INTO Image VALUES(NULL, :restaurant_id, :name)");
-        $stmt->bindParam(':name',$image_name);
-        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt = $db->prepare("INSERT INTO Image VALUES(NULL, :dish_id)");
+        $stmt->bindParam(':dish_id',$dish_id);
         $stmt->execute();
 
         // Get image ID
-        $image_id = getImageId($db,$image_name,$restaurant_id);
+        $image_id = getImageId($db,$dish_id);
         if (!is_dir("imgs"))
             mkdir("imgs");
         if (!is_dir("imgs/restaurants")){
@@ -224,31 +274,17 @@
         if (!is_dir("imgs/restaurants/$restaurant_id")){
             mkdir("imgs/restaurants/$restaurant_id");
         }
-        if (!is_dir("imgs/restaurants/$restaurant_id/original")){
-            mkdir("imgs/restaurants/$restaurant_id/original");
-        }
-        if (!is_dir("imgs/restaurants/$restaurant_id/thumbs_small")){
-            mkdir("imgs/restaurants/$restaurant_id/thumbs_small");
-        }
-        if (!is_dir("imgs/restaurants/$restaurant_id/thumbs_medium")){
-            mkdir("imgs/restaurants/$restaurant_id/thumbs_medium");
-        }
       
         // Generate filenames for original, small and medium files
 
-        $originalFileName = "imgs/restaurants/$restaurant_id/original/$image_id.jpg";
-        $smallFileName = "imgs/restaurants/$restaurant_id/thumbs_small/$image_id.jpg";
-        $mediumFileName = "imgs/restaurants/$restaurant_id/thumbs_medium/$image_id.jpg";
-        
-
-        // Move the uploaded file to its final destination
-        move_uploaded_file($_FILES["image"]['tmp_name'], $originalFileName);
+        $fileName = "imgs/restaurants/$restaurant_id/$image_id.jpg";
+        $tempFileName = $_FILES["image"]['tmp_name'];
 
 
         // Crete an image representation of the original image
-        $original = imagecreatefromjpeg($originalFileName);
-        if (!$original) $original = imagecreatefrompng($originalFileName);
-        if (!$original) $original = imagecreatefromgif($originalFileName);
+        $original = imagecreatefromjpeg($tempFileName);
+        if (!$original) $original = imagecreatefrompng($tempFileName);
+        if (!$original) $original = imagecreatefromgif($tempFileName);
       
         if (!$original) die();
       
@@ -256,10 +292,6 @@
         $height = imagesy($original);    // height of the original image
         $square = min($width, $height);  // size length of the maximum square
       
-        // Create and save a small square thumbnail
-        $small = imagecreatetruecolor(200, 200);
-        imagecopyresized($small, $original, 0, 0, ($width>$square)?($width-$square)/2:0, ($height>$square)?($height-$square)/2:0, 200, 200, $square, $square);
-        imagejpeg($small, $smallFileName);
       
         // Calculate width and height of medium sized image (max width: 400)
         $mediumwidth = $width;
@@ -272,10 +304,46 @@
         // Create and save a medium image
         $medium = imagecreatetruecolor($mediumwidth, $mediumheight);
         imagecopyresized($medium, $original, 0, 0, 0, 0, $mediumwidth, $mediumheight, $width, $height);
-        imagejpeg($medium, $mediumFileName);
+        imagejpeg($medium, $fileName);
 
     }
 
+    function add_review($db,$user_id,$restaurant_id,$score,$description){
+        $db->beginTransaction();
+        $stmt = $db->prepare('INSERT INTO Review(score, description,published,restaurant_id,user_id)
+                            values(:score, :description,:published,:restaurant_id,:user_id)');
+        $stmt->bindParam(':user_id',$user_id);
+        $stmt->bindParam(':published',time());
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->bindParam(':score',$score);
+        $stmt->bindParam(':description',$description);
+
+        $stmt->execute();
+        $db->commit();
+    }
+
+    function getReviewReplies($db,$idReview){
+        $stmt = $db->prepare('SELECT *
+                             FROM ReviewReplies
+                             WHERE idReview=:idReview');
+        $stmt->bindParam(':idReview',$idReview);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
+    function add_reply($db,$owner_id,$idReview,$replyText){
+        $db->beginTransaction();
+        $stmt = $db->prepare('INSERT INTO ReviewReplies(idReview, replyText,published,owner_id)
+                            values(:idReview, :replyText,:published,:owner_id)');
+        $stmt->bindParam(':idReview',$idReview);
+        $stmt->bindParam(':replyText',$replyText);
+        $stmt->bindParam(':published',time());
+        $stmt->bindParam(':owner_id',$owner_id);
+
+        $stmt->execute();
+        $db->commit();
+    }
     
     function getCategories($db){
         $stmt = $db->prepare('SELECT name
@@ -285,19 +353,56 @@
         return $stmt;
     }
     function createRequestDish($db,$idRequest,$idDish){
+        $db->beginTransaction();
         $stmt = $db->prepare('INSERT INTO RequestDishes(idRequest, idDish)
-                            values(idRequest=:idRequest, iDish=:idDish)'); // store the username
+                            values(:idRequest,:idDish)');
         $stmt->bindParam(':idRequest',$idRequest);
-        $stmt->bindParam(':staidDish',$idDish);
+        $stmt->bindParam(':idDish',$idDish);
         $stmt->execute();
         $db->commit();
     }
     function createRequest($db, $orderState,  $idUser){
-        $stmt = $db->prepare('INSERT INTO Request(idRequest,orderState,idUser)
-                            values(orderState=:orderState, idUser=:idUser)'); // store the username
+        $db->beginTransaction();
+        $stmt = $db->prepare('INSERT INTO Request(orderState,idUser)
+                            values(:orderState,:idUser)'); 
         $stmt->bindParam(':orderState',$orderState);
         $stmt->bindParam(':idUser',$idUser);
         $stmt->execute();
         $db->commit();
     }
+    function getRequests($db,$user_id){
+        $stmt = $db->prepare('SELECT *
+                              FROM Request WHERE idUser=:user_id');
+        $stmt->bindParam(':user_id',$user_id);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
+    function getRequestDishes($db,$idRequest){
+        $stmt = $db->prepare('SELECT idDish
+                              FROM RequestDishes WHERE idRequest=:idRequest');
+        $stmt->bindParam(':idRequest',$idRequest);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
+
+    function getRestaurantRequests($db, $idRestaurant){
+        $stmt = $db->prepare('SELECT Distinct Request.idRequest, idUser,orderState
+                            FROM (Dish JOIN RequestDishes USING (idDish)) JOIN Request USING(idRequest)
+                            WHERE idRestaurant=:idRestaurant');    
+        $stmt->bindParam(':idRestaurant', $idRestaurant);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }    
+    function getStates($db){
+        $stmt = $db->prepare('SELECT name
+                              FROM OrderState');
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt["idCategory"];
+    }          
 ?>

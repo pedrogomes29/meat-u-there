@@ -5,7 +5,8 @@
     require_once("database/restaurants.php");
     require_once("database/connection.php");
     $db=getDatabaseConnection();
-    if (getUserInfo($db)['idUser'] == $restaurant_info['owner'])
+    $restaurant_info =  getRestaurant($db,$_GET['restaurant_id']);
+    if (getUserInfo($db)['idUser'] != $restaurant_info['owner'])
         header("Location: restaurant.php?id=".$_GET["restaurant_id"]);
 
 

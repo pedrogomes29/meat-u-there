@@ -13,7 +13,7 @@
     ?>     
     <form action="action_edit_header.php" method="post" enctype=multipart/form-data>
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
-        <label> Dish image:
+        <label> Header image:
             <input type="file" name="header">
         </label>
         <button name="button" type="submit">Edit header</button>

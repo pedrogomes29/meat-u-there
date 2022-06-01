@@ -73,6 +73,11 @@ body header nav ul li button#cart{
     padding: 0.2em;
 }
 
+body header nav ul :nth-child(2){
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+}
+
 body header nav ul :nth-child(3){
     margin-top: 0.3em;
     margin-bottom: 0.5em;

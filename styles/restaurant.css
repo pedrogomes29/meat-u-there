@@ -70,6 +70,14 @@ menu ul li{
     border: 0.4em solid #77DD77;
     padding: 0.5em;
 }
+
+.edit_order{
+    float: left;
+    color: white;
+    background-color: #1D1C1A;
+    border: 0.4em solid #77DD77;
+    padding: 0.5em;
+}
 menu h2{
     padding-bottom: 1em
 }
