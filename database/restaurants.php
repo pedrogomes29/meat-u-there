@@ -139,11 +139,11 @@
         return $stmt["idDishCategory"];
     }
 
-    function add_dish($db,$name,$price,$restaurant_id,$dishCategory){
+    function add_dish($db,$name,$price,$restaurant_id,$dishCategoryId){
         $stmt = $db->prepare('INSERT INTO Dish values(NULL,:name,:price,:category_id,:restaurant_id)');
         $stmt->bindParam(':name',$name);
         $stmt->bindParam(':price',$price);
-        $stmt->bindParam(':category_id',$dishCategory);
+        $stmt->bindParam(':category_id',$dishCategoryId);
         $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
 
