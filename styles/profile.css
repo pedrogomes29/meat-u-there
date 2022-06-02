@@ -10,13 +10,13 @@ body{
 }
 
 form{
-    display: flex;
-    flex-direction: column;
+    display: table;
     padding: 1em;
     border:0.4em solid #77DD77;
     background-color: #1D1C1A;
     border-radius:1em;
-    display:table;
+    margin: auto;
+    margin-top: 15%;
 }
 
 form h2{

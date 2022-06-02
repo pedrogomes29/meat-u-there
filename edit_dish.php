@@ -10,7 +10,7 @@
     if (getUserInfo($db)['idUser'] != $restaurant_info['owner'])
         header("Location: restaurant.php?id=".$_GET["restaurant_id"]);
     output_header("edit_dish");
-    $categories = getCategories($db);
+    $categories = getDishCategories($db);
     $dish_info = getDishInfo($db,$_GET['dish_id']);  
     ?>     
     <form action="action_edit_dish.php" method="post" enctype=multipart/form-data>
@@ -23,7 +23,7 @@
             <select name="category">
             <?php
                 foreach($categories as $category){?>
-                    <option value="<?=getCategoryId($db,$category["name"])?>" <?php if(getCategoryId($db,$category["name"])==$dish_info["idCategory"]) echo("selected");?> ><?=$category["name"]?></option>
+                    <option value="<?=$category["idDishCategory"]?>" <?php if($category["idDishCategory"]==$dish_info["idCategory"]) echo("selected");?> ><?=$category["name"]?></option>
                 <?php } ?>
             </select>
         </label>

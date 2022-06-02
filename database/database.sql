@@ -5,6 +5,7 @@ CREATE TABLE Restaurant(
     idRestaurant INTEGER PRIMARY KEY,
     name VARCHAR,
     address VARCHAR,
+    idRestaurantCategory INTEGER REFERENCES RestaurantCategory,
     owner INTEGER REFERENCES User
 );  
 
@@ -43,14 +44,21 @@ CREATE TABLE Dish(
     idDish INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR,
     price INTEGER,
-    idCategory INTEGER REFERENCES Category,
+    idDishCategory INTEGER REFERENCES DishCategory,
     idRestaurant INTEGER REFERENCES Restaurant
 );
 
 
-DROP TABLE IF EXISTS Category;
-CREATE TABLE Category(
-    idCategory INTEGER PRIMARY KEY,
+DROP TABLE IF EXISTS RestaurantCategory;
+CREATE TABLE RestaurantCategory(
+    idRestaurantCategory INTEGER PRIMARY KEY,
+    name VARCHAR
+);
+
+DROP TABLE IF EXISTS DishCategory;
+CREATE TABLE DishCategory(
+    idDishCategory INTEGER PRIMARY KEY,
+    idRestaurant REFERENCES Restaurant,
     name VARCHAR
 );
 
@@ -83,15 +91,15 @@ CREATE TABLE RequestDishes(
 );
 
 INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
-INSERT INTO Category values(0,'fast-food');
-INSERT INTO Category values(1,'italian');
-INSERT INTO Category values(2,'vegan');
-INSERT INTO Category values(3,'indian');
-INSERT INTO Category values(4,'chinese');
-INSERT INTO Category values(5,'mediterranean');
+INSERT INTO RestaurantCategory values(0,'fast-food');
+INSERT INTO RestaurantCategory values(1,'italian');
+INSERT INTO RestaurantCategory values(2,'vegan');
+INSERT INTO RestaurantCategory values(3,'indian');
+INSERT INTO RestaurantCategory values(4,'chinese');
+INSERT INTO RestaurantCategory values(5,'mediterranean');
 INSERT INTO OrderState values(0, 'received');
-INSERT INTO OrderState values(0, 'preparing');
-INSERT INTO OrderState values(0, 'ready');
-INSERT INTO OrderState values(0, 'delivered');
-INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0);
-INSERT INTO Restaurant values(1,'BK','H.S.J',0);
+INSERT INTO OrderState values(1, 'preparing');
+INSERT INTO OrderState values(2, 'ready');
+INSERT INTO OrderState values(3, 'delivered');
+INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0,0);
+INSERT INTO Restaurant values(1,'BK','H.S.J',0,0);

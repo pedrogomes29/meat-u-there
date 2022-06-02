@@ -10,7 +10,7 @@
         header("Location: restaurant.php?id=".$_GET["restaurant_id"]);
 
 
-    $categories = getCategories($db);
+    $categories = getDishCategories($db,$_GET["restaurant_id"]);
     output_header("add_dish");
 ?>      
     <form action="action_upload_dish.php" method="post" enctype=multipart/form-data>
@@ -18,10 +18,10 @@
             <input type="text" name="name">
         </label>
         <label> Dish category: 
-            <select name="category">
+            <select name="dishCategory">
             <?php
                 foreach($categories as $category){?>
-                    <option value="<?=$category["name"]?>"><?=$category["name"]?></option>
+                    <option value="<?=$category["idDishCategory"]?>"><?=$category["name"]?></option>
             <?php } ?>
             </select>
         </label>

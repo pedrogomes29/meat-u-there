@@ -7,17 +7,18 @@
     output_header("restaurant");
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
-    $restaurant_categories = getRestaurantMenu($db,$_GET['id']);
+    $dish_categories = getRestaurantMenu($db,$_GET['id']);
     $reviews = getReviews($db,$_GET['id']);
+    date_default_timezone_set('Europe/Lisbon');
 ?>
 <div id="restaurant_header">
-    <a href="edit_header.php?restaurant_id=<?=$_GET['id']?>">
+    <a href="edit_restaurant.php?restaurant_id=<?=$_GET['id']?>">
         <?php
         if(file_exists("imgs/restaurants/".$_GET['id']."/header.jpg")){?>
                 <img id="header_image" src="imgs/restaurants/<?=$_GET['id']?>/header.jpg"
                  alt="restaurant_image">
         <?php } else{?>
-                <img id="header_image" src="imgs/default_header.jpg" alt="<?=$item['name']?>">
+                <img id="header_image" src="imgs/default_header.jpg" alt="header">
         <?php } ?>
     </a>
     <h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
@@ -26,21 +27,21 @@
 <menu>
 <h2>Menu</h2>
     <ul>
-    <?php foreach(array_keys($restaurant_categories) as $restaurant_category){ ?>
-            <ul id="Category"><h1><?=$restaurant_category?></h1>
-                <?php foreach($restaurant_categories[$restaurant_category] as $item){?>
+    <?php foreach(array_keys($dish_categories) as $dish_category){ ?>
+            <ul id="Category"><h1><?=$dish_category?></h1>
+                <?php foreach($dish_categories[$dish_category] as $dish){?>
                 <li>
-                    <a href="edit_dish.php?dish_id=<?=$item['idDish']?>&restaurant_id=<?=$_GET['id']?>">
-                    <?php $imageId = getImageId($db,$item['idDish']);
+                    <a href="edit_dish.php?dish_id=<?=$dish['idDish']?>&restaurant_id=<?=$_GET['id']?>">
+                    <?php $imageId = getImageId($db,$dish['idDish']);
                         if(file_exists("imgs/restaurants/".$_GET['id']."/".$imageId.".jpg")){?>
-                            <img src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$item['name']?>">
+                            <img src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$dish['name']?>">
                     <?php } else{?>
-                            <img src="imgs/default_image.jpg" alt="<?=$item['name']?>">
+                            <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
                     <?php } ?>  
                     </a>
-                    <p><?=$item['name']."--".$item['price']."€"?></p>
+                    <p><?=$dish['name']."--".$dish['price']."€"?></p>
                     <form action="action_add_to_cart.php" method="post">
-                        <input type="hidden" value=<?=$item['idDish']?> name="dish_id">
+                        <input type="hidden" value=<?=$dish['idDish']?> name="dish_id">
                         <input type="hidden" value=<?=$restaurant_info['idRestaurant']?> name="restaurant_id">
                         <button  id="add_cart" type="submit"> 
                             <img  src="imgs/add_to_cart.png" alt="plus sign">
@@ -59,10 +60,14 @@
     <?php } ?>
 </menu>
         <section id="reviews">
+            <?php if(sizeof($reviews)==1){ ?>
+                <h1><?=sizeof($reviews)?> Review</h1>
+            <?php }
+            else{ ?>
             <h1><?=sizeof($reviews)?> Reviews</h1>
-            <?php
+            <?php }
                 foreach($reviews as $review){
-                    $date = date('G:i F j o', $review['published']);
+                    $date = date('g:ia - F j o', $review['published']);
                     $replies = getReviewReplies($db,$review['idReview']);
 
             ?>
@@ -71,9 +76,14 @@
                         <span class="score"><?=$review['score']?></span>
                         <span class="date"><?=$date?></span>
                         <p><?=$review['description']?></p>
-                        <?php
+                        <?php if(sizeof($replies)==1){ ?>
+                                <h1><?=sizeof($replies)?> Owner Reply</h1>
+                             <?php }
+                              else{ ?>
+                                <h1><?=sizeof($replies)?> Owner Replies</h1>
+                             <?php }
                             foreach($replies as $reply){
-                                $reply_date = date('G:i F j o', $reply['published']); ?>
+                                $reply_date = date('g:ia - F j o', $reply['published']); ?>
                                 <article class="reviewReply">
                                     <span class="replyUser"><?=getUsername($db,$reply['owner_id'])?></span>
                                     <span class="date"><?=$date?></span>
@@ -94,6 +104,7 @@
                         <?php }
                         ?>
                     </article>
+                    <br>
             <?php }
             if(isset($_SESSION['username'])){
                 $user_id = getUserInfo($db)["idUser"];

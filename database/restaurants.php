@@ -12,16 +12,77 @@
     }
 
     function getRestaurants($db){
-        $stmt = $db->prepare('SELECT Restaurant.name,Restaurant.address,Restaurant.idRestaurant
-                              FROM Restaurant');
+        $stmt = $db->prepare('SELECT Restaurant.name, Restaurant.address, Restaurant.idRestaurant, RestaurantCategory.name as category
+        FROM (Restaurant JOIN RestaurantCategory using (idRestaurantCategory))
+        ORDER BY category');
+        $stmt->execute();
+        $current_category="";
+        $restaurants_in_category = array();
+        $i=0;
+        while($row=$stmt->fetch()){
+            if($row["category"]!=$current_category && $current_category!=""){
+                $category_restaurants[$current_category]=$restaurants_in_category;
+                $restaurants_in_category=array();
+                $current_category=$row["category"];
+                $i=0;
+            }
+            else if ($current_category==""){
+                $current_category=$row["category"];
+                $i=0;
+            }
+            $restaurant["name"]=$row["name"];
+            $restaurant["address"]=$row["address"];
+            $restaurant["idRestaurant"]=$row["idRestaurant"];
+            $restaurants_in_category[$i]=$restaurant;
+            $i++;
+        }
+        $category_restaurants[$current_category]=$restaurants_in_category;
+        return $category_restaurants;
+    }
+
+
+    function getRestaurantCategories($db){
+        $stmt = $db->prepare('SELECT name
+        FROM RestaurantCategory');
         $stmt->execute();
         $stmt = $stmt->fetchAll();
         return $stmt;
     }
 
+    function getRestaurantCategoryId($db,$name){
+        $stmt = $db->prepare('SELECT idRestaurantCategory
+        FROM RestaurantCategory
+        WHERE name=:name');
+        $stmt->bindParam(':name',$name);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        return $stmt["idRestaurantCategory"];
+
+    }
+
+
+    function add_dish_category($db,$restaurant_id,$category_name){
+        $stmt = $db->prepare('INSERT INTO DishCategory(idRestaurant,name) values(:restaurant_id,:category_name)');
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->bindParam(':category_name',$category_name);
+        $stmt->execute();
+    }
+
+
+    function edit_restaurant_info($db,$new_name,$new_address,$new_category,$restaurant_id){
+        $stmt = $db->prepare('UPDATE Restaurant
+                              SET name=:new_name,address=:new_address,idRestaurantCategory=:new_category
+                              WHERE idRestaurant=:restaurant_id');
+        $stmt->bindParam(':new_name',$new_name);
+        $stmt->bindParam(':new_address',$new_address);
+        $stmt->bindParam(':new_category',$new_category);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+    }
+
     function getRestaurantMenu($db,$restaurant_id){
-        $stmt = $db->prepare('SELECT Dish.name, Dish.price, Dish.idDish,Category.name as category
-        FROM (Dish JOIN Restaurant using(idRestaurant))JOIN Category using(idCategory)
+        $stmt = $db->prepare('SELECT Dish.name, Dish.price, Dish.idDish,DishCategory.name as category
+        FROM (Dish JOIN Restaurant using(idRestaurant))JOIN DishCategory using(idDishCategory)
         WHERE Restaurant.idRestaurant=:restaurant_id
         ORDER BY category' );
         $stmt->bindParam(':restaurant_id',$restaurant_id);
@@ -67,21 +128,22 @@
     }
 
 
-    function getCategoryId($db,$category){
-        $stmt = $db->prepare('SELECT idCategory
-                              FROM Category
-                              WHERE name=:name');
+    function getDishCategoryId($db,$category,$restaurant_id){
+        $stmt = $db->prepare('SELECT idDishCategory
+                              FROM DishCategory
+                              WHERE name=:name AND idRestaurant=:idRestaurant');
         $stmt->bindParam(':name',$category);
+        $stmt->bindParam(':idRestaurant',$idRestaurant);
         $stmt->execute();
         $stmt = $stmt->fetch();
-        return $stmt["idCategory"];
+        return $stmt["idDishCategory"];
     }
 
-    function add_dish($db,$name,$price,$restaurant_id,$category){
+    function add_dish($db,$name,$price,$restaurant_id,$dishCategory){
         $stmt = $db->prepare('INSERT INTO Dish values(NULL,:name,:price,:category_id,:restaurant_id)');
         $stmt->bindParam(':name',$name);
         $stmt->bindParam(':price',$price);
-        $stmt->bindParam(':category_id',getCategoryId($db,$category));
+        $stmt->bindParam(':category_id',$dishCategory);
         $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
 
@@ -98,8 +160,6 @@
 
 
     function edit_dish($db,$name,$price,$idDish,$idCategory,$restaurant_id){
-        $old_dish_name = getDishInfo($db,$idDish)["name"];
-
         $stmt = $db->prepare('UPDATE Dish
                               SET name=:name,price=:price,idCategory=:idCategory
                               WHERE idDish=:idDish');
@@ -344,10 +404,13 @@
         $stmt->execute();
         $db->commit();
     }
+
     
-    function getCategories($db){
-        $stmt = $db->prepare('SELECT name
-                              FROM Category');
+    function getDishCategories($db,$idRestaurant){
+        $stmt = $db->prepare('SELECT name,idDishCategory
+                              FROM DishCategory
+                              WHERE idRestaurant=:idRestaurant');
+        $stmt->bindParam(':idRestaurant',$idRestaurant);
         $stmt->execute();
         $stmt = $stmt->fetchAll();
         return $stmt;
@@ -403,6 +466,14 @@
                               FROM OrderState');
         $stmt->execute();
         $stmt = $stmt->fetchAll();
-        return $stmt["idCategory"];
-    }          
+        return $stmt;
+    }   
+    function updateState($db,$idRequest,$orderState){
+        $stmt = $db->prepare('UPDATE Request
+        SET orderState=:orderState
+        WHERE idRequest=:idRequest');
+        $stmt->bindParam(':orderState', $orderState);
+        $stmt->bindParam(':idRequest', $idRequest);
+        $stmt->execute();
+    }            
 ?>

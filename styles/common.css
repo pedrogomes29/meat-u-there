@@ -31,7 +31,6 @@ a{
 
 body header nav ul li button#cart{
     width:5em;
-    background-image: url("imgs/login_register.png");
     background-repeat: no-repeat;
     margin-top: 8;
     margin-bottom: 8;

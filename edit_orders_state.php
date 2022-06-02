@@ -14,16 +14,16 @@
     $states = getStates($db);
     output_header("edit_orders_state");
     ?>     
-    <form action="" method="post" enctype=multipart/form-data>
+    <form action="action_edit_orders.php" method="post">
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
         <h2>Requests: </h2>
         <ul>
             <?php foreach($restaurantRequests as $request){?>
             <ul>
-                <h3>Request:<?=$request['idRequest']?> User:<?=$request['idUser']?> State:
-                    <select name="state">
+                <h3>Request:<?=$request['idRequest']?> User:<?=$request['idUser']?> State:<?=$request['orderState']?>
+                    <select name="state_<?=$request['idRequest']?>">
                     <?php foreach($states as $state) {?>
-                        <option value="<?=$request['orderState']?>" <?php if($request['orderState'] == $state) echo("selected");?>><?=$request['orderState']?></option> 
+                        <option value="<?=$state["name"]?>" <?php if($state["name"]==$request['orderState']) echo("selected");?> ><?=$state["name"]?></option>
                     <?php } ?>
                     </select>
                 </h3>
@@ -37,6 +37,7 @@
             </ul>
             <?php } ?>
         </ul>
+        <button type="submit">Edit state</button>
     </form>
 <?php
     output_footer();

@@ -5,17 +5,20 @@
     require_once("database/restaurants.php");
     output_header("restaurants");
     $db=getDatabaseConnection();
-    $restaurants = getRestaurants($db);
+    $categories_restaurant = getRestaurants($db);
 ?>
 <menu>
     <h2>Restaurants</h2>
     <ul>
-    <?php foreach($restaurants as $item){ ?>
-        <li class="restaurants <?=$item['name']." Address: ".$item['address']?>">
-            <a href="restaurant.php?id=<?=$item['idRestaurant']?>">
-            <p><?=$item['name']?> <br>Address: <?=$item['address']?></p>
-            </a>
-            </li>
-        <?php } ?>
+    <?php foreach(array_keys($categories_restaurant) as $restaurant_category){ ?>
+            <ul id="Category"><h1><?=$restaurant_category?></h1>          
+        <?php foreach($categories_restaurant[$restaurant_category] as $restaurant){ ?>
+                <li class="restaurants <?=$restaurant['name']." Address: ".$restaurant['address']?>">
+                    <a href="restaurant.php?id=<?=$restaurant['idRestaurant']?>">
+                    <p><?=$restaurant['name']?> <br>Address: <?=$restaurant['address']?></p>
+                    </a>
+                </li>
+        <?php }
+        } ?>
     </ul>
 </menu>
