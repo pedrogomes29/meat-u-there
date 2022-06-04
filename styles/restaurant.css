@@ -1,7 +1,75 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
 
+#reviews {
+    padding: 1em;
+    border:0.4em solid #77DD77;
+    background-color: #1D1C1A;
+    border-radius:1em;
+}
 
+#write_review{
+    width: 250px;
+    padding: 1em;
+    border:0.4em solid #77DD77;
+    background-color: #1D1C1A;
+    border-radius:1em;
+    width: 40em;
+    height: 14em; 
+}
+#write_review h2{
+    color: white;
+    padding: 1em;
+    font-weight: bold;
+}
+#write_review label{
+    color:white;
+    display:inline-block;
+    padding-bottom:1.5em;
+    padding-top:0em;
+    font-weight: bold;
+    width:100%;
+}
+
+#write_review label input , #write_review label textarea{
+    border:0;
+    display:float;
+    float:right;
+    margin-left:0.5em;
+    margin-top: 0.3em;
+}
+
+#write_review button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    height: 2em;
+    width: 6em;
+    background-color: white;
+    font-weight: bold;
+    color: #77DD77;
+    border: 0;
+    border-radius:1em;
+    padding: 1.2em;
+    margin-top:0.5em;
+}
+
+#write_review button:hover{
+    background-color:#DCDCDC;
+    cursor:pointer;
+}
+#reviews h1{
+    padding:0.3em;
+    color:white;
+}
+#reviews article span{
+    color:  #77dd77;
+    font-weight: bold;
+}
+#reviews article{
+    color:  white;
+}
 #restaurant_header p{
     font-size:small;
     padding-left:1em;
@@ -71,6 +139,14 @@ menu ul li{
     padding: 0.5em;
 }
 
+.add_dish_category{
+    float: left;
+    color: white;
+    background-color: #1D1C1A;
+    border: 0.4em solid #77DD77;
+    padding: 0.5em;
+}
+
 .edit_order{
     float: left;
     color: white;
@@ -98,4 +174,17 @@ form{
 
 .hiden {
     display: none;
+}
+
+.like{
+    width: 48px;
+    height: 48px;
+}
+
+.like-no{
+    background: url("../imgs/dislike.svg") no-repeat;
+}
+
+.like-yes{
+    background: url("../imgs/like.svg") no-repeat;
 }

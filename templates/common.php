@@ -1,11 +1,20 @@
 <?php
-    function output_header($style_file){
+    session_start();
+    require_once("database/connection.php");
+    require_once("database/restaurants.php");
+
+    function output_header($style_file,$script_file=""){
+        $db=getDatabaseConnection();
+        $categories_restaurant = getRestaurants($db);
     ?>
     <html>
         <head>
             <link rel="stylesheet" href="styles/common.css">
             <link rel="stylesheet" href="styles/<?=$style_file?>.css">
             <script type="text/javascript" src="templates/common.js" defer></script>
+            <?php if($script_file!=""){?>
+                <script type="text/javascript" src="<?=$script_file?>.js" defer></script>
+            <?php } ?>
         </head>
         <body>
             <header>
@@ -13,7 +22,22 @@
                     <ul>
                         <li><h1><a href="restaurants.php">Meat U There</a></h1></li>
                         <li id="search_bar">
-                            <input id="searchbar" name="searchbar" type="search" placeholder="Search for Restaurants" data-search>
+                            <input  onclick="dropDownSearch()" id="searchbar" name="searchbar" type="search" placeholder="Search for Restaurants" data-search>
+                                <div id="hidden_searchbar" class="search_bar_content">
+                                    <ul>
+                                        <?php if ($_SERVER['REQUEST_URI'] != "/restaurants.php"){
+                                            foreach(array_keys($categories_restaurant) as $restaurant_category){ 
+                                                foreach($categories_restaurant[$restaurant_category] as $restaurant){ ?>
+                                                    <li class="restaurants <?=$restaurant['name']." Address: ".$restaurant['address']?>">
+                                                    <a href="restaurant.php?id=<?=$restaurant['idRestaurant']?>">
+                                                    <?=$restaurant['name']?>  <?=$restaurant['address']?>
+                                                    </a>
+                                                    </li>
+                                            <?php }
+                                            } 
+                                        } ?>
+                                    </ul>
+                                </div>
                         </li>
                         <li>
                             <a href="cart.php">

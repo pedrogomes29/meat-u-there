@@ -45,7 +45,8 @@ CREATE TABLE Dish(
     name VARCHAR,
     price INTEGER,
     idDishCategory INTEGER REFERENCES DishCategory,
-    idRestaurant INTEGER REFERENCES Restaurant
+    idRestaurant INTEGER REFERENCES Restaurant,
+    nrLikes INTEGER DEFAULT 0
 );
 
 

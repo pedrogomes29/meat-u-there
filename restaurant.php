@@ -4,7 +4,7 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant");
+    output_header("restaurant","like_button");
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
@@ -39,6 +39,7 @@
                             <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
                     <?php } ?>  
                     </a>
+                    <div class="<?=$dish['idDish']?> like like-no"></div>
                     <p><?=$dish['name']."--".$dish['price']."€"?></p>
                     <form action="action_add_to_cart.php" method="post">
                         <input type="hidden" value=<?=$dish['idDish']?> name="dish_id">
@@ -57,6 +58,8 @@
         Add dish to <br> your restaurant.</a>
         <a class="edit_order" href="edit_orders_state.php?restaurant_id=<?=$_GET['id']?>">
         Edit orders <br> of your restaurant.</a>
+        <a class="add_dish_category" href="add_dish_category.php?restaurant_id=<?=$_GET['id']?>">
+        Add dish category <br> to your restaurant.</a>
     <?php } ?>
 </menu>
         <section id="reviews">
@@ -72,8 +75,8 @@
 
             ?>
                     <article class="review">
-                        <span class="user"><?=getUsername($db,$review['user_id'])?></span>
-                        <span class="score"><?=$review['score']?></span>
+                        <span class="user"><?="Written by ".getUsername($db,$review['user_id'])?></span>
+                        <span class="score"><?=" Score: ".$review['score']."%"?></span>
                         <span class="date"><?=$date?></span>
                         <p><?=$review['description']?></p>
                         <?php if(sizeof($replies)==1){ ?>
@@ -85,9 +88,9 @@
                             foreach($replies as $reply){
                                 $reply_date = date('g:ia - F j o', $reply['published']); ?>
                                 <article class="reviewReply">
-                                    <span class="replyUser"><?=getUsername($db,$reply['owner_id'])?></span>
+                                    <span class="replyUser"><?="Written by Owner: ".getUsername($db,$reply['owner_id'])?></span>
                                     <span class="date"><?=$date?></span>
-                                    <span class="replyText"><?=$reply['replyText']?></span>
+                                    <p><?=$reply['replyText']?></p>
                                 </article>
                         <?php }
                             if(getUserInfo($db)['idUser'] == $restaurant_info['owner']){ ?>
@@ -105,26 +108,26 @@
                         ?>
                     </article>
                     <br>
+                    </section>
             <?php }
             if(isset($_SESSION['username'])){
                 $user_id = getUserInfo($db)["idUser"];
                 if(userHasMadeOrders($db,$_GET['id'],$user_id)){
                 ?>
-                    <form action="action_make_review.php" method="post">
+                    <form id="write_review" action="action_make_review.php" method="post">
                         <h2>Write a review</h2>
-                            <input type="hidden" value=<?=$user_id?> name="user_id">
-                            <input type="hidden" value=<?=$_GET['id']?> name="restaurant_id">
-                            <label>Score 
-                                <input type="number" name="score">
-                            </label>
-                            <label>Description
-                              <textarea name="description"></textarea>            
-                            </label>
-                            <button name="button" type="submit">Write a review</button>
+                        <input type="hidden" value=<?=$user_id?> name="user_id">
+                        <input type="hidden" value=<?=$_GET['id']?> name="restaurant_id">
+                        <label>Score 
+                            <input type="number" name="score">
+                        </label>
+                        <label>Description
+                            <textarea name="description"></textarea>            
+                        </label>
+                        <button name="button" type="submit">Write a review</button>
                     </form>
                 <?php } 
             } ?>
-        </section>
              
 
 

@@ -7,13 +7,15 @@
     $db=getDatabaseConnection();
     $restaurant_info =  getRestaurant($db,$_GET['restaurant_id']);
 
-    if (getUserInfo($db)['idUser'] != $restaurant_info['owner'])
+
+    if ((getUserInfo($db)['idUser'] != $restaurant_info['owner'])||!isset($_SESSION['username']))
         header("Location: restaurant.php?id=".$_GET["restaurant_id"]);
+
     output_header("edit_dish");
-    $categories = getDishCategories($db);
+    $categories = getDishCategories($db,$_GET["restaurant_id"]);
     $dish_info = getDishInfo($db,$_GET['dish_id']);  
     ?>     
-    <form action="action_edit_dish.php" method="post" enctype=multipart/form-data>
+    <form id="main" action="action_edit_dish.php" method="post" enctype=multipart/form-data>
         <label> Dish name:
             <input type="text" name="name" value="<?=$dish_info["name"]?>">
         </label>
@@ -32,12 +34,12 @@
         </label>
         <input type="hidden" value=<?=$_GET['dish_id']?> name="dish_id">
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
-        <label> Dish image:
+        <label class= "file_upload"> Dish image:
             <input type="file" name="new_image">
         </label>
         <button name="button" type="submit">Edit dish</button>
     </form>
-    <form action="action_remove_dish.php" method="post">
+    <form id="second" action="action_remove_dish.php" method="post">
         <input type="hidden" value=<?=$_GET['dish_id']?> name="dish_id">
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
         <button name="button" type="submit">Remove dish</button>

@@ -16,12 +16,12 @@
     <h2>Orders</h2>
     <ul>
     <?php foreach($requests as $request){ ?>
-            <ul id="OrderNumber"><h1>OrderNumber: <?=$request['idRequest']?> -- <?=$request['orderState']?></h1>
+            <ul id="OrderNumber"><h1>OrderNumber: <?=$request['idRequest']?> - <?="State: ".$request['orderState']?></h1>
                 <?php $requestDishes = getRequestDishes($db,$request['idRequest'])?>
                 <?php foreach($requestDishes as $dish){?>
                 <li>
                     <?php $dishInfo = getDishInfo($db, $dish['idDish']) ?>
-                    <p><?=$dishInfo['name']?>--<?=$dishInfo['price']?>€</p>
+                    <p><?=$dishInfo['name']?>:<?=" ".$dishInfo['price']?>€</p>
                 </li>
                 <?php } ?>
             <ul>

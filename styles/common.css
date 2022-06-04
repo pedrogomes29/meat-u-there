@@ -57,10 +57,7 @@ body header nav ul li button#cart{
     color:#77DD77;
 }
 
-.show{
-    display: block;
-    position: fixed;
-}
+
 
 .login_register{
     color:#77DD77;
@@ -108,7 +105,7 @@ body nav ul{
 
 body nav ul li#search_bar{
     flex-grow: 2;
-    margin-top: 0.5em;
+    margin-top: 1em;
     margin-bottom:0.5em;
     margin-left: 5em;
     margin-right: 7em;
@@ -132,4 +129,34 @@ header h1{
 
 header h1 a{
     color:#77DD77;
+}
+
+.search_bar_content{
+    margin-top: 0;
+    display: none;
+    background-color: #1D1C1A;
+}
+
+.search_bar_content a{
+    text-decoration: none;
+    display: block;
+    color:#77DD77;
+}
+.show{
+    display: block;
+    position: fixed;
+}
+
+.search_bar_content ul{
+    display: block;
+    
+}
+
+.hide {
+    display: none;
+}
+
+#hidden_searchbar{
+    margin-top: 0.01em;
+    margin-bottom: 0em;
 }

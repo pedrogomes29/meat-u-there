@@ -27,12 +27,12 @@ menu ul li a p{
 }
 
 menu {
-    width: 200px;
+    width: 250px;
     padding: 1em;
     border:0.4em solid #77DD77;
     background-color: #1D1C1A;
     border-radius:1em;
-    width: 30em;
+    width: 40em;
     height: 10em;
     display:table;
     margin:auto;
@@ -43,19 +43,21 @@ menu p{
     margin: 0;
     color:white;
 }
-#total{
-    display: flex;
-    justify-content: center;
-    font: 400 20px/1.5 Helvetica, Verdana, sans-serif;
-    margin: 0;
-    color:white;
-}
 menu h2 {
     font: 400 30px/1.5 Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     color:white;
-    padding-bottom: 1em;
+    padding: 0.5em;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+}
+menu ul h1 {
+    font: 400 30px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color:white;
     justify-content: center;
     display: flex;
     font-weight: bold;
@@ -71,15 +73,9 @@ menu ul li {
     display: flex;
     justify-content: center;
     font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-    border-bottom: 2px solid #ccc;
 }
  
 menu ul li:last-child {
   border: none;
 }
  
-form{
-    display: flex;
-    justify-content: center;
-    padding-top: 2em;
-}

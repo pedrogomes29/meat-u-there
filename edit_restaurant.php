@@ -8,8 +8,10 @@
 
     $restaurant_info = getRestaurant($db,$_GET['restaurant_id']);
     $categories = getRestaurantCategories($db);
-    if (getUserInfo($db)['idUser'] != $restaurant_info['owner'])
+
+    if ((getUserInfo($db)['idUser'] != $restaurant_info['owner']) || !isset($_SESSION['username']))
         header("Location: restaurant.php?id=".$_GET["restaurant_id"]);
+
     output_header("edit_header");
 
     ?>     
@@ -32,18 +34,7 @@
         <label> Header image:
             <input type="file" name="header">
         </label>
-        <button name="button" type="submit">Edit Restaurant Information</button>
-    </form>
-
-    <br>
-
-
-    <form action="action_add_dish_category.php" method="post">
-        <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
-        <label> New dish category:
-            <input type="text" name="new_dish_category">
-        </label>
-        <button name="button" type="submit">Add dish category</button>
+        <button name="button" type="submit">Edit Information</button>
     </form>
 <?php
     output_footer();

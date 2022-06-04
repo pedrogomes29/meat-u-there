@@ -159,14 +159,14 @@
     }
 
 
-    function edit_dish($db,$name,$price,$idDish,$idCategory,$restaurant_id){
+    function edit_dish($db,$name,$price,$idDish,$idDishCategory,$restaurant_id){
         $stmt = $db->prepare('UPDATE Dish
-                              SET name=:name,price=:price,idCategory=:idCategory
+                              SET name=:name,price=:price,idDishCategory=:idDishCategory
                               WHERE idDish=:idDish');
         $stmt->bindParam(':name',$name);
         $stmt->bindParam(':price',$price);
         $stmt->bindParam(':idDish',$idDish);
-        $stmt->bindParam(':idCategory',$idCategory);
+        $stmt->bindParam(':idDishCategory',$idDishCategory);
         $stmt->execute();
     }
 
@@ -405,7 +405,18 @@
         $db->commit();
     }
 
-    
+    function dishCategoryExists($db,$new_dish_category,$restaurant_id){
+        $stmt = $db->prepare('SELECT count(*) as nrCategories
+                            FROM DishCategory
+                            WHERE name=:new_dish_category AND idRestaurant=:restaurant_id');
+        $stmt->bindParam(':new_dish_category',$new_dish_category);
+        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        $count = $stmt['nrCategories'];
+        return $count==1;
+
+    }
     function getDishCategories($db,$idRestaurant){
         $stmt = $db->prepare('SELECT name,idDishCategory
                               FROM DishCategory

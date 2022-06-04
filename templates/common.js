@@ -15,6 +15,24 @@ window.onclick = function(event){
     }
 }
 
+const searchBar = document.getElementById("hidden_searchbar")
+
+function dropDownSearch() {
+    searchBar.classList.toggle("show")
+}
+
+window.onclick = function(event){
+    if (!event.target.matches("#searchbar")){
+        if (searchBar.classList.contains('show'))
+        searchBar.classList.remove('show')
+    }
+}
+
+function unDropDownSearch(){
+    if (searchBar.classList.contains('show'))
+        searchBar.classList.remove('show')
+}
+
 
 const searchInput = document.querySelector("[data-search]")
 let restaurants = document.getElementsByClassName('restaurants')
