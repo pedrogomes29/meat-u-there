@@ -28,8 +28,10 @@
     </ul>
     <p id="total">Total: <?=$total?> €</p>
     <form action="action_create_request.php" method="post">
+        <?php if(sizeof($_SESSION["dishes"])>0){?>
         <button  id="Checkout" type="submit"> 
             Checkout
         </button>
+        <?php } ?>
     </form>
 </menu>

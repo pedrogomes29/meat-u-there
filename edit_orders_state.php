@@ -37,7 +37,9 @@
             </ul>
             <?php } ?>
         </ul>
-        <button type="submit">Edit state</button>
+        <?php if(sizeof($restaurantRequests)>0) { ?>
+            <button type="submit">Edit state</button>
+        <?php }?>
     </form>
 <?php
     output_footer();

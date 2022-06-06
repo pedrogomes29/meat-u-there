@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
+
+body{ 
+    background-image:url("../imgs/hamburger_background");
+    background-size:cover;
+    width:100%
+}
+
+menu{
+    border: 0.2em solid #77DD77;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+ul{
+    list-style: none;
+}
+ form{
+    padding: 1em;
+    border:0.4em solid #77DD77;
+    background-color: #1D1C1A;
+    border-radius:1em;
+    width: 30em;
+    height: 10em;
+    display:table;
+    margin:auto;
+    margin-top:15%; 
+    color: white;
+}
+
+form h2{
+    color: white;
+    padding-bottom: 1em;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+}
+
+form label{
+    color:white;
+    display:inline-block;
+    padding-bottom:1.5em;
+    padding-top:0em;
+    font-weight: bold;
+    width:100%;
+}
+
+
+
+ form label select{
+    border:0;
+    display:float;
+    float:right;
+    margin-left:0.5em;
+    margin-top: 0.3em;
+}
+
+
+form button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    height: 2em;
+    width: 6em;
+    background-color: white;
+    font-weight: bold;
+    color: #77DD77;
+    border: 0;
+    border-radius:1em;
+    margin-top: 1em;
+}
+
+form button:hover{
+    background-color:#DCDCDC;
+    cursor:pointer;
+}
+
+footer{
+    display:block;
+}

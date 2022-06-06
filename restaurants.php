@@ -11,7 +11,7 @@
     <h2>Restaurants</h2>
     <ul>
     <?php foreach(array_keys($categories_restaurant) as $restaurant_category){ ?>
-            <ul id="Category"><h1><?=$restaurant_category?></h1>          
+            <ul id="Category"><h1>Category: <?=$restaurant_category?></h1>          
         <?php foreach($categories_restaurant[$restaurant_category] as $restaurant){ ?>
                 <li class="restaurants <?=$restaurant['name']." Address: ".$restaurant['address']?>">
                     <a href="restaurant.php?id=<?=$restaurant['idRestaurant']?>">

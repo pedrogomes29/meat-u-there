@@ -5,15 +5,30 @@ menu ul li a p{
     width:max-content;
 }
 
-
+body{ 
+  background-image:url("../imgs/hamburger_background");
+  background-size:cover;
+  width:100%
+}
 menu {
-  width: 200px;
+  width: 800px;
+  padding: 1em;
+  border:0.4em solid #77DD77;
+  background-color: #1D1C1A;
+  border-radius:1em;
+  display:table;
+  margin:auto;
+  margin-top:15%;  
 }
  
 menu h2 {
   font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  color: #FFF
+}
+menu h1{
+  color: #77DD77;
 }
  
 menu ul {
@@ -33,7 +48,7 @@ menu ul li:last-child {
  
 menu ul li a {
   text-decoration: none;
-  color: #000;
+  color: #FFF;
   display: block;
   width: 200px;
  

@@ -49,6 +49,24 @@
         return $stmt;
     }
 
+
+
+    function addLike($db,$dishId,$userId){
+        $stmt = $db->prepare('INSERT INTO DishLikes values(:dishId,:userId)');
+        $stmt->bindParam(':dishId',$dishId);
+        $stmt->bindParam(':userId',$userId);
+        $stmt->execute();
+    }
+
+
+    function removeLike($db,$dishId,$userId){
+        $stmt = $db->prepare('DELETE FROM DishLikes
+                            WHERE idDish=:dishId AND idUser=:userId');
+        $stmt->bindParam(':dishId',$dishId);
+        $stmt->bindParam(':userId',$userId);
+        $stmt->execute();
+    }
+
     function getRestaurantCategoryId($db,$name){
         $stmt = $db->prepare('SELECT idRestaurantCategory
         FROM RestaurantCategory
@@ -81,10 +99,18 @@
     }
 
     function getRestaurantMenu($db,$restaurant_id){
-        $stmt = $db->prepare('SELECT Dish.name, Dish.price, Dish.idDish,DishCategory.name as category
-        FROM (Dish JOIN Restaurant using(idRestaurant))JOIN DishCategory using(idDishCategory)
-        WHERE Restaurant.idRestaurant=:restaurant_id
-        ORDER BY category' );
+        $stmt = $db->prepare('SELECT name,price,idDish,category,IFNULL(nrLikes, 0) nrLikes
+                            FROM 
+                                (SELECT Dish.name, Dish.price, Dish.idDish,DishCategory.name as category
+                                FROM (Dish JOIN Restaurant using(idRestaurant))JOIN DishCategory using(idDishCategory)
+                                WHERE Restaurant.idRestaurant=:restaurant_id
+                                ORDER BY category)
+                                LEFT JOIN
+                                (SELECT idDish,count(*) as nrLikes
+                                FROM DishLikes
+                                GROUP BY idDish)
+                                USING (idDish)
+                                ');
         $stmt->bindParam(':restaurant_id',$restaurant_id);
         $stmt->execute();
         $current_category="";
@@ -104,10 +130,12 @@
             $dish["name"]=$row["name"];
             $dish["price"]=$row["price"];
             $dish["idDish"]=$row["idDish"];
+            $dish["nrLikes"]=$row["nrLikes"];
             $dishes_in_category[$i]=$dish;
             $i++;
         }
         $category_dishes[$current_category]=$dishes_in_category;
+
         return $category_dishes;
     }
 
@@ -127,6 +155,17 @@
         }
     }
 
+    function userLikedDish($db,$idDish,$idUser){
+        $stmt = $db->prepare('SELECT count(*) as nrLikes
+                            FROM DishLikes
+                            WHERE idDish=:idDish AND idUser=:idUser');
+        $stmt->bindParam(':idDish',$idDish);
+        $stmt->bindParam(':idUser',$idUser);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        $count = $stmt['nrLikes'];
+        return $count==1;
+    }
 
     function getDishCategoryId($db,$category,$restaurant_id){
         $stmt = $db->prepare('SELECT idDishCategory

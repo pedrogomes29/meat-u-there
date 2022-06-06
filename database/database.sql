@@ -45,8 +45,14 @@ CREATE TABLE Dish(
     name VARCHAR,
     price INTEGER,
     idDishCategory INTEGER REFERENCES DishCategory,
-    idRestaurant INTEGER REFERENCES Restaurant,
-    nrLikes INTEGER DEFAULT 0
+    idRestaurant INTEGER REFERENCES Restaurant
+);
+
+DROP TABLE IF EXISTS DishLikes;
+CREATE TABLE DishLikes(
+    idDish INTEGER REFERENCES Dish ON DELETE CASCADE,
+    idUser INTEGER REFERENCES User ON DELETE CASCADE,
+    PRIMARY KEY(idUser,idDish)
 );
 
 

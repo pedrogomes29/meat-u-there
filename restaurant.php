@@ -39,7 +39,15 @@
                             <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
                     <?php } ?>  
                     </a>
+                    <?php if(isset($_SESSION["username"])){
+                            if(userLikedDish($db,$dish['idDish'],getUserInfo($db)['idUser'])){ ?>
+                    <div class="<?=$dish['idDish']?> like like-yes"></div>
+                    <?php   } 
+                            else{?>
                     <div class="<?=$dish['idDish']?> like like-no"></div>
+                    <?php   }
+                          } ?>
+                    <div class="nrLikes">Likes: <?=$dish['nrLikes']?></div>
                     <p><?=$dish['name']."--".$dish['price']."€"?></p>
                     <form action="action_add_to_cart.php" method="post">
                         <input type="hidden" value=<?=$dish['idDish']?> name="dish_id">
@@ -62,6 +70,24 @@
         Add dish category <br> to your restaurant.</a>
     <?php } ?>
 </menu>
+<?php  if(isset($_SESSION['username'])){
+                $user_id = getUserInfo($db)["idUser"];
+                if(userHasMadeOrders($db,$_GET['id'],$user_id)){
+                ?>
+                    <form id="write_review" action="action_make_review.php" method="post">
+                        <h2>Write a review</h2>
+                        <input type="hidden" value=<?=$user_id?> name="user_id">
+                        <input type="hidden" value=<?=$_GET['id']?> name="restaurant_id">
+                        <label>Score 
+                            <input type="number" name="score">
+                        </label>
+                        <label>Description
+                            <textarea name="description"></textarea>            
+                        </label>
+                        <button name="button" type="submit">Write a review</button>
+                    </form>
+                <?php } 
+            } ?>
         <section id="reviews">
             <?php if(sizeof($reviews)==1){ ?>
                 <h1><?=sizeof($reviews)?> Review</h1>
@@ -99,35 +125,17 @@
                                         <input type="hidden" value=<?=$restaurant_info['owner']?> name="owner_id">
                                         <input type="hidden" value=<?=$review['idReview']?> name="idReview">
                                         <input type="hidden" value=<?=$_GET['id']?> name="restaurant_id">
-                                        <label>Text
-                                            <textarea name="replyText"></textarea>            
+                                        <label>
+                                            <textarea name="replyText"></textarea>           
                                         </label>
-                                        <button name="replyButton" type="submit">Reply</button>
-                                </form>
+                                        <button id="reply_button" name="replyButton" type="submit">Reply</button> 
+                           </form>
                         <?php }
                         ?>
                     </article>
                     <br>
+                    <?php } ?>
                     </section>
-            <?php }
-            if(isset($_SESSION['username'])){
-                $user_id = getUserInfo($db)["idUser"];
-                if(userHasMadeOrders($db,$_GET['id'],$user_id)){
-                ?>
-                    <form id="write_review" action="action_make_review.php" method="post">
-                        <h2>Write a review</h2>
-                        <input type="hidden" value=<?=$user_id?> name="user_id">
-                        <input type="hidden" value=<?=$_GET['id']?> name="restaurant_id">
-                        <label>Score 
-                            <input type="number" name="score">
-                        </label>
-                        <label>Description
-                            <textarea name="description"></textarea>            
-                        </label>
-                        <button name="button" type="submit">Write a review</button>
-                    </form>
-                <?php } 
-            } ?>
              
 
 
