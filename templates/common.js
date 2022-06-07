@@ -28,6 +28,25 @@ window.onclick = function(event){
     }
 }
 
+
+window.onscroll = function(event){
+    let dropdowns = document.getElementsByClassName("dropdown_content");
+    let search_bar_dropdowns = document.getElementsByClassName("search_bar_content");
+    let i;
+    for (i = 0; i < dropdowns.length; i++){
+        let openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')){
+            openDropdown.classList.remove('show');
+        }
+    }
+    for (i = 0; i < search_bar_dropdowns.length; i++){
+        let openDropdown = search_bar_dropdowns[i];
+        if (openDropdown.classList.contains('show')){
+            openDropdown.classList.remove('show');
+        }
+    }
+}
+
 function unDropDownSearch(){
     if (searchBar.classList.contains('show'))
         searchBar.classList.remove('show')
@@ -56,5 +75,3 @@ searchInput.addEventListener("input", e => {
         }
     })
 })
-
-

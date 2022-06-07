@@ -4,12 +4,24 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant",array("like_button","add_to_cart"));
+    output_header("restaurant",array("like_button","add_to_cart","sticky_categories"));
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
     $reviews = getReviews($db,$_GET['id']);
     date_default_timezone_set('Europe/Lisbon');
+    function showLikeCount($count, $precision = 1) {
+        if($count<1000)
+            return $count;
+        if ($count < 1000000) {
+            $n_format = number_format($count / 1000,$precision) . ' K';
+        } else if ($count < 1000000000) {
+            $n_format = number_format($count / 1000000, $precision) . ' M';
+        } else {
+            $n_format = number_format($count / 1000000000, $precision) . ' B';
+        }
+        return $n_format;
+    }
 ?>
 <div id="restaurant_header">
     <a href="edit_restaurant.php?restaurant_id=<?=$_GET['id']?>">
@@ -21,16 +33,23 @@
                 <img id="header_image" src="imgs/default_header.jpg" alt="header">
         <?php } ?>
     </a>
-    <h1 class="restaurant_name"><?=$restaurant_info["name"]?></h1>
-    <p>📍Location: <?=$restaurant_info["address"]?></p> 
+    <h1 id="restaurant_name"><?=$restaurant_info["name"]?></h1>
+    <h3>📍 Location: <?=$restaurant_info["address"]?></h3> 
 </div>
 <menu>
-<h2>Menu</h2>
-    <ul>
+    <ul id="categories">
+        <?php foreach(array_keys($dish_categories) as $dish_category){ ?>
+            <h3>
+                <a href="restaurant.php?id=<?=$_GET['id']?>#<?=$dish_category?>"><?=$dish_category?></a>
+            </h3>
+        <?php }?>
+    </ul>
+    <ul id="dishes">
     <?php foreach(array_keys($dish_categories) as $dish_category){ ?>
-            <ul id="Category"><h1><?=$dish_category?></h1>
+            <h1 id="<?=$dish_category?>"><?=$dish_category?></h1>
+            <ul class="category">
                 <?php foreach($dish_categories[$dish_category] as $dish){?>
-                <li>
+                <li class="dish">
                     <a href="edit_dish.php?dish_id=<?=$dish['idDish']?>&restaurant_id=<?=$_GET['id']?>">
                     <?php $imageId = getImageId($db,$dish['idDish']);
                         if(file_exists("imgs/restaurants/".$_GET['id']."/".$imageId.".jpg")){?>
@@ -39,34 +58,37 @@
                             <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
                     <?php } ?>  
                     </a>
+                    <p><?=$dish['name']." - ".$dish['price']."€"?></p>
+                    <div class="likeDiv">
                     <?php if(isset($_SESSION["username"])){
                             if(userLikedDish($db,$dish['idDish'],getUserInfo($db)['idUser'])){ ?>
-                    <div class="<?=$dish['idDish']?> like like-yes"></div>
-                    <?php   } 
-                            else{?>
-                    <div class="<?=$dish['idDish']?> like like-no"></div>
-                    <?php   }
-                          } ?>
-                    <div class="nrLikes">Likes: <?=$dish['nrLikes']?></div>
-                    <p><?=$dish['name']."--".$dish['price']."€"?></p>
-
+                            <div class="<?=$dish['idDish']?> like like-yes"></div>
+                            <?php   } 
+                                    else{?>
+                            <div class="<?=$dish['idDish']?> like like-no"></div>
+                            <?php   }
+                                } ?>
+                            <div class="nrLikes"><?=showLikeCount(101120)?></div>
+                    </div>
                     <button  class="<?=$dish['idDish']?> add_cart"> 
                             <img  src="imgs/add_to_cart.png" alt="plus sign">
                     </button>
                 </li>
                 <?php } ?>
-            <ul>
+            </ul>
         <?php } ?>
     </ul>
-    <?php if ((getUserInfo($db)['idUser'] == $restaurant_info['owner'])&&isset($_SESSION['username'])){?>
+</menu>
+<?php if ((getUserInfo($db)['idUser'] == $restaurant_info['owner'])&&isset($_SESSION['username'])){?>
+    <nav id="edit_restaurant">
         <a class="add_dish" href="add_dish.php?restaurant_id=<?=$_GET['id']?>">
         Add dish to <br> your restaurant.</a>
         <a class="edit_order" href="edit_orders_state.php?restaurant_id=<?=$_GET['id']?>">
         Edit orders <br> of your restaurant.</a>
         <a class="add_dish_category" href="add_dish_category.php?restaurant_id=<?=$_GET['id']?>">
         Add dish category <br> to your restaurant.</a>
+    </nav>
     <?php } ?>
-</menu>
 <?php  if(isset($_SESSION['username'])){
                 $user_id = getUserInfo($db)["idUser"];
                 if(userHasMadeOrders($db,$_GET['id'],$user_id)){

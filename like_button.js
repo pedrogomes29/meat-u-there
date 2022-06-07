@@ -42,8 +42,8 @@ async function addListeners(){
       const dishId = event.target.classList[0]
       const nrLikes = likeButton.nextElementSibling
 
-      let previousLikes = parseInt(nrLikes.innerHTML.split(" ")[1],10)
     
+      let previousLikes = parseInt(nrLikes.innerHTML.split(" ")[1],10)
 
 
       if (event.target.classList.contains("like-yes")) {

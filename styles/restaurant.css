@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
-
-
-
+html {
+    scroll-behavior: smooth;
+}
 
 
 section h1{
     padding:0.5em;
 }
+
 textarea{
     resize: none;
 }
@@ -62,6 +63,7 @@ textarea{
 }
 
 #write_review{
+    margin-top:3em;
     width: 250px;
     padding: 1em;
     border:0.4em solid #77DD77;
@@ -138,17 +140,25 @@ textarea{
     height:45%;
 }
 
-menu ul li a img{
-    display: inline-block;
-    height: 150px;
-    width: 150px;   
+.dish:hover{
+    box-shadow: 0 0 2em #1D1C1A;
+    cursor:pointer;
+}
+.category{
+    margin-top:-2em;
+}
+.dish{
+    transition:0.5s ease-in-out;
+    border-radius:1em;
+    overflow:hidden;
+    margin-top:2em;
 }
 
-menu{
-    align-items: center;
-    display: flex;
-    width:100%;
-    flex-direction:column;
+menu .category li a img{
+    display: inline-block;
+    height: 232px;
+    width: 100%; 
+    background-color: white;
 }
 
 menu ul{
@@ -156,25 +166,65 @@ menu ul{
     width:100%
 }
 
-
-menu ul{
+menu{
+    display:grid;
+    grid-template-columns: 1fr 4fr;
+}
+menu ul .category{
     padding-bottom:3em;
     display:flex;
     flex-direction: row;
     flex-wrap:wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 
-menu ul li p{
+menu .category li p{
     display:block;
 }
 
-menu ul li{
-    vertical-align:top;
-    display:inline-block;
-    text-align:center;
+menu #dishes{
+    grid-column-start: 2;
 }
 
+menu #dishes h1{
+    margin-bottom:1em;
+    margin-top:1em;
+}
+
+menu .category li{
+    width:20em;
+    vertical-align:top;
+    position:relative;
+    display:inline-block;
+    text-align:center;
+    margin-right:3em;
+}
+
+#restaurant_name{
+    margin-left:0;
+    margin-top:0.5em;
+}
+
+
+#categories{
+    margin-top:1.5em;
+    margin-left:2em;
+}
+
+#categories h3{
+    margin-top:1em;
+}
+
+#categories a{
+    color:black;
+}
+
+#edit_restaurant{
+    margin-top:3em;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 
 .restaurant_info{
     padding-top: 8em;
@@ -217,8 +267,12 @@ form{
 }
 .add_cart {
     border:none;
+    margin-bottom:1em;
+    margin-top:1em;
 }
-
+.nrLikes{
+    text-align:center;
+}
 .add_cart:hover{
     cursor: pointer;
 }
@@ -227,8 +281,19 @@ form{
     width: 25px;
 }
 
+.sticky{
+    position: fixed;
+    top: 0;
+}
+
 .hiden {
     display: none;
+}
+
+.likeDiv{
+    position: absolute;
+    top: 0; 
+    right: 0;
 }
 
 .like{
@@ -254,9 +319,9 @@ form{
 }
 
 .success{
-    background-color:#4BB543;;
+    background-color:#4BB543;
 }
 
 .error{
-    background-color:#AF0606;;
+    background-color:#AF0606;
 }

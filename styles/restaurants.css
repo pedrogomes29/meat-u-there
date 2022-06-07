@@ -5,18 +5,10 @@ menu ul li a p{
     width:max-content;
 }
 
-body{ 
-  background-image:url("../imgs/background.jpg");
-  background-size:cover;
-  width:100%
-}
+
 menu {
-  width: 800px;
   padding: 1em;
-  border:0.4em solid #77DD77;
-  background-color: #1D1C1A;
   border-radius:1em;
-  display:table;
   margin:auto;
   margin-top:5%;  
 }
@@ -25,7 +17,7 @@ menu h2 {
   font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  color: #FFF
+  color: #000
 }
 menu h1{
   color: #77DD77;
@@ -39,7 +31,8 @@ menu ul {
  
 menu ul li {
   font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #000;
+  transition: 0.5s ease-in-out;
 }
  
 menu ul li:last-child {
@@ -48,7 +41,7 @@ menu ul li:last-child {
  
 menu ul li a {
   text-decoration: none;
-  color: #FFF;
+  color: #000;
   display: block;
   width: 200px;
  
@@ -59,8 +52,8 @@ menu ul li a {
   transition: font-size 0.3s ease, background-color 0.3s ease;
 }
  
-menu ul li a:hover {
-  font-size: 30px;
+menu ul li:hover {
+  box-shadow: 0 0 2em #1D1C1A;
 }
 menu ul li img{
   border-radius: 4px;

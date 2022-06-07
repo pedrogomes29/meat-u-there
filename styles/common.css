@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Merienda&family=Raleway:wght@300&display=swap');
 
 *{
     padding: 0;
     margin: 0;
+    font-family: 'Raleway', sans-serif;
 }
 .logo{
     height:140px;
@@ -29,7 +30,6 @@ header {
 
 a{
     text-decoration: none;
-    
 }
 
 
@@ -39,23 +39,29 @@ body header nav ul li button#cart{
 }
 
 .dropdown_button{
-    width: 5em;
+    width: 6em;
     color:#77DD77;
     background-color: #1D1C1A;
     border: 0.2em solid #77DD77;
     border-radius: 1em;
     font-weight: bold;
     font-size: 1em;
-    padding: 0.2em;
+    padding: 0.4em;
     margin-left: 1em;
     margin-top: 0.5em;
 }
 .dropdown_content{
+    margin-left: 1em;
+    font-weight: bold;
     display: none;
     background-color: #1D1C1A;
+    justify-content: center;
 }
 
 .dropdown_content a{
+    font-weight: bold;
+    font-size: 1em;
+    margin-left: 1em;
     text-decoration: none;
     display: block;
     color:#77DD77;
@@ -86,7 +92,7 @@ body header nav ul :nth-child(2){
 }
 
 body header nav ul :nth-child(3){
-    margin-top: 0.3em;
+    margin-top: 0.6em;
     margin-bottom: 0.5em;
     margin-right: 5em;
 }
@@ -157,8 +163,8 @@ header h1 a{
     color:#77DD77;
 }
 .show{
-    position:relative;
-    display: inline;
+    position:fixed;
+    display: block;
 }
 
 .search_bar_content ul{
@@ -171,7 +177,7 @@ header h1 a{
 }
 
 #hidden_searchbar{
-    margin-top: 0.01em;
+    margin-top: 0.03em;
     margin-bottom: 0em;
 }
 #cart img{
