@@ -68,7 +68,7 @@
                             <div class="<?=$dish['idDish']?> like like-no"></div>
                             <?php   }
                                 } ?>
-                            <div class="nrLikes"><?=showLikeCount(101120)?></div>
+                            <div class="nrLikes"><?=$dish['nrLikes']?></div>
                     </div>
                     <button  class="<?=$dish['idDish']?> add_cart"> 
                             <img  src="imgs/add_to_cart.png" alt="plus sign">
