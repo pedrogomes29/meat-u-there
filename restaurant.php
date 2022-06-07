@@ -4,7 +4,7 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant","like_button");
+    output_header("restaurant",array("like_button","add_to_cart"));
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
@@ -49,19 +49,16 @@
                           } ?>
                     <div class="nrLikes">Likes: <?=$dish['nrLikes']?></div>
                     <p><?=$dish['name']."--".$dish['price']."€"?></p>
-                    <form action="action_add_to_cart.php" method="post">
-                        <input type="hidden" value=<?=$dish['idDish']?> name="dish_id">
-                        <input type="hidden" value=<?=$restaurant_info['idRestaurant']?> name="restaurant_id">
-                        <button  id="add_cart" type="submit"> 
+
+                    <button  class="<?=$dish['idDish']?> add_cart"> 
                             <img  src="imgs/add_to_cart.png" alt="plus sign">
-                        </button>
-                    </form>
+                    </button>
                 </li>
                 <?php } ?>
             <ul>
         <?php } ?>
     </ul>
-    <?php if (getUserInfo($db)['idUser'] == $restaurant_info['owner']){?>
+    <?php if ((getUserInfo($db)['idUser'] == $restaurant_info['owner'])&&isset($_SESSION['username'])){?>
         <a class="add_dish" href="add_dish.php?restaurant_id=<?=$_GET['id']?>">
         Add dish to <br> your restaurant.</a>
         <a class="edit_order" href="edit_orders_state.php?restaurant_id=<?=$_GET['id']?>">
@@ -119,7 +116,7 @@
                                     <p><?=$reply['replyText']?></p>
                                 </article>
                         <?php }
-                            if(getUserInfo($db)['idUser'] == $restaurant_info['owner']){ ?>
+                            if ((getUserInfo($db)['idUser'] == $restaurant_info['owner'])&&isset($_SESSION['username'])) {?>
                                 <form action="action_reply.php" method="post">
                                     <h2>Reply</h2>
                                         <input type="hidden" value=<?=$restaurant_info['owner']?> name="owner_id">

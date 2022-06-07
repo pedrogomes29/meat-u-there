@@ -456,6 +456,18 @@
         return $count==1;
 
     }
+
+    function getRestaurantDishes($db, $idRestaurant){
+        $stmt = $db->prepare('SELECT Dish.idDish, Dish.name
+                            FROM Dish 
+                            WHERE Dish.idRestaurant = :idRestaurant'
+                            );
+        $stmt->bindParam(':idRestaurant', $idRestaurant);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
     function getDishCategories($db,$idRestaurant){
         $stmt = $db->prepare('SELECT name,idDishCategory
                               FROM DishCategory

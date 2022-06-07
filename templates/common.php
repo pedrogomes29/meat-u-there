@@ -3,7 +3,7 @@
     require_once("database/connection.php");
     require_once("database/restaurants.php");
 
-    function output_header($style_file,$script_file=""){
+    function output_header($style_file,$script_files=array()){
         $db=getDatabaseConnection();
         $categories_restaurant = getRestaurants($db);
     ?>
@@ -12,7 +12,7 @@
             <link rel="stylesheet" href="styles/common.css">
             <link rel="stylesheet" href="styles/<?=$style_file?>.css">
             <script type="text/javascript" src="templates/common.js" defer></script>
-            <?php if($script_file!=""){?>
+            <?php foreach($script_files as $script_file){?>
                 <script type="text/javascript" src="<?=$script_file?>.js" defer></script>
             <?php } ?>
         </head>
@@ -20,7 +20,7 @@
             <header>
                 <nav>
                     <ul>
-                        <li><h1><a href="restaurants.php">Meat U There</a></h1></li>
+                        <a href="restaurants.php"><img class="logo" src="../imgs/logo.png" ></a>
                         <li id="search_bar">
                             <input  onclick="dropDownSearch()" id="searchbar" name="searchbar" type="search" placeholder="Search for Restaurants" data-search>
                                 <div id="hidden_searchbar" class="search_bar_content">

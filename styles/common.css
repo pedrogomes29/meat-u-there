@@ -5,7 +5,11 @@
     padding: 0;
     margin: 0;
 }
-
+.logo{
+    height:140px;
+    width: 140px;
+    margin-left:1em;
+}
 body{
     font-family: "IBM Plex Mono", 'Courier New', monospace;
     background-color: white;
@@ -32,8 +36,6 @@ a{
 body header nav ul li button#cart{
     width:5em;
     background-repeat: no-repeat;
-    margin-top: 8;
-    margin-bottom: 8;
 }
 
 .dropdown_button{
@@ -45,6 +47,8 @@ body header nav ul li button#cart{
     font-weight: bold;
     font-size: 1em;
     padding: 0.2em;
+    margin-left: 1em;
+    margin-top: 0.5em;
 }
 .dropdown_content{
     display: none;
@@ -68,6 +72,13 @@ body header nav ul li button#cart{
     font-size: 1em;
     padding: 0.2em;
 }
+#button{
+    margin-top: 2.4em;
+    margin-left: 1em;
+}
+.login_register:hover{
+    cursor: pointer;
+}
 
 body header nav ul :nth-child(2){
     margin-top: 0.3em;
@@ -83,6 +94,7 @@ body header nav ul :nth-child(3){
 #cart{
     background-color:#1D1C1A;
     border: none;
+    margin-top: 3em;
 }
 
 #cart:hover{
@@ -100,6 +112,7 @@ body nav ul{
     display:flex;
     justify-content:space-between;
     flex-direction: row; 
+    overflow-y:hidden;
     padding: 0.4em;
 }
 
@@ -112,6 +125,7 @@ body nav ul li#search_bar{
 }
 
 body nav ul li#search_bar input{
+    margin-top: 3em;
     color: black;
     border-radius: 1em;
     padding:0.3em;
@@ -143,8 +157,8 @@ header h1 a{
     color:#77DD77;
 }
 .show{
-    display: block;
-    position: fixed;
+    position:relative;
+    display: inline;
 }
 
 .search_bar_content ul{
@@ -159,4 +173,8 @@ header h1 a{
 #hidden_searchbar{
     margin-top: 0.01em;
     margin-bottom: 0em;
+}
+#cart img{
+    height: 30px;
+    width: 30px;
 }

@@ -35,15 +35,14 @@ CREATE TABLE User(
     username VARCHAR,
     password VARCHAR,
     address VARCHAR,
-    phoneNumber NUMBER,
-    isOwner NUMBER(1) DEFAULT 0
+    phoneNumber NUMBER
 );
 
 DROP TABLE IF EXISTS Dish;
 CREATE TABLE Dish(
     idDish INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR,
-    price INTEGER,
+    price REAL,
     idDishCategory INTEGER REFERENCES DishCategory,
     idRestaurant INTEGER REFERENCES Restaurant
 );
@@ -97,7 +96,9 @@ CREATE TABLE RequestDishes(
     PRIMARY KEY(idRequestDish)
 );
 
-INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321,0);
+INSERT INTO User values(0,'rui-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de Lousada',937721321);
+INSERT INTO User values(1, 'joao-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de SO', 938446710);
+INSERT INTO User values(2, 'pedro-exe','40bd001563085fc35165329ea1ff5c5ecbdbbeef','Rua de SO', 938446710);
 INSERT INTO RestaurantCategory values(0,'fast-food');
 INSERT INTO RestaurantCategory values(1,'italian');
 INSERT INTO RestaurantCategory values(2,'vegan');
@@ -108,5 +109,8 @@ INSERT INTO OrderState values(0, 'received');
 INSERT INTO OrderState values(1, 'preparing');
 INSERT INTO OrderState values(2, 'ready');
 INSERT INTO OrderState values(3, 'delivered');
-INSERT INTO Restaurant values(0,'McDonald','Estadio do Dragao',0,0);
-INSERT INTO Restaurant values(1,'BK','H.S.J',0,0);
+INSERT INTO Restaurant values(0,'McDonald''s','Estadio do Dragao',0,0);
+INSERT INTO Restaurant values(1,'BK','H.S.J',0,2);
+INSERT INTO Restaurant values(2,'KFC','Alameda',0,1);
+INSERT INTO Restaurant values(3,'Pizzaiolo','Alameda',1,0);
+INSERT INTO Restaurant values(4,'Capa Negra II','Alameda',5,0);
