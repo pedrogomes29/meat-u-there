@@ -53,7 +53,7 @@ async function addListeners(){
           .then(response => response.json())
           .catch(() => console.error('Error parsing JSON'))
           .then(json => console.log(json))
-          nrLikes.innerHTML=nrLikes.innerHTML.split(" ")[0]+" "+(previousLikes + 1)
+          nrLikes.innerHTML=nrLikes.innerHTML + 1
       } else {
           console.log("❌ Removing Favorite...")
           removeLike(dishId,userId)
@@ -61,7 +61,7 @@ async function addListeners(){
           .then(response => response.json())
           .catch(() => console.error('Error parsing JSON'))
           .then(json => console.log(json))
-          nrLikes.innerHTML=nrLikes.innerHTML +1
+          nrLikes.innerHTML= parseint(nrLikes.innerHTML)+1
       }
     })
   }
