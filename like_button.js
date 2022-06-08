@@ -61,7 +61,7 @@ async function addListeners(){
           .then(response => response.json())
           .catch(() => console.error('Error parsing JSON'))
           .then(json => console.log(json))
-          nrLikes.innerHTML= parseint(nrLikes.innerHTML)+1
+          nrLikes.innerHTML= parseint(nrLikes.innerHTML,10)+1
       }
     })
   }
