@@ -4,7 +4,6 @@ html {
     scroll-behavior: smooth;
 }
 
-
 section h1{
     padding:0.5em;
 }
@@ -209,6 +208,9 @@ menu .category li{
 #categories{
     margin-top:1em;
     margin-left:2em;
+    height: fit-content;
+    position: sticky;
+    top: 0;
 }
 
 #categories h3{
@@ -281,19 +283,14 @@ form{
     width: 25px;
 }
 
-.sticky{
-    position: fixed;
-    top: 0;
-}
-
 .hiden {
     display: none;
 }
 
 .likeDiv{
     position: absolute;
-    top: 0; 
-    right: 0;
+    top: 1%; 
+    right: 1%;
 }
 
 .like{

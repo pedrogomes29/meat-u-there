@@ -42,9 +42,7 @@ async function addListeners(){
       const dishId = event.target.classList[0]
       const nrLikes = likeButton.nextElementSibling
 
-    
-      let previousLikes = parseInt(nrLikes.innerHTML.split(" ")[1],10)
-
+      const previousLikes = parseInt(nrLikes.innerHTML)
 
       if (event.target.classList.contains("like-yes")) {
           console.log("✅💾 Saving Favorite...")
@@ -53,7 +51,7 @@ async function addListeners(){
           .then(response => response.json())
           .catch(() => console.error('Error parsing JSON'))
           .then(json => console.log(json))
-          nrLikes.innerHTML=nrLikes.innerHTML.split(" ")[0]+" "+(previousLikes + 1)
+          nrLikes.innerHTML=(previousLikes+1)
       } else {
           console.log("❌ Removing Favorite...")
           removeLike(dishId,userId)
@@ -61,7 +59,7 @@ async function addListeners(){
           .then(response => response.json())
           .catch(() => console.error('Error parsing JSON'))
           .then(json => console.log(json))
-          nrLikes.innerHTML=nrLikes.innerHTML.split(" ")[0]+ " " +(previousLikes-1)
+          nrLikes.innerHTML=(previousLikes-1)
       }
     })
   }

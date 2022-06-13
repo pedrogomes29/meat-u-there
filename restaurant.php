@@ -4,7 +4,7 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant",array("like_button","add_to_cart","sticky_categories"));
+    output_header("restaurant",array("like_button","add_to_cart"));
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
@@ -14,11 +14,11 @@
         if($count<1000)
             return $count;
         if ($count < 1000000) {
-            $n_format = number_format($count / 1000,$precision) . ' K';
+            $n_format = number_format($count / 1000,$precision) . 'K';
         } else if ($count < 1000000000) {
-            $n_format = number_format($count / 1000000, $precision) . ' M';
+            $n_format = number_format($count / 1000000, $precision) . 'M';
         } else {
-            $n_format = number_format($count / 1000000000, $precision) . ' B';
+            $n_format = number_format($count / 1000000000, $precision) . 'B';
         }
         return $n_format;
     }
@@ -66,9 +66,12 @@
                             <?php   } 
                                     else{?>
                             <div class="<?=$dish['idDish']?> like like-no"></div>
-                            <?php   }
-                                } ?>
-                            <div class="nrLikes"><?=$dish['nrLikes']?></div>
+                            <?php   } ?>
+                            <div class="nrLikes"><?=showLikeCount($dish['nrLikes'])?></div>
+                            <?php }
+                            else {?>
+                                <div class="nrLikes">Likes: <?=showLikeCount(734222)?></div>
+                            <?php }?>
                     </div>
                     <button  class="<?=$dish['idDish']?> add_cart"> 
                             <img  src="imgs/add_to_cart.png" alt="plus sign">
