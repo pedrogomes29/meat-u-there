@@ -16,6 +16,10 @@
     $dish_info = getDishInfo($db,$_GET['dish_id']);  
     ?>     
     <form id="main" action="action_edit_dish.php" method="post" enctype=multipart/form-data>
+        <?php if($_GET["invalid_name"]=="true") { ?>
+            <h3 id="warning">Dish name already in use!</h3>
+            <br>
+        <?php }?>
         <label> Dish name:
             <input type="text" name="name" value="<?=$dish_info["name"]?>">
         </label>

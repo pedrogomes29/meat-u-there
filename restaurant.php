@@ -4,7 +4,7 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant",array("like_button","add_to_cart"));
+    output_header("restaurant",array("like_button","add_to_cart","sticky_categories"));
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
@@ -40,45 +40,47 @@
     <ul id="categories">
         <?php foreach(array_keys($dish_categories) as $dish_category){ ?>
             <h3>
-                <a href="restaurant.php?id=<?=$_GET['id']?>#<?=$dish_category?>"><?=$dish_category?></a>
+                <a class="<?=$dish_category?> teste" href="restaurant.php?id=<?=$_GET['id']?>#<?=$dish_category?>"><?=$dish_category?></a>
             </h3>
         <?php }?>
     </ul>
     <ul id="dishes">
     <?php foreach(array_keys($dish_categories) as $dish_category){ ?>
+            <div class="category <?=$dish_category?>">
             <h1 id="<?=$dish_category?>"><?=$dish_category?></h1>
-            <ul class="category">
-                <?php foreach($dish_categories[$dish_category] as $dish){?>
-                <li class="dish">
-                    <a href="edit_dish.php?dish_id=<?=$dish['idDish']?>&restaurant_id=<?=$_GET['id']?>">
-                    <?php $imageId = getImageId($db,$dish['idDish']);
-                        if(file_exists("imgs/restaurants/".$_GET['id']."/".$imageId.".jpg")){?>
-                            <img src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$dish['name']?>">
-                    <?php } else{?>
-                            <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
-                    <?php } ?>  
-                    </a>
-                    <p><?=$dish['name']." - ".$dish['price']."€"?></p>
-                    <div class="likeDiv">
-                    <?php if(isset($_SESSION["username"])){
-                            if(userLikedDish($db,$dish['idDish'],getUserInfo($db)['idUser'])){ ?>
-                            <div class="<?=$dish['idDish']?> like like-yes"></div>
-                            <?php   } 
-                                    else{?>
-                            <div class="<?=$dish['idDish']?> like like-no"></div>
-                            <?php   } ?>
-                            <div class="nrLikes"><?=showLikeCount($dish['nrLikes'])?></div>
-                            <?php }
-                            else {?>
-                                <div class="nrLikes">Likes: <?=showLikeCount(734222)?></div>
-                            <?php }?>
-                    </div>
-                    <button  class="<?=$dish['idDish']?> add_cart"> 
-                            <img  src="imgs/add_to_cart.png" alt="plus sign">
-                    </button>
-                </li>
-                <?php } ?>
-            </ul>
+                <ul>
+                    <?php foreach($dish_categories[$dish_category] as $dish){?>
+                    <li class="dish">
+                        <a href="edit_dish.php?dish_id=<?=$dish['idDish']?>&restaurant_id=<?=$_GET['id']?>">
+                        <?php $imageId = getImageId($db,$dish['idDish']);
+                            if(file_exists("imgs/restaurants/".$_GET['id']."/".$imageId.".jpg")){?>
+                                <img src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$dish['name']?>">
+                        <?php } else{?>
+                                <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
+                        <?php } ?>  
+                        </a>
+                        <p><?=$dish['name']." - ".$dish['price']."€"?></p>
+                        <div class="likeDiv">
+                        <?php if(isset($_SESSION["username"])){
+                                if(userLikedDish($db,$dish['idDish'],getUserInfo($db)['idUser'])){ ?>
+                                <div class="<?=$dish['idDish']?> like like-yes"></div>
+                                <?php   } 
+                                        else{?>
+                                <div class="<?=$dish['idDish']?> like like-no"></div>
+                                <?php   } ?>
+                                <div class="nrLikes"><?=showLikeCount($dish['nrLikes'])?></div>
+                                <?php }
+                                else {?>
+                                    <div class="nrLikes">Likes: <?=showLikeCount($dish['nrLikes'])?></div>
+                                <?php }?>
+                        </div>
+                        <button  class="<?=$dish['idDish']?> add_cart"> 
+                                <img  src="imgs/add_to_cart.png" alt="plus sign">
+                        </button>
+                    </li>
+                    <?php } ?>
+                </ul>
+            </div>
         <?php } ?>
     </ul>
 </menu>
@@ -98,14 +100,19 @@
                 ?>
                     <form id="write_review" action="action_make_review.php" method="post">
                         <h2>Write a review</h2>
+                        <?php if($_GET["invalid_score"]=="true"){ ?>
+                            <h3 id="warning"> Review score must be between 0 and a 100! </h3>
+                        <?php } ?>
                         <input type="hidden" value=<?=$user_id?> name="user_id">
                         <input type="hidden" value=<?=$_GET['id']?> name="restaurant_id">
+                        <div id="mydiv">
                         <label>Score 
                             <input type="number" name="score">
                         </label>
                         <label>Description
                             <textarea name="description"></textarea>            
                         </label>
+                        </div>
                         <button name="button" type="submit">Write a review</button>
                     </form>
                 <?php } 
@@ -138,7 +145,7 @@
                                 <article class="reviewReply">
                                     <span class="replyUser"><?="Written by Owner: ".getUsername($db,$reply['owner_id'])?></span>
                                     <span class="date"><?=$date?></span>
-                                    <p><?=$reply['replyText']?></p>
+                                    <p id="replyText">  <?=$reply['replyText']?></p>
                                 </article>
                         <?php }
                             if ((getUserInfo($db)['idUser'] == $restaurant_info['owner'])&&isset($_SESSION['username'])) {?>

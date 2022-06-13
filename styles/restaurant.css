@@ -8,13 +8,23 @@ section h1{
     padding:0.5em;
 }
 
-textarea{
+input textarea{
     resize: none;
 }
+
+#replyText{
+    margin-left: 1em;
+}
+.replyUser{
+margin-left: 1em;
+}
+
 .review{
+    margin-right:1em;
+    margin-left: 1em;
     padding: 1em;
-    border:0.4em solid #77DD77;
-    background-color: #1D1C1A;
+    border:0.2em solid #1d1c1a;
+    background-color: white;
     border-radius:1em;
 }
 .review form h2{
@@ -39,6 +49,8 @@ textarea{
     border-radius:1em;
     margin-left:0.5em;
     margin-top: 1.2em;
+    border-radius: 1em;
+    border:solid 1px black;
 }
 
 #reply_button{
@@ -48,7 +60,7 @@ textarea{
     margin:auto;
     height: 2em;
     width: 6em;
-    background-color: white;
+    background-color: #1d1c1a;
     font-weight: bold;
     color: #77DD77;
     border: 0;
@@ -57,40 +69,66 @@ textarea{
     margin-top:1em;
 }
 #reply_button:hover{
-    background-color:#DCDCDC;
+    background-color:#dcdcdc;
     cursor:pointer;
 }
 
 #write_review{
     margin-top:3em;
-    width: 250px;
+    margin-left: 1em;
+    margin-right: 1em;
+    height: 270px;
     padding: 1em;
-    border:0.4em solid #77DD77;
-    background-color: #1D1C1A;
+    border:0.2em solid #1d1c1a;
+    background-color: white;
     border-radius:1em;
-    width: 40em;
-    height: 14em; 
+    flex-direction: column;
+}
+#mydiv{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
 }
 #write_review h2{
-    color: white;
-    padding: 1em;
-    font-weight: bold;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:1em;
+    font-size: 1.5em;
 }
 #write_review label{
-    color:white;
-    display:inline-block;
+    color:black;
     padding-bottom:1.5em;
     padding-top:0em;
     font-weight: bold;
-    width:100%;
+    border-radius: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2em;
 }
 
-#write_review label input , #write_review label textarea{
-    border:0;
-    display:float;
-    float:right;
+#write_review label input{
+    display:flex;
+    justify-content: center;
     margin-left:0.5em;
     margin-top: 0.3em;
+    border-radius: 1em;
+    border:solid 1px black;
+    align-items: center;
+    width:50px;
+}
+#write_review label textarea{
+padding: 0.2em;
+width: 400px;
+height: 60px;
+border:0;
+border-radius:1em;
+margin-left: 1em;
+margin-top: 1.2em;
+border-radius: 1em;
+border:solid 1px black;
 }
 
 #write_review button{
@@ -98,9 +136,9 @@ textarea{
     justify-content: center;
     align-items: center;
     margin:auto;
-    height: 2em;
-    width: 6em;
-    background-color: white;
+    height: 3em;
+    width: 7em;
+    background-color: #1D1C1A;
     font-weight: bold;
     color: #77DD77;
     border: 0;
@@ -114,17 +152,19 @@ textarea{
     cursor:pointer;
 }
 .review span{
-    color:  #77dd77;
+    color:  #32cd32;
     font-weight: bold;
 }
 .review{
-    color:  white;
+    color:  black;
+
 }
 .review h1{
     padding:0.3em;
     font-size: 1.2em;
-    color:white;
+    color:black;
 }
+
 #restaurant_header p{
     font-size:small;
     padding-left:1em;
@@ -321,4 +361,13 @@ form{
 
 .error{
     background-color:#AF0606;
+}
+
+.underLineCategory{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.category{
+    margin-top: 1em;
 }

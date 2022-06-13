@@ -60,18 +60,37 @@ for (let i = 0; i < restaurants.length; i++){
     listOfRestaurants.push(restaurants[i].outerText)
 }
 
+if(searchInput){
+    searchInput.addEventListener("input", async function() {
+        const response = await fetch('../api/api_restaurants.php?search=' + this.value)
+        const restaurants = await response.json()
+    
+        const section = document.querySelector('#restaurants')
+        section.innerHTML = ''
+        const listOfCategoryRestaurants = document.createElement('ul')
+        for (const category of restaurants.keys()) {
+            const restaurantCategory = document.createElement('h1')
+            restaurantCategory.innerHTML = "Category: " + category
+            const categoryRestaurants = document.createElement('ul')
+            categoryRestaurants.classList.add("Category")
+            categoryRestaurants.appendChild(restaurantCategory)
+            for(const restaurantInfo of restaurants[category]){
+                const restaurant = document.createElement('li')
+                const nameAndAddress = document.createElement('p')
+                nameAndAddress.innerHTML=restaurantInfo.name+"<br>"+"Address: "+restaurantInfo.address
 
-searchInput.addEventListener("input", e => {
-    const value = e.target.value.toLowerCase()
-    listOfRestaurants.forEach(restaurant => {
-        const isVisible = restaurant.toLowerCase().includes(value)
-        if(!isVisible) {        
-            let restaurantToHide = document.getElementsByClassName(restaurant)
-            if (!restaurantToHide[0].classList.contains("hide")) restaurantToHide[0].classList.toggle("hide")
-        } 
-        if (isVisible){
-            let restaurantToHide = document.getElementsByClassName(restaurant)
-            if (restaurantToHide[0].classList.contains("hide")) restaurantToHide[0].classList.toggle("hide")
+                const img = document.createElement('img')
+                img.src = 'imgs/restaurants/$restaurantInfo.id/header.jpg'
+                img.alt = 'restaurant_image'
+                const link = document.createElement('a')
+                link.href = 'restaurant.php?id=' + restaurant.id
+                link.appendChild(nameAndAddress)
+                link.appendChild(img)
+                
+                restaurant.appendChild(link)
+                categoryRestaurants.appendChild(restaurant)
+            }
+            listOfCategoryRestaurants.appendChild(categoryRestaurants)
         }
     })
-})
+}

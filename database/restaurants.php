@@ -11,9 +11,10 @@
         return $stmt;
     }
 
-    function getRestaurants($db){
+    function getRestaurants($db,$query){
         $stmt = $db->prepare('SELECT Restaurant.name, Restaurant.address, Restaurant.idRestaurant, RestaurantCategory.name as category
-        FROM (Restaurant JOIN RestaurantCategory using (idRestaurantCategory))
+        FROM (Restaurant JOIN RestaurantCategory using (idRestaurantCategory)) JOIN  Dish using(idRestaurant))
+        WHERE Restaurant.name LIKE %:query% OR Dish.name LIKE %:query%
         ORDER BY category');
         $stmt->execute();
         $current_category="";

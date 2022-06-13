@@ -1,14 +1,14 @@
-const categories = document.getElementById("categories");
-const sticky = categories.offsetTop;
 
 
 window.onscroll = function()    {
-                                const dishes = document.getElementById("dishes");
-                                const stopSticky = dishes.offsetTop + dishes.offsetHeight;
-                                if (window.pageYOffset >= sticky && window.pageYOffset < stopSticky) {
-                                    categories.classList.add("sticky")
-                                } else {
-                                    categories.classList.remove("sticky");
-                                }};
-
-
+    let categories = document.getElementsByClassName("category")
+    for (let i = 0; i < categories.length; i++){ 
+        const underLineCategory = categories[i].offsetTop
+        const stopUnderline = categories[i].offsetTop + categories[i].offsetHeight
+        if (window.pageYOffset >= underLineCategory && window.pageYOffset < stopUnderline){
+            document.getElementsByClassName(categories[i].classList[1])[0].classList.add("underLineCategory")
+        } else {
+            document.getElementsByClassName(categories[i].classList[1])[0].classList.remove("underLineCategory")
+        }
+    }
+}

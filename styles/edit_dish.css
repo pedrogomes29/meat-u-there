@@ -28,6 +28,10 @@ ul{
     margin-top:15%; 
 }
 
+#warning{
+    color: #E30B5C;
+}
+
 form h2{
     color: white;
     padding-bottom: 1em;
