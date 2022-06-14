@@ -35,7 +35,7 @@
             </select>
         </label>
         <label> Dish price:
-            <input id="two" type="number" name="price" value=<?=$dish_info["price"]?>>
+            <input id="two" type="number" name="price" value=<?=$dish_info["price"]?> step="0.01">
         </label>
         <input type="hidden" value=<?=$_GET['dish_id']?> name="dish_id">
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">

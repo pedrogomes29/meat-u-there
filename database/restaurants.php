@@ -702,6 +702,15 @@
         return $stmt;
     }
 
+    function getRestaurantsId($db){
+        $stmt = $db->prepare('SELECT idRestaurant
+                                FROM Restaurant'
+                            );
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
     function getDishCategories($db,$idRestaurant){
         $stmt = $db->prepare('SELECT name,idDishCategory
                               FROM DishCategory
@@ -711,6 +720,19 @@
         $stmt = $stmt->fetchAll();
         return $stmt;
     }
+
+    function getDishIds($db,$search){
+        $stmt = $db->prepare('SELECT idDish
+                            FROM Dish
+                            WHERE name LIKE :queryInText');
+        $search = "%$search%";
+        $stmt->bindParam(':queryInText',$search);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
+
     function createRequestDish($db,$idRequest,$idDish){
         $db->beginTransaction();
         $stmt = $db->prepare('INSERT INTO RequestDishes(idRequest, idDish)

@@ -72,7 +72,6 @@ form button{
 }
 
 form button:hover{
-    background-color:#DCDCDC;
     cursor:pointer;
 }
 

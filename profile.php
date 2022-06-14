@@ -16,11 +16,11 @@
         <?php } ?>
         <input type="text" name="userId" hidden value="<?=$user_info["idUser"]?>">
         <label class="field">Username:
-            <input type="text" name="username" value="<?=$user_info["username"]?>">
+            <input type="text" name="username" value="<?=htmlentities($user_info["username"])?>">
         </label>
         <br>
         <label class="field">Address:
-            <input type="text" name="address" value="<?=$user_info["address"]?>">
+            <input type="text" name="address" value="<?=htmlentities($user_info["address"])?>">
         </label>
         <br>
         <label class="field">Phone number:

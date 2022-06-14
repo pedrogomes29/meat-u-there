@@ -100,7 +100,7 @@ body header nav ul :nth-child(3){
 #cart{
     background-color:#1D1C1A;
     border: none;
-    margin-top: 2.5em;
+    margin-top: 2em;
 }
 
 #cart:hover{

@@ -69,7 +69,6 @@ margin-left: 1em;
     margin-top:1em;
 }
 #reply_button:hover{
-    background-color:#dcdcdc;
     cursor:pointer;
 }
 
@@ -77,7 +76,7 @@ margin-left: 1em;
     margin-top:3em;
     margin-left: 1em;
     margin-right: 1em;
-    height: 270px;
+    height: 290px;
     padding: 1em;
     border:0.2em solid #1d1c1a;
     background-color: white;
@@ -148,7 +147,6 @@ border:solid 1px black;
 }
 
 #write_review button:hover{
-    background-color:#DCDCDC;
     cursor:pointer;
 }
 .review span{
@@ -249,6 +247,10 @@ menu .category li{
 #restaurant_name{
     margin-left:0;
     margin-top:0.5em;
+}
+
+#restaurant_location{
+    margin-left:1.7em;
 }
 
 
@@ -401,6 +403,11 @@ form{
     position: flex;
 }
 
-#search_bar {
-    visibility: hidden;
+.dish.hidden{
+    display:none;
+}
+
+#warning{
+    color:red;
+    text-align:center;
 }

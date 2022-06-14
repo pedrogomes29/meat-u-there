@@ -4,7 +4,7 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant",array("like_button","add_to_cart","sticky_categories","restaurant_like_button"));
+    output_header("restaurant",array("like_button","add_to_cart","sticky_categories","restaurant_like_button","restaurant"));
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
@@ -30,7 +30,7 @@
                 <img id="header_image" src="imgs/restaurants/<?=$_GET['id']?>/header.jpg"
                  alt="restaurant_image">
         <?php } else{?>
-                <img id="header_image" src="imgs/default_header.jpg" alt="header">
+                <img id="header_image" src="imgs/restaurants_background.png" alt="header">
         <?php } ?>
     </a>
     <div class="restaurantInfo">
@@ -49,8 +49,8 @@
                 <?php }?>
         </div>
     </div>
-    <h1 id="restaurant_name"><?=$restaurant_info["name"]?></h1>
-    <h3>📍 Location: <?=$restaurant_info["address"]?></h3> 
+    <h1 id="restaurant_name"><?=htmlentities($restaurant_info["name"])?></h1>
+    <h3 id="restaurant_location">📍 Location: <?=htmlentities($restaurant_info["address"])?></h3> 
 </div>
 <menu>
     <ul id="categories">
@@ -62,12 +62,12 @@
     </ul>
     <ul id="dishes">
     <?php foreach(array_keys($dish_categories) as $dish_category){ ?>
-            <div class="category <?=$dish_category?>">
+            <div class="category <?=htmlentities($dish_category)?>">
             <h1 id="<?=$dish_category?>"><?=$dish_category?></h1>
                 <ul>
                     <?php foreach($dish_categories[$dish_category] as $dish){?>
-                    <li class="dish">
-                        <a href="edit_dish.php?dish_id=<?=$dish['idDish']?>&restaurant_id=<?=$_GET['id']?>">
+                    <li class="dish <?=$dish['idDish']?>">
+                        <a href="edit_dish.php?dish_id=<?=htmlentities($dish['idDish'])?>&restaurant_id=<?=$_GET['id']?>">
                         <?php $imageId = getImageId($db,$dish['idDish']);
                             if(file_exists("imgs/restaurants/".$_GET['id']."/".$imageId.".jpg")){?>
                                 <img class="dish_image" src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$dish['name']?>">
@@ -146,10 +146,10 @@
 
             ?>
                     <article class="review">
-                        <span class="user"><?="Written by ".getUsername($db,$review['userId'])?></span>
+                        <span class="user"><?="Written by ".htmlentities(getUsername($db,$review['userId']))?></span>
                         <span class="score"><?=" Score: ".$review['score']."%"?></span>
                         <span class="date"><?=$date?></span>
-                        <p><?=$review['description']?></p>
+                        <p><?=htmlentities($review['description'])?></p>
                         <?php if(sizeof($replies)==1){ ?>
                                 <h1><?=sizeof($replies)?> Owner Reply</h1>
                              <?php }
@@ -159,9 +159,9 @@
                             foreach($replies as $reply){
                                 $reply_date = date('g:ia - F j o', $reply['published']); ?>
                                 <article class="reviewReply">
-                                    <span class="replyUser"><?="Written by Owner: ".getUsername($db,$reply['owner_id'])?></span>
+                                    <span class="replyUser"><?="Written by Owner: ".htmlentities(getUsername($db,$reply['owner_id']))?></span>
                                     <span class="date"><?=$date?></span>
-                                    <p id="replyText">  <?=$reply['replyText']?></p>
+                                    <p id="replyText">  <?=htmlentities($reply['replyText'])?></p>
                                 </article>
                         <?php }
                             if ((getUserInfo($db)['idUser'] == $restaurant_info['owner'])&&isset($_SESSION['username'])) {?>

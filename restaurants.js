@@ -1,6 +1,22 @@
+const entityMap = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    "/": '&#x2F;'
+  };
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
+
 let slideBars = document.querySelectorAll(".slideBar")
 
 const searchInput = document.getElementById("searchbar")
+
+searchInput.placeholder = "Search for Restaurants"
 
 function fixSlideBar(e){
     let min = parseInt(document.querySelector(".slideBar.min").value,10)
@@ -84,11 +100,11 @@ async function updatePage(){
     (document.querySelector(".slideBar.min").value??0) + '&maxScore='+(document.querySelector(".slideBar.max").value??100)+
     '&priceMagnitude='+checkedPrice + '&sort='+document.querySelector(".sort:checked").classList[1])
 
-    const restaurants = await response.json()
-    generateRestaurantsHTML(restaurants)
+    const response_json = await response.json()
+    generateRestaurantsHTML(response_json[0],response_json[1])
 }
 
-function generateRestaurantsHTML(restaurants){
+function generateRestaurantsHTML(restaurants,restaurantsWithImages){
     const listOfCategoryRestaurants = document.querySelector('#restaurants')
     listOfCategoryRestaurants.innerHTML = ''
     for (const category of Object.keys(restaurants).filter(x=>(x !== null && x !== undefined && x!==""))) {
@@ -96,17 +112,23 @@ function generateRestaurantsHTML(restaurants){
         restaurantCategory.classList.add("Category")
 
         const categoryName = document.createElement('h1')
-        categoryName.innerHTML = "Category: " + category
+        categoryName.innerHTML = "Category: " + escapeHtml(category)
         restaurantCategory.appendChild(categoryName)
 
         const categoryRestaurants = document.createElement('ul')
         for(const restaurantInfo of restaurants[category]){
             const img = document.createElement('img')
-            img.src = 'imgs/restaurants/'+restaurantInfo.idRestaurant+'/header.jpg'
-            img.alt = 'restaurant_image'
+
+            if(restaurantsWithImages.includes(restaurantInfo.idRestaurant))
+                img.src = 'imgs/restaurants/'+restaurantInfo.idRestaurant+'/header.jpg'
+            else
+                img.src = 'imgs/restaurants_background.png'
+           
+
+            img.alt = escapeHtml(restaurantInfo.name)
             const restaurant = document.createElement('li')
             const nameAndAddress = document.createElement('p')
-            nameAndAddress.innerHTML=restaurantInfo.name+"<br>"+"Address: "+restaurantInfo.address
+            nameAndAddress.innerHTML= escapeHtml(restaurantInfo.name)+"<br>"+"Address: "+ escapeHtml(restaurantInfo.address)
             const link = document.createElement('a')
             link.href = 'restaurant.php?id=' + restaurantInfo.idRestaurant
             link.appendChild(img)

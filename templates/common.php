@@ -31,7 +31,7 @@
                     <ul>
                         <a href="restaurants.php"><img class="logo" src="../imgs/logo.png" ></a>
                         <li id="search_bar" class="searchBar">
-                            <input id="searchbar" name="searchbar" type="search" placeholder="Search for Restaurants">
+                            <input id="searchbar" name="searchbar" type="search">
                         </li>
                         <li>
                             <a href="cart.php">

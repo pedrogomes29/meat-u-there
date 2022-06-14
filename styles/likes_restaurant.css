@@ -1,0 +1,40 @@
+body{ 
+    background-image:url("../imgs/background.jpg");
+    background-size:cover;
+    width:100%
+}
+
+article {
+    width: 200px;
+    padding: 1em;
+    border:0.4em solid #77DD77;
+    background-color: #1D1C1A;
+    border-radius:1em;
+    width: 30em;
+    height: 10em;
+    display:table;
+    margin:auto;
+    margin-top:15%;  
+}
+article a{
+    font: 400 20px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 0;
+    color:white;
+}
+
+article ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+   
+article ul li {
+    display: flex;
+    justify-content: center;
+    font: 200 20px/1.5 Inter,Helvetica, Verdana, sans-serif;
+    border-bottom: 2px solid #ccc;
+}
+ 
+article ul li:last-child {
+  border: none;
+}
