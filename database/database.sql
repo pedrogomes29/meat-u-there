@@ -15,8 +15,8 @@ CREATE TABLE Review (
     score INTEGER, 
     description VARCHAR,
     published INTEGER,
-    restaurant_id INTEGER REFERENCES Restaurant,
-    user_id INTEGER REFERENCES User
+    idRestaurant INTEGER REFERENCES Restaurant,
+    userId INTEGER REFERENCES User
 );
 
 
@@ -54,6 +54,12 @@ CREATE TABLE DishLikes(
     PRIMARY KEY(idUser,idDish)
 );
 
+DROP TABLE IF EXISTS RestaurantLikes;
+CREATE TABLE RestaurantLikes(
+    idRestaurant INTEGER REFERENCES Restaurant ON DELETE CASCADE,
+    idUser INTEGER REFERENCES User ON DELETE CASCADE,
+    PRIMARY KEY(idUser,idRestaurant)
+);
 
 DROP TABLE IF EXISTS RestaurantCategory;
 CREATE TABLE RestaurantCategory(

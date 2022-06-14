@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Merienda&family=Raleway:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@250&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
 *{
     padding: 0;
     margin: 0;
-    font-family: 'Anonymous Pro',"IBM Plex Mono",'Raleway', sans-serif;
+    font-family: 'Inter','Anonymous Pro',"IBM Plex Mono",'Raleway', sans-serif;
 }
 
 .logo{
@@ -102,7 +102,7 @@ body header nav ul :nth-child(3){
 #cart{
     background-color:#1D1C1A;
     border: none;
-    margin-top: 3em;
+    margin-top: 2.5em;
 }
 
 #cart:hover{
@@ -167,6 +167,7 @@ header h1 a{
 .show{
     position:absolute;
     display: block;
+    z-index: 1;
 }
 
 .search_bar_content ul{
@@ -183,6 +184,7 @@ header h1 a{
     margin-bottom: 0em;
 }
 #cart img{
-    height: 30px;
-    width: 30px;
+    height: 50px;
+    width: 50px;
 }
+

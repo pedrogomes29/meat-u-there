@@ -4,24 +4,24 @@
     require_once("database/connection.php");
     require_once("database/users.php");
     require_once("database/restaurants.php");
-    output_header("restaurant",array("like_button","add_to_cart","sticky_categories"));
+    output_header("restaurant",array("like_button","add_to_cart","sticky_categories","restaurant_like_button"));
     $db=getDatabaseConnection();
     $restaurant_info = getRestaurant($db,$_GET['id']);
     $dish_categories = getRestaurantMenu($db,$_GET['id']);
     $reviews = getReviews($db,$_GET['id']);
     date_default_timezone_set('Europe/Lisbon');
-    function showLikeCount($count, $precision = 1) {
-        if($count<1000)
-            return $count;
-        if ($count < 1000000) {
-            $n_format = number_format($count / 1000,$precision) . 'K';
-        } else if ($count < 1000000000) {
-            $n_format = number_format($count / 1000000, $precision) . 'M';
-        } else {
-            $n_format = number_format($count / 1000000000, $precision) . 'B';
+        function showLikeCount($count, $precision = 1) {
+            if($count<1000)
+                return $count;
+            if ($count < 1000000) {
+                $n_format = number_format($count / 1000,$precision) . 'K';
+            } else if ($count < 1000000000) {
+                $n_format = number_format($count / 1000000, $precision) . 'M';
+            } else {
+                $n_format = number_format($count / 1000000000, $precision) . 'B';
+            }
+            return $n_format;
         }
-        return $n_format;
-    }
 ?>
 <div id="restaurant_header">
     <a href="edit_restaurant.php?restaurant_id=<?=$_GET['id']?>">
@@ -33,6 +33,20 @@
                 <img id="header_image" src="imgs/default_header.jpg" alt="header">
         <?php } ?>
     </a>
+    <div class="restaurantDivLike">
+    <?php if(isset($_SESSION["username"])){
+            if(userLikedRestaurant($db,$restaurant_info['idRestaurant'],getUserInfo($db)['idUser'])){ ?>
+            <div class="<?=$restaurant_info["idRestaurant"]?> likeRestaurant like-yes"></div>
+            <?php   } 
+                    else{?>
+            <div class="<?=$restaurant_info["idRestaurant"]?> likeRestaurant like-no"></div>
+            <?php   }   ?>
+            <div class="nrRestaurantLikes"><?=showLikeCount(getRestaurantNumLikes($db,$restaurant_info["idRestaurant"])[0]['restaurantLikes'])?></div>
+            <?php }
+            else {?>
+                <div class="nrRestaurantLikes">Likes: <?=showLikeCount(getRestaurantNumLikes($db,$restaurant_info['idRestaurant'])[0]['restaurantLikes'])?></div>
+            <?php }?>
+    </div>
     <h1 id="restaurant_name"><?=$restaurant_info["name"]?></h1>
     <h3>📍 Location: <?=$restaurant_info["address"]?></h3> 
 </div>
@@ -130,7 +144,7 @@
 
             ?>
                     <article class="review">
-                        <span class="user"><?="Written by ".getUsername($db,$review['user_id'])?></span>
+                        <span class="user"><?="Written by ".getUsername($db,$review['userId'])?></span>
                         <span class="score"><?=" Score: ".$review['score']."%"?></span>
                         <span class="date"><?=$date?></span>
                         <p><?=$review['description']?></p>

@@ -1,62 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
-
-
-menu ul li a p{
-    width:max-content;
+.Category li a img{
+  display: inline-block;
+  height: 232px;
+  width: 100%; 
+  border-radius: 0.1em;
+}
+menu h2{
+  margin-left: 1em;
+}
+menu ul{
+  list-style: none;
+  width:100%
 }
 
+menu{
+  display:grid;
+  grid-template-columns: 1fr 4fr;
+  margin-top:5%;
+}
+.Category ul{
+  padding-bottom:3em;
+  display:flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  justify-content: flex-start;
+}
+.Category h1{
+font-size: 1.3em;
+margin-right: 1em;
+}
 
-menu {
-  padding: 1em;
-  border-radius:1em;
-  margin:auto;
-  margin-top:5%;  
+.Category li a{
+  text-decoration:none;
+  margin-bottom:1em;
+  margin-top:1em;
 }
- 
-menu h2 {
-  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #000
+.Category li a p{
+    color: black;
+    display:block;
+    padding:0.5em;
 }
-menu h1{
-  color: #77DD77;
+
+.Category h1{
+  margin-bottom:1em;
+  margin-top:1em;
 }
- 
-menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+.Category li{
+  grid-column-start: 2;
+  width:20em;
+  vertical-align:top;
+  position:relative;
+  text-align:center;
+  margin-right:3em;
+  border-radius: 0.6em;
+  border: 0.4em solid #1D1C1A;
+  transition:0.25s ease-in-out;
+  overflow:hidden;
 }
- 
-menu ul li {
-  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-  border-bottom: 2px solid #000;
-  transition: 0.5s ease-in-out;
-}
- 
-menu ul li:last-child {
-  border: none;
-}
- 
-menu ul li a {
-  text-decoration: none;
-  color: #000;
-  display: block;
-  width: 200px;
- 
-  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
-  transition: font-size 0.3s ease, background-color 0.3s ease;
-}
- 
-menu ul li:hover {
+.Category li:hover{
   box-shadow: 0 0 2em #1D1C1A;
-}
-menu ul li img{
-  border-radius: 4px;
-  padding: 5px;
-  width: 150px;
+  cursor:pointer;
 }

@@ -11,11 +11,24 @@
         return $stmt;
     }
 
-    function getRestaurants($db,$query){
-        $stmt = $db->prepare('SELECT Restaurant.name, Restaurant.address, Restaurant.idRestaurant, RestaurantCategory.name as category
-        FROM (Restaurant JOIN RestaurantCategory using (idRestaurantCategory)) JOIN  Dish using(idRestaurant))
-        WHERE Restaurant.name LIKE %:query% OR Dish.name LIKE %:query%
+    function getRestaurants($db,$query,$min,$max){
+        $stmt = $db->prepare('SELECT DISTINCT restaurantName,address, idRestaurant,
+                            RestaurantCategory.name AS category
+        FROM ((SELECT name as restaurantName, address,idRestaurant,idRestaurantCategory
+                FROM Restaurant JOIN Review using(idRestaurant)
+                GROUP BY idRestaurant
+                HAVING avg(score)>=:min AND avg(score)<=:max)
+             JOIN RestaurantCategory using (idRestaurantCategory)) LEFT JOIN Dish using(idRestaurant)
+            WHERE restaurantName LIKE :queryInText OR Dish.name LIKE :queryInText OR address LIKE :queryStartsText
+              OR category LIKE :queryInText COLLATE NOCASE
         ORDER BY category');
+
+        $queryStartsText = "$query%";
+        $queryInText = "%$query%";
+        $stmt->bindParam(':queryInText',$queryInText); //added percentages of like statement here to avoid syntax errors
+        $stmt->bindParam(':queryStartsText',$queryStartsText);
+        $stmt->bindParam(':min',$min);
+        $stmt->bindParam(':max',$max);
         $stmt->execute();
         $current_category="";
         $restaurants_in_category = array();
@@ -31,7 +44,7 @@
                 $current_category=$row["category"];
                 $i=0;
             }
-            $restaurant["name"]=$row["name"];
+            $restaurant["name"]=$row["restaurantName"];
             $restaurant["address"]=$row["address"];
             $restaurant["idRestaurant"]=$row["idRestaurant"];
             $restaurants_in_category[$i]=$restaurant;
@@ -59,6 +72,12 @@
         $stmt->execute();
     }
 
+    function addRestaurantLike($db,$restaurantId,$userId){
+        $stmt = $db->prepare('INSERT INTO RestaurantLikes values(:restaurantId,:userId)');
+        $stmt->bindParam(':restaurantId',$restaurantId);
+        $stmt->bindParam(':userId',$userId);
+        $stmt->execute();
+    }
 
     function removeLike($db,$dishId,$userId){
         $stmt = $db->prepare('DELETE FROM DishLikes
@@ -68,6 +87,25 @@
         $stmt->execute();
     }
 
+    function removeRestaurantLike($db,$restaurantId,$userId){
+        $stmt = $db->prepare('DELETE FROM RestaurantLikes
+                            WHERE idRestaurant=:restaurantId AND idUser=:userId');
+        $stmt->bindParam(':restaurantId',$restaurantId);
+        $stmt->bindParam(':userId',$userId);
+        $stmt->execute();
+    }
+
+   
+    function getRestaurantNumLikes($db,$restaurantId){
+        $stmt = $db->prepare('SELECT count(idUser) AS restaurantLikes
+                            FROM RestaurantLikes
+                            WHERE idRestaurant=:restaurantId');
+        $stmt->bindParam(':restaurantId',$restaurantId);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+    
     function getRestaurantCategoryId($db,$name){
         $stmt = $db->prepare('SELECT idRestaurantCategory
         FROM RestaurantCategory
@@ -155,6 +193,31 @@
             unset($_FILES["header"]);
         }
     }
+
+    function userLikedRestaurant($db,$idRestaurant,$idUser){
+        $stmt = $db->prepare('SELECT count(*) as nrLikes
+                            FROM RestaurantLikes
+                            WHERE idRestaurant=:idRestaurant AND idUser=:idUser');
+        $stmt->bindParam(':idRestaurant',$idRestaurant);
+        $stmt->bindParam(':idUser',$idUser);
+        $stmt->execute();
+        $stmt = $stmt->fetch();
+        $count = $stmt['nrLikes'];
+        return $count==1;  
+    }
+
+    function getLikedRestaurants($db,$idUser){
+        $stmt = $db->prepare('SELECT idRestaurant,name
+                            FROM Restaurant
+                            WHERE idRestaurant IN (SELECT idRestaurant
+                                                    FROM RestaurantLikes
+                                                    WHERE idUser=:idUser)');
+        $stmt->bindParam(':idUser',$idUser);
+        $stmt->execute();
+        $stmt = $stmt->fetchAll();
+        return $stmt;
+    }
+
 
     function userLikedDish($db,$idDish,$idUser){
         $stmt = $db->prepare('SELECT count(*) as nrLikes
@@ -293,9 +356,9 @@
     function getReviews($db,$restaurant_id){
         $stmt = $db->prepare('SELECT *
                               FROM Review
-                              WHERE restaurant_id=:restaurant_id');
+                              WHERE idRestaurant=:idRestaurant');
 
-        $stmt->bindParam(':restaurant_id',$restaurant_id);
+        $stmt->bindParam(':idRestaurant',$restaurant_id);
         $stmt->execute();
         $stmt = $stmt->fetchAll();
         return $stmt;
@@ -410,7 +473,7 @@
 
     function add_review($db,$user_id,$restaurant_id,$score,$description){
         $db->beginTransaction();
-        $stmt = $db->prepare('INSERT INTO Review(score, description,published,restaurant_id,user_id)
+        $stmt = $db->prepare('INSERT INTO Review(score, description,published,idRestaurant,userId)
                             values(:score, :description,:published,:restaurant_id,:user_id)');
         $stmt->bindParam(':user_id',$user_id);
         $stmt->bindParam(':published',time());
