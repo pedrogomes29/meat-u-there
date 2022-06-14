@@ -12,6 +12,10 @@
 ?>      
     <body background = "imgs/restaurants/<?=$restaurant_info['idRestaurant']?>/header.jpg">  
     <form action="action_add_dish_category.php" method="post">
+            <?php if($_GET["invalid_category"]=="true") { ?>
+                    <h3 id="warning">Dish name already in use!</h3>
+                    <br>
+            <?php }?>
             <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
             <label> New dish category:
                 <input type="text" name="new_dish_category">

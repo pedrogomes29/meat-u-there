@@ -11,8 +11,8 @@
     output_header("profile");?>
     <form action="action_edit_profile.php" method="post">
         <h2>Edit profile</h2>
-        <?php if(isset($_GET['edit_user_failed'])&& $_GET['edit_user_failed']){?>
-            <p>Username already exists, please try a different one</p>
+        <?php if($_GET["invalid_name"]=="true"){?>
+            <h3 id="warning">Username already exists, please try a different one</h3>
         <?php } ?>
         <input type="text" name="userId" hidden value="<?=$user_info["idUser"]?>">
         <label class="field">Username:

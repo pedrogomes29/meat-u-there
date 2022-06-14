@@ -5,8 +5,8 @@
 ?>
     <form action="action_register.php" method="post">
         <h2>Register</h2>
-        <?php if(isset($_GET['register_failed'])&& $_GET['register_failed']){?>
-            <p>Username already exists, please try a different one</p>
+        <?php if($_GET["register_failed"]=="true"){?>
+            <h3 id="warning">Username already exists, please try a different one</h3>
         <?php } ?>
         <label class="field">Username:
             <input type="text" name="username">

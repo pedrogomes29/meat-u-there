@@ -14,7 +14,11 @@
     output_header("add_dish");
 ?>   
     <body background = "imgs/restaurants/<?=$restaurant_info['idRestaurant']?>/header.jpg">  
-    <form action="action_upload_dish.php" method="post" enctype=multipart/form-data>
+    <form id="main" action="action_upload_dish.php" method="post" enctype=multipart/form-data>
+        <?php if($_GET["invalid_name"]=="true") { ?>
+            <h3 id="warning">Dish name already in use!</h3>
+            <br>
+        <?php }?>
         <label> Dish name:
             <input id="one" type="text" name="name">
         </label>

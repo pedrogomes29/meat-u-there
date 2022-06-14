@@ -724,7 +724,7 @@
     function getDishIds($db,$search){
         $stmt = $db->prepare('SELECT idDish
                             FROM Dish
-                            WHERE name LIKE :queryInText');
+                            WHERE name LIKE :queryInText COLLATE NOCASE');
         $search = "%$search%";
         $stmt->bindParam(':queryInText',$search);
         $stmt->execute();

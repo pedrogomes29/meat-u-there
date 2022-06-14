@@ -37,6 +37,12 @@ form label{
 }
 
 
+#warning{
+    color: #E30B5C;
+    text-align:center;
+    margin-bottom:1em;
+}
+
 
 form label input{
     border:0;

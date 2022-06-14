@@ -26,6 +26,12 @@ form {
     margin-top:15%; 
 }
 
+
+#warning{
+    color: #E30B5C;
+    text-align:center;
+}
+
 form h2{
     color:#1D1C1A;
     padding-bottom: 1em;

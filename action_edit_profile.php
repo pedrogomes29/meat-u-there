@@ -14,7 +14,6 @@
         header('Location: restaurants.php');
     }
     else{
-        $_SESSION["edit_profile_failed"]=true;
-        header('Location: profile.php');
+        header('Location: profile.php?invalid_name=true');
     }
 ?>
