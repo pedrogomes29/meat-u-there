@@ -12,10 +12,11 @@
 
     $categories = getDishCategories($db,$_GET["restaurant_id"]);
     output_header("add_dish");
-?>      
+?>   
+    <body background = "imgs/restaurants/<?=$restaurant_info['idRestaurant']?>/header.jpg">  
     <form action="action_upload_dish.php" method="post" enctype=multipart/form-data>
         <label> Dish name:
-            <input type="text" name="name">
+            <input id="one" type="text" name="name">
         </label>
         <label> Dish category: 
             <select name="dishCategory">
@@ -26,14 +27,16 @@
             </select>
         </label>
         <label> Dish price:
-            <input type="number" name="price">
+            <input id="two" type="number" name="price">
         </label>
         <input type="hidden" value=<?=$_GET["restaurant_id"]?> name="restaurant_id">
         <label> Dish image:
             <input type="file" name="image">
         </label>
+        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
         <button name="button" type="submit">Add dish</button>
     </form>
+    </body>
 <?php
     output_footer();
 ?>  

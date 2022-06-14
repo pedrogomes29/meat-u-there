@@ -10,12 +10,17 @@
     $user_info = getUserInfo($db);
     output_header("likes_restaurants");
 ?>
+<article>
+    <h2>Liked Restaurants</h2>
     <?php $likes_restaurants = getLikedRestaurants($db,$user_info["idUser"])?>
+    <ul>
     <?php foreach($likes_restaurants as $restaurant){?>
-        <div class="restaurant">
+        <li class="restaurant">
             <a href="restaurant.php?id=<?=$restaurant["idRestaurant"]?>"><?=$restaurant['name']?></a>
-        </div>
+        </li>
     <?php } ?>
+    </ul>
+</article>
 <?php
     output_footer();
 ?>

@@ -1,5 +1,15 @@
 <?php
     session_start();
+    function generate_random_token() {
+        return bin2hex(openssl_random_pseudo_bytes(32));
+    }
+    
+
+    session_start();
+    if (!isset($_SESSION['csrf'])) {
+      $_SESSION['csrf'] = generate_random_token();
+    }
+
     require_once("database/connection.php");
     require_once("database/restaurants.php");
 
@@ -20,7 +30,7 @@
                 <nav>
                     <ul>
                         <a href="restaurants.php"><img class="logo" src="../imgs/logo.png" ></a>
-                        <li id="search_bar">
+                        <li id="search_bar" class="searchBar">
                             <input id="searchbar" name="searchbar" type="search" placeholder="Search for Restaurants">
                         </li>
                         <li>

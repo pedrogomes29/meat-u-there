@@ -1,7 +1,11 @@
 <?php
   // Database connection
-  require_once('database/restaurants.php');
+ 
   session_start();
+  if ($_SESSION['csrf'] !== $_POST['csrf']) {
+    header("Location: restaurants.php");
+  }
+  require_once('database/restaurants.php');
   $db = getDatabaseConnection();
 
   

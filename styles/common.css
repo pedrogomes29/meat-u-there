@@ -9,9 +9,7 @@
 }
 
 .logo{
-    height:140px;
-    width: 140px;
-    margin-left:1em;
+    object-fit: cover;
 }
 body{
     font-family: "IBM Plex Mono", 'Courier New', monospace;
@@ -26,7 +24,6 @@ header {
     width: 100%;
     top: 0;
     left: 0;
-    border-bottom: 0.2em solid #77DD77;
     background-color: #1D1C1A;
 }
 
@@ -53,6 +50,7 @@ body header nav ul li button#cart{
     margin-top: 0.5em;
 }
 .dropdown_content{
+    width: 6em;
     margin-left: 1em;
     font-weight: bold;
     display: none;
@@ -78,7 +76,7 @@ body header nav ul li button#cart{
     border-radius: 1em;
     font-weight: bold;
     font-size: 1em;
-    padding: 0.2em;
+    padding: 0.4em;
 }
 #button{
     margin-top: 2.4em;
@@ -89,7 +87,7 @@ body header nav ul li button#cart{
 }
 
 body header nav ul :nth-child(2){
-    margin-top: 0.3em;
+    margin-top: 0.6em;
     margin-bottom: 0.5em;
 }
 
@@ -114,7 +112,9 @@ body header nav ul :last-child{
     margin-bottom: 0.5em;
     margin-right: 2em;
 }
-
+body header nav ul .login_register{
+    margin-top: 1em;
+}
 body nav ul{
     list-style:none;
     display:flex;
@@ -131,6 +131,7 @@ body nav ul li#search_bar{
     margin-left: 5em;
     margin-right: 7em;
 }
+
 
 body nav ul li#search_bar input{
     margin-top: 3em;
@@ -179,12 +180,9 @@ header h1 a{
     display: none;
 }
 
-#hidden_searchbar{
-    margin-top: 0.03em;
-    margin-bottom: 0em;
-}
 #cart img{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
+    margin: 1em;
 }
 

@@ -27,4 +27,7 @@ window.onscroll = function(event){
     }
 }
 
-
+function dropDownSearchBar() {
+    
+    document.getElementById("search_bar").classList.toggle("showSearchBar");
+}

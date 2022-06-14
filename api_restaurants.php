@@ -4,11 +4,11 @@
   require_once('database/restaurants.php');
   session_start();
   $db = getDatabaseConnection();
-  if (isset($_GET["search"]) && isset($_GET["min"]) && isset($_GET["max"]))
-    $restaurants = getRestaurants($db,$_GET["search"],$_GET["min"],$_GET["max"]);
-  else if(isset($_GET["search"]))
-    $restaurants = getRestaurants($db,$_GET["search"],$_GET["min"],$_GET["max"]);
-  else
-    $restaurants = getRestaurants($db,"",0,100);
+  if($_GET["sort"]=="sortByName")
+    $restaurants = getRestaurantsSortByName($db,$_GET["search"],$_GET["minScore"],$_GET["maxScore"],$_GET["priceMagnitude"]);
+  else if($_GET["sort"]=="sortByRating")
+    $restaurants = getRestaurantsSortByReviewScore($db,$_GET["search"],$_GET["minScore"],$_GET["maxScore"],$_GET["priceMagnitude"]);
+  else if($_GET["sort"]=="sortByMostPopular")
+    $restaurants = getRestaurantsSortByLikes($db,$_GET["search"],$_GET["minScore"],$_GET["maxScore"],$_GET["priceMagnitude"]);
   echo json_encode($restaurants);
 ?>

@@ -10,6 +10,7 @@
         header("Location: restaurant.php?id=".$_GET["restaurant_id"]);
     output_header("add_dish_category");
 ?>      
+    <body background = "imgs/restaurants/<?=$restaurant_info['idRestaurant']?>/header.jpg">  
     <form action="action_add_dish_category.php" method="post">
             <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
             <label> New dish category:
@@ -17,6 +18,7 @@
             </label>
             <button name="button" type="submit">Add dish category</button>
     </form>
+    </body>
 <?php
     output_footer();
 ?>  

@@ -1,30 +1,68 @@
-let checks = document.querySelectorAll(".check");
+let slideBars = document.querySelectorAll(".slideBar")
 
 const searchInput = document.getElementById("searchbar")
 
-for(const check of checks){
-    check.addEventListener('click',async function(e){
-        let checkedValues = document.querySelectorAll(".check:checked");
-        if(e.target.checked && checkedValues.length >=3){
-            e.target.checked=false
+function fixSlideBar(e){
+    let min = parseInt(document.querySelector(".slideBar.min").value,10)
+    let max = parseInt(document.querySelector(".slideBar.max").value,10)
+    if(min>=max-14){
+        if(e.target.classList.contains("min")){
+            min=max-15
+            e.target.value=min
         }
         else{
-            if(checkValues.length<2){
-                const response = await fetch('api_restaurants.php?search='+searchInput.value)
-                const restaurants = await response.json()
-                generateRestaurantsHTML(restaurants)
-            }
-            else{
-                const response = await fetch('api_restaurants.php?search='+searchInput.value+ '&min=' + checkedValues[0].classList[1]
-                 +'&max='+checkedValues[1].classList[1])
-                const restaurants = await response.json()
-                generateRestaurantsHTML(restaurants)
-            }
+            max=min+15
+            e.target.value=max
         }
+    }
+    document.querySelector(".range").style.width = (max-min)+"%"
+    document.querySelector(".range").style.marginLeft = min+"%"
+
+    document.querySelector(".minScore").style.marginLeft = min+"%"
+    document.querySelector(".minScore").innerHTML=min
+    document.querySelector(".maxScore").style.marginLeft = max+"%"
+    document.querySelector(".maxScore").innerHTML=max
+    //spaghetti code to center text with button
+    document.querySelector(".maxScore").style.right= (-(100-max)*0.005+0.4*(Math.floor(Math.log(max)/Math.log(10))+1))+"em"
+    document.querySelector(".minScore").style.right= (min*0.005+0.4*(Math.floor(Math.log(min)/Math.log(10))))+"em"
+
+}
+
+for(const slideBar of slideBars){
+    slideBar.addEventListener('change',async function(){
+        updatePage()
+    })
+
+    slideBar.addEventListener('input',function(e){
+        fixSlideBar(e)
     })
 }
 
 
+let priceButtons = document.querySelectorAll(".price")
+
+
+for(const priceButton of priceButtons){
+    priceButton.addEventListener('click',async function(e){
+        const removeSelected = e.target.classList.contains("checked")
+        for(const checkedButtons of document.querySelectorAll(".price.checked")){
+            checkedButtons.classList.remove("checked")
+        }
+        if(!removeSelected)
+            priceButton.classList.add("checked")
+        updatePage()
+    })
+}   
+
+
+let sortRadios = document.querySelectorAll(".sort")
+
+
+for(const sortRadio of sortRadios){
+    sortRadio.addEventListener('click',async function(){
+        updatePage()
+    })
+}   
 
 
 
@@ -37,6 +75,18 @@ for(const check of checks){
 
 
 
+
+async function updatePage(){
+    let checkedPrice = document.querySelector(".price.checked")??-1
+    if(checkedPrice!==-1)
+        checkedPrice = checkedPrice.classList[1]
+    const response = await fetch('api_restaurants.php?search='+(searchInput.value??"")+ '&minScore=' +
+    (document.querySelector(".slideBar.min").value??0) + '&maxScore='+(document.querySelector(".slideBar.max").value??100)+
+    '&priceMagnitude='+checkedPrice + '&sort='+document.querySelector(".sort:checked").classList[1])
+
+    const restaurants = await response.json()
+    generateRestaurantsHTML(restaurants)
+}
 
 function generateRestaurantsHTML(restaurants){
     const listOfCategoryRestaurants = document.querySelector('#restaurants')
@@ -73,15 +123,11 @@ function generateRestaurantsHTML(restaurants){
 
 if(searchInput){
     searchInput.addEventListener("input", async function() {
-        const response = await fetch('api_restaurants.php?search=' + this.value)
-        const restaurants = await response.json()
-        generateRestaurantsHTML(restaurants)
+        updatePage()
     })
 }
 
 
 window.addEventListener('load', async function(){
-    const response = await fetch('api_restaurants.php')
-    const restaurants = await response.json()
-    generateRestaurantsHTML(restaurants)
+    updatePage()
 });

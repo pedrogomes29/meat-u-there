@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
 body{ 
-    background-image:url("../imgs/hamburger_background");
+    background-image:url("../imgs/background.jpg");
     background-size:cover;
     width:100%
 }
 
-button{
+form button{
     color:#77DD77;
     background-color: #1D1C1A;
     border: 0.2em solid #77DD77;
@@ -27,34 +27,35 @@ menu ul li a p{
 }
 
 menu {
-    width: 200px;
     padding: 1em;
     border:0.4em solid #77DD77;
-    background-color: #1D1C1A;
+    background-color: white;
     border-radius:1em;
-    width: 30em;
-    height: 10em;
+    width: 35em;
+    height: 12em;
     display:table;
     margin:auto;
-    margin-top:15%;  
+    margin-top:15%;
 }
 menu p{
     font: 400 20px/1.5 Helvetica, Verdana, sans-serif;
     margin: 0;
-    color:white;
+    color: #1D1C1A;
 }
 #total{
     display: flex;
     justify-content: center;
-    font: 400 20px/1.5 Helvetica, Verdana, sans-serif;
+    font: 400 20px/1.5 Inter, Helvetica, Verdana, sans-serif;
     margin: 0;
-    color:white;
+    color: #1D1C1A;
+    padding-top: 1em;;
+    font-weight: 800;
 }
 menu h2 {
-    font: 400 30px/1.5 Helvetica, Verdana, sans-serif;
+    font: 400 30px/1.5 Inter, Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    color:white;
+    color: #1D1C1A;
     padding-bottom: 1em;
     justify-content: center;
     display: flex;
@@ -62,16 +63,19 @@ menu h2 {
 }
  
 menu ul {
+  height: 10em;
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0.5em;
+  overflow: scroll;
+  overflow-x: hidden;
 }
  
 menu ul li {
     display: flex;
     justify-content: center;
-    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-    border-bottom: 2px solid #ccc;
+    font: 200 20px/1.5 Inter,Helvetica, Verdana, sans-serif;
+    border-bottom: 2px solid #1D1C1A;
 }
  
 menu ul li:last-child {
@@ -82,4 +86,30 @@ form{
     display: flex;
     justify-content: center;
     padding-top: 2em;
+}
+#empty_cart{
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #1D1C1A;
+    border-radius: 10px;
+  }
+
+
+  #search_bar {
+    visibility: hidden;
 }

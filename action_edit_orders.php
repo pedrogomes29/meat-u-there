@@ -1,6 +1,10 @@
 <?php
     // Database connection
     session_start();
+    if ($_SESSION['csrf'] !== $_POST['csrf']) {
+        header("Location: restaurants.php");
+      }
+      
     require_once("templates/common.php");
     require_once("database/users.php");
     require_once("database/connection.php");

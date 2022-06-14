@@ -13,11 +13,12 @@
     $restaurantRequests = getRestaurantRequests($db, $restaurant_info['idRestaurant']);
     $states = getStates($db);
     output_header("edit_orders_state");
-    ?>     
+    ?> 
+    <body background = "imgs/restaurants/<?=$restaurant_info['idRestaurant']?>/header.jpg">  
     <form action="action_edit_orders.php" method="post">
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
         <h2>Requests: </h2>
-        <ul>
+        <ul id="orders">
             <?php foreach($restaurantRequests as $request){?>
             <ul>
                 <h3>Request:<?=$request['idRequest']?> User:<?=$request['idUser']?> State:<?=$request['orderState']?>
@@ -41,6 +42,7 @@
             <button type="submit">Edit state</button>
         <?php }?>
     </form>
+    </body>
 <?php
     output_footer();
 ?>  

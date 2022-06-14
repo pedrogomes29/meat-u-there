@@ -1,77 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
-
 body{ 
     background-image:url("../imgs/background.jpg");
     background-size:cover;
     width:100%
 }
 
-menu ul li a p{
-    width:max-content;
-}
-
-.hide {
-    display: none;
-}
-
-menu {
+article {
+    width: 200px;
     padding: 1em;
     border:0.4em solid #77DD77;
     background-color: #ffffff;
     border-radius:1em;
-    width: 40em;
-    height: 10em;
+    width: 32em;
+    height: 14em;
     display:table;
     margin:auto;
-    margin-top:10%;  
+    margin-top:15%;  
 }
-menu p{
+article a{
     font: 400 20px/1.5 Helvetica, Verdana, sans-serif;
     margin: 0;
     color: #1D1C1A;
 }
-menu h2 {
-    font: 400 30px/1.5 Helvetica, Verdana, sans-serif;
+
+article ul {
+    list-style-type: none;
     margin: 0;
-    padding: 0;
-    color: #1D1C1A;
     padding: 0.5em;
-    justify-content: center;
-    display: flex;
-    font-weight: bold;
-}
-menu ul h1 {
-    font: 400 30px/1.5 Helvetica, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #1D1C1A;
-    justify-content: center;
-    display: flex;
-    font-weight: bold;
-}
- 
-menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
- 
-menu ul li {
-    display: flex;
-    justify-content: center;
-    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-}
- 
-menu ul li:last-child {
-  border: none;
-}
-#orders{
     overflow: scroll;
     overflow-x: hidden;
-    padding: 0.5em;
-    height:20em;
+  }
+   
+article ul li {
+    display: flex;
+    justify-content: center;
+    font: 200 20px/1.5 Inter,Helvetica, Verdana, sans-serif;
+    border-bottom: 2px solid #1D1C1A;
 }
  
+article ul li:last-child {
+  border: none;
+}
+
+article h2 {
+    font: 400 30px/1.5 Inter, Helvetica, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #1D1C1A;
+    padding-bottom: 1em;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 15px;
@@ -88,7 +68,6 @@ menu ul li:last-child {
     background: #1D1C1A;
     border-radius: 10px;
   }
-
   #search_bar {
     visibility: hidden;
 }

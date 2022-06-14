@@ -179,9 +179,11 @@ border:solid 1px black;
 }
 
 #header_image{
-    width:100%;
-    height:45%;
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
 }
+
 
 .dish:hover{
     box-shadow: 0 0 2em #1D1C1A;
@@ -197,11 +199,12 @@ border:solid 1px black;
     margin-top:2em;
 }
 
-menu .category li a img{
+menu .category li a .dish_image{
     display: inline-block;
     height: 232px;
     width: 100%; 
     background-color: white;
+    object-fit: contain;
 }
 
 menu ul{
@@ -355,6 +358,8 @@ form{
     background: url("../imgs/like.svg") no-repeat;
 }
 
+
+
 .add_to_cart_response{
     width:100%;
     position:fixed;
@@ -383,14 +388,19 @@ form{
 
 .restaurantDivLike{
     position: absolute;
-    top: 1%; 
     right: 1%;
+    margin-top: 0.7em;
 }
 
 .nrRestaurantLikes{
     text-align:center;
-}
-.dish img{
-    margin-bottom: 0.5em;
+    color:black;
 }
 
+.restaurantInfo{
+    position: flex;
+}
+
+#search_bar {
+    visibility: hidden;
+}

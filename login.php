@@ -8,6 +8,7 @@
         <?php if(isset($_GET['login_failed'])&& $_GET['login_failed']){?>
             <p>Login failed, please try again</p>
         <?php } ?>
+        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
         <label >Username:
             <input type="text" name="username">
         </label>

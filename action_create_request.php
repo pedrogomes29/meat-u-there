@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if ($_SESSION['csrf'] !== $_POST['csrf']) {
+        header("Location: restaurants.php");
+      }
+      
     require_once("database/connection.php");
     require_once("database/restaurants.php");
     require_once("database/users.php");

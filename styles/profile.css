@@ -19,6 +19,11 @@ form{
     margin-top: 15%;
 }
 
+.dish a img{
+    width:320px;
+    height:232px;
+}
+
 form h2{
     color: white;
     padding-bottom: 1em;
@@ -64,4 +69,8 @@ form button{
 form button:hover{
     background-color:#DCDCDC;
     cursor:pointer;
+}
+
+#search_bar {
+    visibility: hidden;
 }

@@ -14,7 +14,7 @@
 ?>
 <menu>
     <h2>Orders</h2>
-    <ul>
+    <ul id=orders>
     <?php foreach($requests as $request){ ?>
             <ul id="OrderNumber"><h1>OrderNumber: <?=$request['idRequest']?> - <?="State: ".$request['orderState']?></h1>
                 <?php $requestDishes = getRequestDishes($db,$request['idRequest'])?>

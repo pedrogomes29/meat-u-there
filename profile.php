@@ -26,6 +26,7 @@
         <label class="field">Phone number:
             <input type="tel" name="phoneNumber" value="<?=$user_info["phoneNumber"]?>">
         </label>
+        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
         <br>
         <button type="submit">Save</button>
     </form>

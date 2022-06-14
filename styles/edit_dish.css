@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
 body{ 
-    background-image:url("../imgs/hamburger_background");
     background-size:cover;
+    background-repeat:none;
     width:100%
 }
 
@@ -19,7 +19,7 @@ ul{
  #main{
     padding: 1em;
     border:0.4em solid #77DD77;
-    background-color: #1D1C1A;
+    background-color: #ffffff;
     border-radius:1em;
     width: 30em;
     height: 10em;
@@ -33,7 +33,7 @@ ul{
 }
 
 form h2{
-    color: white;
+    color: 1D1C1A;
     padding-bottom: 1em;
     justify-content: center;
     display: flex;
@@ -41,7 +41,7 @@ form h2{
 }
 
 #main label{
-    color:white;
+    color:#1D1C1A;
     display:inline-block;
     padding-bottom:1.5em;
     padding-top:0em;
@@ -59,6 +59,15 @@ form h2{
     margin-top: 0.3em;
 }
 
+#main label #one, #main label  #two{
+    border-radius: 0.5em;
+    border: 0.2em solid #1D1C1A;
+    display:float;
+    float:right;
+    margin-left:0.5em;
+    margin-top: 0.3em;
+}
+
 
 #main button{
     display: flex;
@@ -67,7 +76,7 @@ form h2{
     margin:auto;
     height: 2em;
     width: 6em;
-    background-color: white;
+    background-color: 1D1C1A;
     font-weight: bold;
     color: #77DD77;
     border: 0;
@@ -103,4 +112,8 @@ footer{
 }
 .file_upload {
     float: right;
+}
+
+#search_bar {
+    visibility: hidden;
 }

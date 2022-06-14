@@ -23,6 +23,7 @@
         <label class="field">Phone number:
             <input type="tel" name="phoneNumber">
         </label>
+        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
         <br>
         <button type="submit">Register</button>
     </form>

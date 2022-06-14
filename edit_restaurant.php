@@ -31,6 +31,7 @@
             </select>
         </label>
         <input type="hidden" value=<?=$_GET['restaurant_id']?> name="restaurant_id">
+        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
         <label> Header image:
             <input type="file" name="header">
         </label>

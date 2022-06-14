@@ -12,6 +12,7 @@
 <menu>
     <h2>Shopping Cart</h2>
     <?php $total = 0; ?>
+    <?php if(sizeof($_SESSION["dishes"])>0) {?>
     <ul>
     <?php foreach($_SESSION["dishes"] as $key => $dish){
         if(!dish_exists($db,$dish)){
@@ -26,8 +27,13 @@
             </li>
         <?php } ?>
     </ul>
+    <?php }?>
+    <?php if(sizeof($_SESSION["dishes"])==0){?>
+        <p id="empty_cart"> Your cart is empty! </p>
+    <?php }?>
     <p id="total">Total: <?=$total?> €</p>
     <form action="action_create_request.php" method="post">
+        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
         <?php if(sizeof($_SESSION["dishes"])>0){?>
         <button  id="Checkout" type="submit"> 
             Checkout

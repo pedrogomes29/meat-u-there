@@ -33,19 +33,21 @@
                 <img id="header_image" src="imgs/default_header.jpg" alt="header">
         <?php } ?>
     </a>
-    <div class="restaurantDivLike">
-    <?php if(isset($_SESSION["username"])){
-            if(userLikedRestaurant($db,$restaurant_info['idRestaurant'],getUserInfo($db)['idUser'])){ ?>
-            <div class="<?=$restaurant_info["idRestaurant"]?> likeRestaurant like-yes"></div>
-            <?php   } 
-                    else{?>
-            <div class="<?=$restaurant_info["idRestaurant"]?> likeRestaurant like-no"></div>
-            <?php   }   ?>
-            <div class="nrRestaurantLikes"><?=showLikeCount(getRestaurantNumLikes($db,$restaurant_info["idRestaurant"])[0]['restaurantLikes'])?></div>
-            <?php }
-            else {?>
-                <div class="nrRestaurantLikes">Likes: <?=showLikeCount(getRestaurantNumLikes($db,$restaurant_info['idRestaurant'])[0]['restaurantLikes'])?></div>
-            <?php }?>
+    <div class="restaurantInfo">
+        <div class="restaurantDivLike">
+        <?php if(isset($_SESSION["username"])){
+                if(userLikedRestaurant($db,$restaurant_info['idRestaurant'],getUserInfo($db)['idUser'])){ ?>
+                <div class="<?=$restaurant_info["idRestaurant"]?> likeRestaurant like-yes"></div>
+                <?php   } 
+                        else{?>
+                <div class="<?=$restaurant_info["idRestaurant"]?> likeRestaurant like-no"></div>
+                <?php   }   ?>
+                <div class="nrRestaurantLikes"><?=showLikeCount(getRestaurantNumLikes($db,$restaurant_info["idRestaurant"])[0]['restaurantLikes'])?></div>
+                <?php }
+                else {?>
+                    <div class="nrRestaurantLikes">Likes: <?=showLikeCount(getRestaurantNumLikes($db,$restaurant_info['idRestaurant'])[0]['restaurantLikes'])?></div>
+                <?php }?>
+        </div>
     </div>
     <h1 id="restaurant_name"><?=$restaurant_info["name"]?></h1>
     <h3>📍 Location: <?=$restaurant_info["address"]?></h3> 
@@ -68,9 +70,9 @@
                         <a href="edit_dish.php?dish_id=<?=$dish['idDish']?>&restaurant_id=<?=$_GET['id']?>">
                         <?php $imageId = getImageId($db,$dish['idDish']);
                             if(file_exists("imgs/restaurants/".$_GET['id']."/".$imageId.".jpg")){?>
-                                <img src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$dish['name']?>">
+                                <img class="dish_image" src="imgs/restaurants/<?=$_GET['id']?>/<?=$imageId?>.jpg" alt="<?=$dish['name']?>">
                         <?php } else{?>
-                                <img src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
+                                <img class="dish_image" src="imgs/default_image.jpg" alt="<?=$dish['name']?>">
                         <?php } ?>  
                         </a>
                         <p><?=$dish['name']." - ".$dish['price']."€"?></p>

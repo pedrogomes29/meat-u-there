@@ -5,35 +5,61 @@
     require_once("database/restaurants.php");
     output_header("restaurants",array("restaurants"));
 ?>
-<h2>Restaurants</h2>
+<h1 id="pageTitle">Restaurants</h1>
 <menu>
-    <ul>
+    <ul id="searchOptions">
         <li>
-            <h3>Search by average review score</h3>
+            <h3>Average review score</h3>
+            <span id="searchByReviewScore">
+                <div class="slider">
+                    <div class="range"></div>
+                    <input class='slideBar min' type="range" min="0" max="100" value="0" step="1" >
+                    <input class='slideBar max' type="range" min="0" max="100" value="100" step="1">
+                    <div class="minScore">0</div>
+                    <div class="maxScore">100</div>
+                </div>
+            </span>
+        </li>
+
+        <li id="searchByPrice">
+            <h3>Price Range</h3>
+            <div class='prices'>
+                <button class = "price 0" type="radio">
+                €
+                </button>
+                <button class = "price 1" type="radio">
+                €€
+                </button>
+                <button class = "price 2" type="radio">
+                €€€
+                </button>
+                <button class = "price 3" type="radio">
+                €€€€
+                </button>
+            </div>
+        </li>
+
+        <li id="sortBy">
+            <h3>Sort By</h3>
             <label>
-                <input class = "check 0" type="checkbox" name="avg">
-                0
+                <input class="sort sortByName" type="radio" checked name="sort">
+                Name (default)
             </label>
+            <br>
             <label>
-                <input class = "check 25" type="checkbox" name="avg">
-                25
+                <input class = "sort sortByRating" type="radio" name="sort">
+                Rating
             </label>
+            <br>
             <label>
-                <input class = "check 50" type="checkbox" name="avg">
-                50
-            </label>
-            <label>
-                <input class = "check 75" type="checkbox" name="avg">
-                75
-            </label>
-            <label>
-                <input class = "check 100" type="checkbox" name="avg">
-                100
+                <input class = "sort sortByMostPopular" type="radio" name="sort">
+                Most popular
             </label>
         </li>
     </ul>
     <ul id="restaurants">
     </ul>
 </menu>
+
 
 

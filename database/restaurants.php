@@ -11,25 +11,50 @@
         return $stmt;
     }
 
-    function getRestaurants($db,$query,$min,$max){
-        $stmt = $db->prepare('SELECT DISTINCT restaurantName,address, idRestaurant,
-                            RestaurantCategory.name AS category
-        FROM ((SELECT name as restaurantName, address,idRestaurant,idRestaurantCategory
-                FROM Restaurant JOIN Review using(idRestaurant)
-                GROUP BY idRestaurant
-                HAVING avg(score)>=:min AND avg(score)<=:max)
-             JOIN RestaurantCategory using (idRestaurantCategory)) LEFT JOIN Dish using(idRestaurant)
-            WHERE restaurantName LIKE :queryInText OR Dish.name LIKE :queryInText OR address LIKE :queryStartsText
-              OR category LIKE :queryInText COLLATE NOCASE
-        ORDER BY category');
+    function getRestaurantsSortByName($db,$query,$minRating,$maxRating,$priceMagnitude){
+        $stmt = $db->prepare('SELECT * 
+                            FROM (SELECT restaurantName,address, idRestaurant,
+                            RestaurantCategory.name AS category,IFNULL(avg(price),1) as averagePrice,avgScore
+                            FROM ((SELECT name as restaurantName, address,idRestaurant,idRestaurantCategory,avg(score) as avgScore
+                            FROM (SELECT name,address,idRestaurant,idRestaurantCategory,IFNULL(score, 0) score 
+                                    FROM Restaurant LEFT JOIN Review using(idRestaurant))
+                                    GROUP BY idRestaurant
+                                    HAVING avgScore>=CAST(:minScore as INT) AND avgScore<=CAST(:maxScore as INT))
+                            JOIN RestaurantCategory using (idRestaurantCategory)) LEFT JOIN Dish using(idRestaurant)
+                            WHERE restaurantName LIKE :queryInText OR Dish.name LIKE :queryInText OR address LIKE :queryStartsText
+                            OR category LIKE :queryInText COLLATE NOCASE
+                            GROUP BY idRestaurant
+                            HAVING(averagePrice>=CAST(:minPrice as REAL) AND averagePrice<CAST(:maxPrice as REAL)))
+                            LEFT JOIN (SELECT idRestaurant,count(*) as nrLikes
+                                FROM RestaurantLikes
+                                GROUP BY idRestaurant)
+                                USING (idRestaurant)
+                            ORDER BY category,restaurantName');
 
         $queryStartsText = "$query%";
         $queryInText = "%$query%";
+
+        if($priceMagnitude==-1){ //minPrice is the exponent in cientific notation of the price. -1 is used to get restaurants
+            $minPrice=0; //whose dishes' average price is 0 (if they have no restaurants and a price hasnt been selected to filter)
+            $maxPrice=10**5;
+        }
+        else if($priceMagnitude==0){
+            $minPrice=0;
+            $maxPrice=10**($priceMagnitude+1);
+        }
+        else{
+            $minPrice=10**$priceMagnitude;
+            $maxPrice=10**($priceMagnitude+1);
+        }
+        
+
         $stmt->bindParam(':queryInText',$queryInText); //added percentages of like statement here to avoid syntax errors
         $stmt->bindParam(':queryStartsText',$queryStartsText);
-        $stmt->bindParam(':min',$min);
-        $stmt->bindParam(':max',$max);
-        $stmt->execute();
+        $stmt->bindParam(':minScore',$minRating);
+        $stmt->bindParam(':maxScore',$maxRating);
+        $stmt->bindParam(':minPrice',$minPrice);
+        $stmt->bindParam(':maxPrice',$maxPrice);
+        $stmt->execute();  
         $current_category="";
         $restaurants_in_category = array();
         $i=0;
@@ -47,6 +72,145 @@
             $restaurant["name"]=$row["restaurantName"];
             $restaurant["address"]=$row["address"];
             $restaurant["idRestaurant"]=$row["idRestaurant"];
+            $restaurant["row"]=$row;
+            $restaurants_in_category[$i]=$restaurant;
+            $i++;
+        }
+        $category_restaurants[$current_category]=$restaurants_in_category;
+        return $category_restaurants;
+    }
+
+    function getRestaurantsSortByReviewScore($db,$query,$minRating,$maxRating,$priceMagnitude){
+        $stmt = $db->prepare('SELECT * 
+                            FROM (SELECT restaurantName,address, idRestaurant,
+                            RestaurantCategory.name AS category,IFNULL(avg(price),1) as averagePrice,avgScore
+                            FROM ((SELECT name as restaurantName, address,idRestaurant,idRestaurantCategory,avg(score) as avgScore
+                            FROM (SELECT name,address,idRestaurant,idRestaurantCategory,IFNULL(score, 0) score 
+                                    FROM Restaurant LEFT JOIN Review using(idRestaurant))
+                                    GROUP BY idRestaurant
+                                    HAVING avgScore>=CAST(:minScore as INT) AND avgScore<=CAST(:maxScore as INT))
+                            JOIN RestaurantCategory using (idRestaurantCategory)) LEFT JOIN Dish using(idRestaurant)
+                            WHERE restaurantName LIKE :queryInText OR Dish.name LIKE :queryInText OR address LIKE :queryStartsText
+                            OR category LIKE :queryInText COLLATE NOCASE
+                            GROUP BY idRestaurant
+                            HAVING(averagePrice>=CAST(:minPrice as REAL) AND averagePrice<CAST(:maxPrice as REAL)))
+                            LEFT JOIN (SELECT idRestaurant,count(*) as nrLikes
+                                FROM RestaurantLikes
+                                GROUP BY idRestaurant)
+                                USING (idRestaurant)
+                            ORDER BY category,avgScore DESC');
+
+        $queryStartsText = "$query%";
+        $queryInText = "%$query%";
+
+        if($priceMagnitude==-1){ //minPrice is the exponent in cientific notation of the price. -1 is used to get restaurants
+            $minPrice=0; //whose dishes' average price is 0 (if they have no restaurants and a price hasnt been selected to filter)
+            $maxPrice=10**5;
+        }
+        else if($priceMagnitude==0){
+            $minPrice=0;
+            $maxPrice=10**($priceMagnitude+1);
+        }
+        else{
+            $minPrice=10**$priceMagnitude;
+            $maxPrice=10**($priceMagnitude+1);
+        }
+        
+
+        $stmt->bindParam(':queryInText',$queryInText); //added percentages of like statement here to avoid syntax errors
+        $stmt->bindParam(':queryStartsText',$queryStartsText);
+        $stmt->bindParam(':minScore',$minRating);
+        $stmt->bindParam(':maxScore',$maxRating);
+        $stmt->bindParam(':minPrice',$minPrice);
+        $stmt->bindParam(':maxPrice',$maxPrice);
+        $stmt->execute();  
+        $current_category="";
+        $restaurants_in_category = array();
+        $i=0;
+        while($row=$stmt->fetch()){
+            if($row["category"]!=$current_category && $current_category!=""){
+                $category_restaurants[$current_category]=$restaurants_in_category;
+                $restaurants_in_category=array();
+                $current_category=$row["category"];
+                $i=0;
+            }
+            else if ($current_category==""){
+                $current_category=$row["category"];
+                $i=0;
+            }
+            $restaurant["name"]=$row["restaurantName"];
+            $restaurant["address"]=$row["address"];
+            $restaurant["idRestaurant"]=$row["idRestaurant"];
+            $restaurant["row"]=$row;
+            $restaurants_in_category[$i]=$restaurant;
+            $i++;
+        }
+        $category_restaurants[$current_category]=$restaurants_in_category;
+        return $category_restaurants;
+    }
+
+    function getRestaurantsSortByLikes($db,$query,$minRating,$maxRating,$priceMagnitude){
+        $stmt = $db->prepare('SELECT * 
+                            FROM (SELECT restaurantName,address, idRestaurant,
+                            RestaurantCategory.name AS category,IFNULL(avg(price),1) as averagePrice,avgScore
+                            FROM ((SELECT name as restaurantName, address,idRestaurant,idRestaurantCategory,avg(score) as avgScore
+                            FROM (SELECT name,address,idRestaurant,idRestaurantCategory,IFNULL(score, 0) score 
+                                    FROM Restaurant LEFT JOIN Review using(idRestaurant))
+                                    GROUP BY idRestaurant
+                                    HAVING avgScore>=CAST(:minScore as INT) AND avgScore<=CAST(:maxScore as INT))
+                            JOIN RestaurantCategory using (idRestaurantCategory)) LEFT JOIN Dish using(idRestaurant)
+                            WHERE restaurantName LIKE :queryInText OR Dish.name LIKE :queryInText OR address LIKE :queryStartsText
+                            OR category LIKE :queryInText COLLATE NOCASE
+                            GROUP BY idRestaurant
+                            HAVING(averagePrice>=CAST(:minPrice as REAL) AND averagePrice<CAST(:maxPrice as REAL)))
+                            LEFT JOIN (SELECT idRestaurant,count(*) as nrLikes
+                                FROM RestaurantLikes
+                                GROUP BY idRestaurant)
+                                USING (idRestaurant)
+                            ORDER BY category,nrLikes DESC  ');
+
+        $queryStartsText = "$query%";
+        $queryInText = "%$query%";
+
+        if($priceMagnitude==-1){ //minPrice is the exponent in cientific notation of the price. -1 is used to get restaurants
+            $minPrice=0; //whose dishes' average price is 0 (if they have no restaurants and a price hasnt been selected to filter)
+            $maxPrice=10**5;
+        }
+        else if($priceMagnitude==0){
+            $minPrice=0;
+            $maxPrice=10**($priceMagnitude+1);
+        }
+        else{
+            $minPrice=10**$priceMagnitude;
+            $maxPrice=10**($priceMagnitude+1);
+        }
+        
+
+        $stmt->bindParam(':queryInText',$queryInText); //added percentages of like statement here to avoid syntax errors
+        $stmt->bindParam(':queryStartsText',$queryStartsText);
+        $stmt->bindParam(':minScore',$minRating);
+        $stmt->bindParam(':maxScore',$maxRating);
+        $stmt->bindParam(':minPrice',$minPrice);
+        $stmt->bindParam(':maxPrice',$maxPrice);
+        $stmt->execute();  
+        $current_category="";
+        $restaurants_in_category = array();
+        $i=0;
+        while($row=$stmt->fetch()){
+            if($row["category"]!=$current_category && $current_category!=""){
+                $category_restaurants[$current_category]=$restaurants_in_category;
+                $restaurants_in_category=array();
+                $current_category=$row["category"];
+                $i=0;
+            }
+            else if ($current_category==""){
+                $current_category=$row["category"];
+                $i=0;
+            }
+            $restaurant["name"]=$row["restaurantName"];
+            $restaurant["address"]=$row["address"];
+            $restaurant["idRestaurant"]=$row["idRestaurant"];
+            $restaurant["row"]=$row;
             $restaurants_in_category[$i]=$restaurant;
             $i++;
         }
@@ -188,6 +352,8 @@
             if (!is_dir("imgs/restaurants/$restaurant_id")){
                 mkdir("imgs/restaurants/$restaurant_id");
             }
+            if(!$_FILES["header"]['tmp_name'])
+                return;
             move_uploaded_file($_FILES["header"]['tmp_name'], 
             "imgs/restaurants/$restaurant_id/header.jpg");
             unset($_FILES["header"]);
@@ -371,7 +537,8 @@
             $fileName = "imgs/restaurants/$restaurant_id/$image_id.jpg";
             $tempFileName = $_FILES["new_image"]['tmp_name'];
     
-    
+            if(!$tempFileName)
+                return;
             // Crete an image representation of the original image
             $original = imagecreatefromjpeg($tempFileName);
             if (!$original) $original = imagecreatefrompng($tempFileName);
@@ -442,6 +609,9 @@
 
         $fileName = "imgs/restaurants/$restaurant_id/$image_id.jpg";
         $tempFileName = $_FILES["image"]['tmp_name'];
+
+        if(!$tempFileName)
+            return;
 
 
         // Crete an image representation of the original image

@@ -1,16 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
 body{ 
-    background-image:url("../imgs/hamburger_background");
     background-size:cover;
+    background-repeat:none;
     width:100%
-}
-
-menu{
-    border: 0.2em solid #77DD77;
-    align-items: center;
-    display: flex;
-    justify-content: center;
 }
 
 ul{
@@ -19,18 +12,18 @@ ul{
  form{
     padding: 1em;
     border:0.4em solid #77DD77;
-    background-color: #1D1C1A;
+    background-color: #ffffff;
     border-radius:1em;
-    width: 30em;
-    height: 10em;
+    width: 32em;
+    height: 20em;
     display:table;
     margin:auto;
-    margin-top:15%; 
-    color: white;
+    margin-top:10%; 
+    color: #1D1C1A;
 }
 
 form h2{
-    color: white;
+    color: #1D1C1A;
     padding-bottom: 1em;
     justify-content: center;
     display: flex;
@@ -38,7 +31,7 @@ form h2{
 }
 
 form label{
-    color:white;
+    color: #1D1C1A;
     display:inline-block;
     padding-bottom:1.5em;
     padding-top:0em;
@@ -64,7 +57,7 @@ form button{
     margin:auto;
     height: 2em;
     width: 6em;
-    background-color: white;
+    background-color: #1D1C1A;
     font-weight: bold;
     color: #77DD77;
     border: 0;
@@ -79,4 +72,29 @@ form button:hover{
 
 footer{
     display:block;
+}
+#orders{
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 0.5em;
+    height: 20em;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #1D1C1A;
+    border-radius: 10px;
+  }
+  #search_bar {
+    visibility: hidden;
 }

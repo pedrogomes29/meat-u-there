@@ -72,7 +72,7 @@ form button{
     width: 6em;
     background-color: white;
     font-weight: bold;
-    color: #77DD77;
+    color: #32cd32;
     border: 0;
     border-radius:1em;
 }
@@ -84,4 +84,8 @@ form button:hover{
 
 form footer p a:hover{
     text-decoration: underline;
+}
+
+#search_bar {
+    visibility: hidden;
 }
